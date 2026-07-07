@@ -1,5 +1,6 @@
 import { Inter, Space_Grotesk, Playfair_Display, Fugaz_One, Shrikhand } from 'next/font/google';
 import SmoothScroll from '@/components/shared/SmoothScroll';
+import PageLoader from '@/components/layout/PageLoader';
 import './globals.css';
 
 const inter = Inter({
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${playfairDisplay.variable} ${fugazOne.variable} ${shrikhand.variable}`}>
       <body className="bg-[#090909] text-[#F5F5F5] antialiased font-sans">
+        <PageLoader />
         <SmoothScroll>
           {children}
         </SmoothScroll>

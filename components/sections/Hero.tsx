@@ -1,53 +1,25 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown } from 'lucide-react';
+import { motion } from 'motion/react';
+import { ChevronDown, ArrowDownRight, Globe, Sparkles } from 'lucide-react';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
 import { personalInfo } from '@/lib/data';
 
-const snippetSkills = [
-  {
-    name: 'React',
-    code: 'const App = () => {}',
-    dots: ['#4EC4BF', '#7054E6', '#8F3DB8', '#42B883'],
-  },
-  {
-    name: 'Next.js',
-    code: 'export default function Page() { return <main /> }',
-    dots: ['#ffffff', '#888888', '#444444', '#111111'],
-  },
-  {
-    name: 'Node.js',
-    code: "app.listen(3000, () => console.log('Live'));",
-    dots: ['#81C784', '#66BB6A', '#4CAF50', '#388E3C'],
-  },
-  {
-    name: 'TypeScript',
-    code: 'interface User { id: string; role: Role; }',
-    dots: ['#3178C6', '#2F74C0', '#1F5E9B', '#4EA2FF'],
-  },
-  {
-    name: 'PostgreSQL',
-    code: 'SELECT * FROM users WHERE active = true;',
-    dots: ['#336791', '#2F5D85', '#1D3B55', '#4D82B8'],
-  },
-  {
-    name: 'Python',
-    code: 'def handle_event(event): return {"status": "ok"}',
-    dots: ['#306998', '#FFD43B', '#4B8BBE', '#FFE873'],
-  },
-];
-
 export default function Hero() {
-  const [index, setIndex] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % snippetSkills.length);
-    }, 3200);
-    return () => clearInterval(timer);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY,
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const handleScrollToProjects = () => {
@@ -57,114 +29,130 @@ export default function Hero() {
     }
   };
 
-  const currentSkill = snippetSkills[index];
-
   return (
-    <Section id="hero" className="min-h-screen flex items-center justify-center pt-32 pb-12 bg-[#090909] relative overflow-hidden border-b border-white/5">
-      {/* Premium Ambient Lights */}
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#4E85BF]/10 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#89AACC]/10 rounded-full blur-[160px] pointer-events-none" />
+    <Section id="hero" className="min-h-screen flex flex-col justify-center pt-32 pb-16 bg-[#090909] relative overflow-hidden border-b border-white/5">
+      {/* Dynamic Cursor Light Interaction */}
+      <div 
+        className="absolute w-[450px] h-[450px] bg-accent/8 rounded-full blur-[140px] pointer-events-none transition-opacity duration-500 hidden md:block"
+        style={{
+          left: `${mousePosition.x - 225}px`,
+          top: `${mousePosition.y - 225}px`,
+          position: 'fixed',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Editorial Decorative Background Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] z-0 pointer-events-none" />
+
+      {/* Premium Static Ambient Lights */}
+      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent/5 rounded-full blur-[160px] pointer-events-none z-0" />
+      <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#89AACC]/5 rounded-full blur-[160px] pointer-events-none z-0" />
 
       {/* Decorative vertical badges */}
-      <div className="absolute left-6 sm:left-10 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-16 z-0 opacity-15 select-none pointer-events-none">
+      <div className="absolute left-6 sm:left-10 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-center gap-16 z-0 opacity-15 select-none pointer-events-none">
         <span className="vertical-text uppercase tracking-[0.8em] text-[10px] font-mono font-bold text-[#F5F5F5]">
           KAZI SHARIFUL ISLAM
         </span>
         <span className="vertical-text uppercase tracking-[0.8em] text-[10px] font-mono font-bold text-accent">
-          FULL STACK DEVELOPER
+          FULL STACK ARCHITECT
         </span>
       </div>
 
-      <Container className="relative z-10 flex flex-col justify-between items-center text-center min-h-[75vh]">
-        {/* Name Badge */}
+      <Container className="relative z-10 flex flex-col justify-between items-center text-center min-h-[75vh] w-full">
+        {/* Status indicator tag */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-6 flex items-center gap-2.5 bg-white/3 border border-white/5 px-4.5 py-1.5 rounded-full"
         >
-          <span className="text-[11px] font-mono font-bold uppercase tracking-[0.25em] text-muted-text bg-white/3 border border-white/5 px-4.5 py-1.5 rounded-full">
-            Kazi Shariful Islam — Portfolio
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] text-[#8D8D8D]">
+            Available for Select Engagements
           </span>
         </motion.div>
 
-        {/* Centered Code Block Arena */}
-        <div className="flex flex-col items-center justify-center max-w-2xl w-full mb-12">
-          {/* Outer Capsule / Pill Badge */}
-          <div className="h-12 flex items-center mb-6">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSkill.name}
-                initial={{ opacity: 0, scale: 0.95, y: 5 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                transition={{ duration: 0.35, ease: 'easeInOut' }}
-                className="flex items-center gap-3 bg-[#111111]/90 border border-white/5 shadow-md px-5 py-2 rounded-full font-mono text-xs text-primary-text"
-              >
-                <div className="flex gap-1.5">
-                  {currentSkill.dots.map((color, i) => (
-                    <span
-                      key={i}
-                      className="w-2.5 h-2.5 rounded-full"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-                <span className="text-[#8D8D8D]">|</span>
-                <span className="font-semibold tracking-wider">{currentSkill.name}</span>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Interactive Code Container */}
-          <div className="w-full max-w-xl bg-[#111111]/40 border border-white/5 rounded-2xl p-6 sm:p-8 min-h-[96px] flex items-center justify-center shadow-2xl relative overflow-hidden">
-            {/* Soft inner glow */}
-            <div className="absolute inset-0 bg-radial from-accent/5 via-transparent to-transparent opacity-40 pointer-events-none" />
-            
-            <AnimatePresence mode="wait">
-              <motion.pre
-                key={currentSkill.name}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="font-mono text-sm sm:text-base text-accent/90 text-center select-all cursor-pointer leading-relaxed tracking-tight"
-              >
-                <code>{currentSkill.code}</code>
-              </motion.pre>
-            </AnimatePresence>
-          </div>
-        </div>
-
         {/* Huge Bubbly Retro Heading */}
-        <div className="max-w-4xl">
+        <div className="max-w-5xl select-none mt-4">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[42px] sm:text-[72px] md:text-[88px] leading-[1.05] font-normal tracking-tight font-shrikhand text-[#E4D5F6] text-center filter drop-shadow-[0_4px_12px_rgba(228,213,246,0.06)]"
+            transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[44px] sm:text-[76px] md:text-[96px] leading-[1.02] font-normal tracking-tight font-shrikhand text-[#E4D5F6] text-center filter drop-shadow-[0_8px_24px_rgba(228,213,246,0.08)]"
           >
             Crafting Digital <br className="hidden sm:block" />
             Experiences <br className="hidden sm:block" />
-            <span className="text-white">That Matters</span>
+            <span className="text-white hover:text-accent transition-colors duration-500">That Matters</span>
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 max-w-xl mx-auto text-[#8D8D8D] leading-relaxed text-sm sm:text-base font-sans"
-          >
-            {personalInfo.summary}
-          </motion.p>
         </div>
 
+        {/* Editorial Info Matrix (Asymmetrical 2-Column Specs Layout) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 max-w-4xl w-full text-left mt-16 pt-10 border-t border-white/5"
+        >
+          {/* Column A: Purpose & Biography */}
+          <div className="md:col-span-6 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-3.5">
+                <Globe className="w-4 h-4 text-accent" />
+                <span className="font-mono text-[10px] font-bold text-accent uppercase tracking-[0.2em]">
+                  Mission & Focus
+                </span>
+              </div>
+              <p className="text-muted-text text-[13px] sm:text-sm leading-relaxed font-sans font-normal">
+                I engineer highly interactive, ultra-performant full stack web products with absolute system-level discipline. Leveraging a modern typescript-centric stack, I help product teams ship pristine interfaces backed by robust micro-architectures.
+              </p>
+            </div>
+            
+            <div className="mt-6 flex flex-wrap gap-3">
+              <span className="text-[10px] font-mono font-bold bg-white/3 border border-white/5 px-3 py-1 rounded-full text-[#8D8D8D]">
+                Based: Dhaka, BD
+              </span>
+              <span className="text-[10px] font-mono font-bold bg-white/3 border border-white/5 px-3 py-1 rounded-full text-accent">
+                Shopify Expert
+              </span>
+            </div>
+          </div>
+
+          {/* Column B: Systems Specifications */}
+          <div className="md:col-span-6 flex flex-col gap-4">
+            <div className="flex items-center gap-2 mb-1.5">
+              <Sparkles className="w-4 h-4 text-[#89AACC]" />
+              <span className="font-mono text-[10px] font-bold text-[#89AACC] uppercase tracking-[0.2em]">
+                System Architecture
+              </span>
+            </div>
+
+            <div className="space-y-3 font-mono text-[11px] font-bold">
+              <div className="flex items-center justify-between py-1.5 border-b border-white/3">
+                <span className="text-muted-text">01 / FRONTENDS</span>
+                <span className="text-primary-text">Next.js, React Native, Tailwind</span>
+              </div>
+              <div className="flex items-center justify-between py-1.5 border-b border-white/3">
+                <span className="text-muted-text">02 / BACKENDS</span>
+                <span className="text-primary-text">Node.js, NestJS, Python FastAPI</span>
+              </div>
+              <div className="flex items-center justify-between py-1.5 border-b border-white/3">
+                <span className="text-muted-text">03 / PERSISTENCE</span>
+                <span className="text-primary-text">PostgreSQL, Prisma ORM, Redis</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Scroll discovery link */}
-        <div className="mt-14 w-full flex justify-center">
+        <div className="mt-16 w-full flex justify-center">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 0.6 }}
             onClick={handleScrollToProjects}
             className="flex flex-col items-center gap-2 cursor-pointer group select-none"
           >
@@ -172,7 +160,7 @@ export default function Hero() {
               <ChevronDown className="w-4 h-4 text-muted-text group-hover:text-accent group-hover:translate-y-0.5 transition-all" />
             </div>
             <span className="text-[9px] uppercase tracking-[0.25em] text-muted-text font-mono font-bold opacity-60 group-hover:opacity-100 transition-opacity">
-              Scroll down
+              Scroll to explore
             </span>
           </motion.div>
         </div>

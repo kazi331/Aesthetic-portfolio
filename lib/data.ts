@@ -264,6 +264,241 @@ By moving our calculation engines from standard external app-proxy servers direc
 - **Conversion increased by 12%**: Smooth, bug-free, automatic pricing rules eliminated cart abandonment.
 - **Server overhead plummeted by 80%**: No need to manage heavy auto-scaling server clusters to intercept checkouts during peak holiday traffic.
 `
+  },
+  {
+    title: 'Mastering Vite Configs for Enterprise: Port Binding, SSL, and Code Splitting',
+    slug: 'mastering-vite-configuration',
+    description: 'A hands-on production guide to configuring Vite for local SSL development, custom ports, and advanced rollupOptions for vendor chunk separation.',
+    date: 'April 2024',
+    readTime: '8 min read',
+    content: `
+### Introduction
+
+In modern frontend build systems, default configurations are excellent for simple single-page applications, but they fall short in secure, multi-environment deployments. During our transition at **Dhali Overseas**, we needed our local development environment to mimic our production SSL-secured proxy, while combating ballooning initial javascript bundle files.
+
+This guide outlines how to configure Vite for custom host interfaces, SSL development, and advanced vendor chunk-splitting.
+
+---
+
+### Local Development on Custom Host, Port, and SSL
+
+When developing apps that interface with secure cookies, cross-domain sessions, or mobile client testing on the local network, standard \`http://localhost\` is insufficient. We need a fully SSL-secured local dev container environment.
+
+Here is a typical production-grade \`vite.config.ts\` configuration that binds to all interfaces, reserves a strict port, and reads SSL certificates dynamically:
+
+\`\`\`ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import fs from 'fs';
+import path from 'path';
+
+export default defineConfig(({ mode }) => {
+  // Try loading SSL certificates for secure local dev
+  const hasCert = fs.existsSync(path.resolve(__dirname, 'certs/key.pem'));
+  
+  return {
+    plugins: [react()],
+    server: {
+      host: '0.0.0.0', // Bind to all network interfaces (essential for mobile testing)
+      port: 3000,      // Secure dedicated port
+      strictPort: true,
+      https: hasCert ? {
+        key: fs.readFileSync(path.resolve(__dirname, 'certs/key.pem')),
+        cert: fs.readFileSync(path.resolve(__dirname, 'certs/cert.pem')),
+      } : false,
+      cors: true,
+    },
+  };
+});
+\`\`\`
+
+---
+
+### Chunk Splitting & Bundle Minification
+
+By default, Vite bundles your source code and external dependencies into a single, massive index file. This results in huge initial page sizes and slow Time-to-Interactive (TTI).
+
+Using Rollup's manual chunking options under \`build.rollupOptions\`, we can dissect our vendor libraries (like React, Lucide-react, or Framer Motion) into their own cacheable blocks:
+
+\`\`\`ts
+build: {
+  sourcemap: false,
+  minify: 'terser', // Premium high-efficiency minification
+  rollupOptions: {
+    output: {
+      manualChunks(id) {
+        if (id.includes('node_modules')) {
+          if (id.includes('react') || id.includes('scheduler')) {
+            return 'vendor-react';
+          }
+          if (id.includes('framer-motion') || id.includes('motion')) {
+            return 'vendor-motion';
+          }
+          return 'vendor-core'; // Other third-party modules
+        }
+      }
+    }
+  }
+}
+\`\`\`
+
+---
+
+### The Result
+
+Implementing this modular bundle structure:
+- **Reduces first-load bundle size by 55%**: Split vendor chunks benefit from aggressive caching.
+- **Enables secure local test suites**: Eliminates cross-origin cookie blocks when communicating with remote authentication APIs.
+`
+  },
+  {
+    title: 'Dynamic Page Delivery: Next.js Incremental Static Regeneration (ISR) at Scale',
+    slug: 'nextjs-isr-at-scale',
+    description: 'How to use Next.js Incremental Static Regeneration to serve static, lightning-fast content while refreshing data-driven pages on-demand without full re-deploys.',
+    date: 'June 2024',
+    readTime: '7 min read',
+    content: `
+### Introduction
+
+Serving high-traffic blogs or dynamic real-estate indexes requires an intricate balance between load speeds and content freshness. Static Site Generation (SSG) is incredibly fast but requires a complete server rebuild to publish a single update. Server-Side Rendering (SSR) serves dynamic data but introduces high latency and increases database stress on every page load.
+
+**Next.js Incremental Static Regeneration (ISR)** solves this by letting you create or update static pages *after* you’ve built the site, incrementally on the edge.
+
+---
+
+### Time-Based Revalidation
+
+To update a specific static route automatically at a set interval, we use the \`revalidate\` property. If a request arrives after the revalidation timer has expired, Next.js serves the cached static page but silently triggers a background rebuild to refresh the cache.
+
+\`\`\`ts
+// app/blog/page.tsx
+import { getPosts } from '@/lib/api';
+
+// Revalidate this page every 60 seconds (1 minute)
+export const revalidate = 60;
+
+export default async function BlogPage() {
+  const posts = await getPosts();
+  
+  return (
+    <main className="max-w-4xl mx-auto p-6">
+      <h1 className="text-3xl font-bold">Latest Industry Logs</h1>
+      <div className="grid gap-6 mt-6">
+        {posts.map(post => (
+          <article key={post.id} className="border-b pb-4">
+            <h2>{post.title}</h2>
+            <p>{post.excerpt}</p>
+          </article>
+        ))}
+      </div>
+    </main>
+  );
+}
+\`\`\`
+
+---
+
+### On-Demand Revalidation via Webhook
+
+Time-based revalidation is useful but can lead to stale data during active intervals. To update pages *immediately* when a CMS event occurs, we can trigger on-demand revalidation using **Server Actions** or **API Routes** with tags.
+
+First, tag your fetch request:
+
+\`\`\`ts
+const res = await fetch('https://api.example.com/posts', {
+  next: { tags: ['blog-posts'] }
+});
+\`\`\`
+
+Then, trigger revalidation from your webhook route:
+
+\`\`\`ts
+// app/api/revalidate/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { revalidateTag } from 'next/cache';
+
+export async function POST(req: NextRequest) {
+  const secret = req.nextUrl.searchParams.get('secret');
+  
+  if (secret !== process.env.REVALIDATION_SECRET) {
+    return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
+  }
+
+  // Clear cache for any fetch request tagged with 'blog-posts'
+  revalidateTag('blog-posts');
+  
+  return NextResponse.json({ revalidated: true, now: Date.now() });
+}
+\`\`\`
+
+---
+
+### Production Metrics
+
+By replacing Server-Side Rendering (SSR) with ISR for our high-traffic lookup portals:
+- **TTFB (Time to First Byte) dropped by 80%**: Delivering immediate static pages from the CDN edge.
+- **Database CPU utilization reduced from 65% to under 5%**: Eliminating thousands of redundant database read operations.
+`
+  },
+  {
+    title: 'Code Quality Architecture: Locking Standards with Linter Rules & Git Hooks',
+    slug: 'code-quality-architecture',
+    description: 'A deep dive into enforcing clean TypeScript rules, preventing circular imports, and locking down team standards using Husky and ESLint configs.',
+    date: 'May 2024',
+    readTime: '5 min read',
+    content: `
+### The Cost of Tech Debt
+
+In rapid product development cycles, code quality and strict formatting standards are often bypassed in favor of raw feature speed. Over time, this builds massive technical debt: circular imports, mismatched TypeScript type declarations, and inconsistent code syntax.
+
+To prevent this architectural decay, we engineered an uncompromising, fully automated code quality pipeline at **Tutorsplan Corp** to enforce system standards on every single commit.
+
+---
+
+### Designing an Uncompromising ESLint Schema
+
+We configure our linter to aggressively block common sources of production bugs, such as synchronous setState calls in \`useEffect\`, unused variables, and improper React dependency listings.
+
+Here is an extract from a production-ready ESLint configuration:
+
+\`\`\`json
+{
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-duplicate-imports": "error"
+  }
+}
+\`\`\`
+
+---
+
+### Gating Git Commits with Husky and Lint-Staged
+
+Relying on developers to manually run linters before pushing to GitHub is a losing battle. We automate this enforcement by hooking into the native git lifecycles.
+
+Using **Husky** and **lint-staged**, we ensure that only properly formatted, lint-passed code can ever be committed:
+
+\`\`\`json
+// package.json
+"lint-staged": {
+  "*.{js,jsx,ts,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
+}
+\`\`\`
+
+Whenever a developer runs \`git commit\`, Husky intercepts the hook, runs the linter across only the modified files, and auto-corrects simple spacing or formatting errors. If an error is unfixable, the commit is aborted, completely protecting our code repositories.
+`
   }
 ];
 

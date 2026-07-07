@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { clsx } from 'clsx';
-import { twMerge } from 'tw-merge';
+import { twMerge } from 'tailwind-merge';
 import { motion } from 'motion/react';
 
 interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {

@@ -26,6 +26,18 @@ export interface BlogPost {
   description: string;
   date: string;
   readTime: string;
+  content?: string;
+}
+
+export interface Experience {
+  logoPlaceholder?: string;
+  role: string;
+  company: string;
+  duration: string;
+  description: string;
+  responsibilities: string[];
+  achievements: string[];
+  technologies: string[];
 }
 
 export interface Testimonial {

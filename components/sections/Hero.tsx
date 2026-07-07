@@ -51,10 +51,10 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[64px] sm:text-[96px] md:text-[112px] leading-[0.85] font-bold tracking-tighter text-[#F5F5F5] font-display"
+            className="text-[44px] sm:text-[76px] md:text-[92px] leading-[0.9] font-normal tracking-tight text-[#F5F5F5] font-fugaz uppercase"
           >
             KAZI <br />
-            <span className="font-serif italic font-light text-[#89AACC]">
+            <span className="text-[#89AACC]">
               Shariful Islam
             </span>
           </motion.h1>

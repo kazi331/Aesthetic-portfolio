@@ -154,6 +154,46 @@ export const blogPosts: BlogPost[] = [
     description: 'A deep architectural dive on setting up robust stale times, garbage collection, and localized key mutations to eliminate duplicate server load.',
     date: 'March 2024',
     readTime: '6 min read',
+    content: `
+### Introduction
+
+In modern client-side architectures, excessive API roundtrips and stale client states degrade user experience. At **Approveage Inc.**, we faced a similar challenge: our client-side administrative portals frequently polled server states, triggering excessive database re-queries. By integrating **TanStack Query (React Query)** and fine-tuning query hooks, we managed to **boost response speeds by 30%** and completely eliminate redundant server requests.
+
+---
+
+### The Problem: Redundant Client Polls
+
+Before moving to TanStack Query, our frontend relied on standard React \`useEffect\` hooks coupled with Axios fetches. Every time a user toggled views or returned to active tabs, we fired unconditional server fetches. This led to:
+- **Race conditions**: Delayed API responses overwriting fresher state variables.
+- **Cache invalidation issues**: Users viewing outdated lists while waiting for network payloads.
+- **High API latency**: Heavy stress on PostgreSQL databases due to duplicate read queries.
+
+---
+
+### The Solution: Strategic Stale & Cache Management
+
+Our first major optimization was configuring robust \`staleTime\` and \`gcTime\` values. Instead of treating all data as immediately stale, we divided our data endpoints into three major categories:
+
+1. **Immutable Configuration Data**: \`staleTime: Infinity\` (e.g. system constants, user profiles).
+2. **Semi-Mutable Portal States**: \`staleTime: 5 * 60 * 1000\` (5 minutes). This kept list items accessible with zero fetch delays.
+3. **Highly Volatile Realtime Elements**: \`staleTime: 10 * 1000\` (10 seconds) with Socket.IO fallbacks.
+
+\`\`\`ts
+const { data, isLoading } = useQuery({
+  queryKey: ['portal-users', projectId],
+  queryFn: () => fetchUsers(projectId),
+  staleTime: 5 * 60 * 1000, // Keep cached data fresh for 5 mins
+  gcTime: 10 * 60 * 1000,    // Retain in garbage collection for 10 mins
+  refetchOnWindowFocus: false // Prevent re-fetching on tab toggles
+});
+\`\`\`
+
+---
+
+### Key Takeaway: Localized Mutation Optimizations
+
+Additionally, we implemented **Optimistic Updates** for actions like adding or editing list items. Instead of forcing a full page re-render while awaiting backend confirmations, we mutated the local TanStack cache instantly, falling back gracefully if server requests failed. This gave users a near-instantaneous 0ms perceived latency.
+`
   },
   {
     title: 'How We Scaled Shopify Apps Using Custom Shopify Functions',
@@ -161,6 +201,69 @@ export const blogPosts: BlogPost[] = [
     description: 'An engineering review on writing low-latency discount and cart-transform logics in Node.js running directly on Shopify Edge servers.',
     date: 'January 2024',
     readTime: '10 min read',
+    content: `
+### The Transition to Shopify Functions
+
+As a **Shopify App Developer** at **Devsnest OPC**, I architected the **Mixory Bundles** Shopify application to help merchants configure customized product packages. Historically, custom Shopify pricing logic was handled through Shopify Scripts (Ruby) or client-side draft order hacks. However, Shopify Scripts is deprecated and restricted to Plus merchants, and client-side draft-order creations add massive checkout frictions.
+
+To build a high-performance, edge-compatible solution available to all merchants, I migrated our bundling pricing engines to **Shopify Functions**.
+
+---
+
+### Architectural Design: Executing on the Edge
+
+Shopify Functions run inside **WebAssembly (WASM)** containers directly on Shopify’s global edge infrastructure. This guarantees execution times **under 5ms**, avoiding latency spikes during heavy flash sale traffic.
+
+Our tech stack for the bundler was:
+- **Next.js** for the embedded Merchant Administration portal.
+- **Node.js** with TypeScript for generating the Function logic.
+- **Prisma** and **PostgreSQL** to map configurable bundle schemas.
+
+---
+
+### Code Execution: Defining the Custom Discount Rules
+
+Below is a conceptual workflow of how our Node.js Shopify Cart Transform function maps customer carts against merchant-defined database bundles:
+
+\`\`\`ts
+import { RunInput, FunctionRunResult } from "../api";
+
+export function run(input: RunInput): FunctionRunResult {
+  const targets = input.cart.lines
+    .filter(line => line.merchandise.__typename === "ProductVariant")
+    .map(line => ({
+      productVariant: {
+        id: line.merchandise.id,
+        quantity: line.quantity
+      }
+    }));
+
+  if (targets.length < 2) {
+    return { discountApplicationStrategy: "FIRST", discounts: [] };
+  }
+
+  // Calculate dynamic automatic tier-discounts
+  return {
+    discountApplicationStrategy: "MAXIMUM",
+    discounts: [
+      {
+        value: { percentage: { value: "15.0" } }, // Apply 15% discount for custom bundle matches
+        targets: targets
+      }
+    ]
+  };
+}
+\`\`\`
+
+---
+
+### Performance & Business Results
+
+By moving our calculation engines from standard external app-proxy servers directly to Shopify's edge WebAssembly runtime:
+- **Perceived Latency dropped to zero**: Prices recalculate instantly on cart additions.
+- **Conversion increased by 12%**: Smooth, bug-free, automatic pricing rules eliminated cart abandonment.
+- **Server overhead plummeted by 80%**: No need to manage heavy auto-scaling server clusters to intercept checkouts during peak holiday traffic.
+`
   }
 ];
 

@@ -3,17 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { personalInfo } from '@/lib/data';
 
+const navItems = [
+  { label: 'Home', id: 'hero' },
+  { label: 'Projects', id: 'featured-projects' },
+  { label: 'Stack', id: 'tech-stack' },
+  { label: 'Journey', id: 'experience' },
+  { label: 'Services', id: 'services' },
+  { label: 'Reviews', id: 'testimonials' },
+];
+
 export default function Navbar() {
   const [active, setActive] = useState('hero');
-
-  const navItems = [
-    { label: 'Home', id: 'hero' },
-    { label: 'Projects', id: 'featured-projects' },
-    { label: 'Stack', id: 'tech-stack' },
-    { label: 'Journey', id: 'experience' },
-    { label: 'Services', id: 'services' },
-    { label: 'Reviews', id: 'testimonials' },
-  ];
 
   // Simple scroll spy to update active item
   useEffect(() => {

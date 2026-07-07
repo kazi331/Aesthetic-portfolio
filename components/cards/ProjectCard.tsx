@@ -61,7 +61,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           </div>
 
-          <h3 className="text-3xl font-bold mt-6 leading-tight text-primary-text group-hover:text-accent transition-colors">
+          <h3 className="text-3xl font-bold mt-6 leading-tight text-primary-text group-hover:text-accent transition-colors font-display">
             {mainTitle}{' '}
             <span className="font-serif italic font-light text-accent-secondary">
               {lastWord}

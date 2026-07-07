@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { personalInfo } from '@/lib/data';
 
 export default function Navbar() {
   const [active, setActive] = useState('hero');
@@ -9,6 +10,7 @@ export default function Navbar() {
     { label: 'Home', id: 'hero' },
     { label: 'Projects', id: 'featured-projects' },
     { label: 'Stack', id: 'tech-stack' },
+    { label: 'Journey', id: 'experience' },
     { label: 'Services', id: 'services' },
     { label: 'Reviews', id: 'testimonials' },
   ];
@@ -41,14 +43,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav id="navbar" className="fixed top-6 left-1/2 -translate-x-1/2 glass-nav px-6 sm:px-8 py-3.5 rounded-full flex items-center gap-6 sm:gap-8 z-50 w-[92%] max-w-2xl justify-between sm:justify-start shadow-xl border border-white/10">
+    <nav id="navbar" className="fixed top-6 left-1/2 -translate-x-1/2 glass-nav px-6 sm:px-8 py-3.5 rounded-full flex items-center gap-6 sm:gap-8 z-50 w-[92%] max-w-3xl justify-between sm:justify-start shadow-xl border border-white/10">
       <div
         id="navbar-logo"
         className="flex items-center gap-2 cursor-pointer"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >
         <div className="w-2.5 h-2.5 bg-[#4E85BF] rounded-full" />
-        <span className="font-bold tracking-tighter text-sm text-[#F5F5F5]">AR.01</span>
+        <span className="font-bold tracking-tighter text-sm text-[#F5F5F5]">KS.01</span>
       </div>
 
       <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
@@ -74,10 +76,10 @@ export default function Navbar() {
 
       <button
         id="navbar-resume-btn"
-        onClick={() => window.open('https://github.com', '_blank')}
+        onClick={() => window.open(`mailto:${personalInfo.email}?subject=Hi Kazi, let's connect!`, '_self')}
         className="text-[10px] font-mono font-bold bg-[#F5F5F5] text-black px-4 py-1.5 rounded-full uppercase tracking-widest hover:bg-[#F5F5F5]/90 transition-all cursor-pointer"
       >
-        Resume
+        Hire Me
       </button>
     </nav>
   );

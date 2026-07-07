@@ -8,6 +8,7 @@ import Hero from '@/components/sections/Hero';
 import Stats from '@/components/sections/Stats';
 import FeaturedProjects from '@/components/sections/FeaturedProjects';
 import TechStack from '@/components/sections/TechStack';
+import Experience from '@/components/sections/Experience';
 import Services from '@/components/sections/Services';
 import Testimonials from '@/components/sections/Testimonials';
 import RecentBlog from '@/components/sections/RecentBlog';
@@ -34,6 +35,7 @@ export default function Home() {
             <Stats />
             <FeaturedProjects />
             <TechStack />
+            <Experience />
             <Services />
             <Testimonials />
             <RecentBlog />

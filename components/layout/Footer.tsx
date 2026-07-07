@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Container from '@/components/shared/Container';
+import { personalInfo } from '@/lib/data';
 
 export default function Footer() {
   return (
@@ -12,12 +13,12 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-muted-text font-mono">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 bg-[#4E85BF] rounded-full animate-pulse" />
-            <span>ALEX RIVERA // PORTFOLIO MMXXVI // SYSTEM_ONLINE</span>
+            <span>KAZI SHARIFUL ISLAM // PORTFOLIO MMXXVI // SYSTEM_ONLINE</span>
           </div>
 
           <div className="flex items-center gap-8 text-[11px] font-medium tracking-widest uppercase">
             <a
-              href="https://linkedin.com"
+              href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-accent transition-colors duration-300"
@@ -25,7 +26,7 @@ export default function Footer() {
               LinkedIn
             </a>
             <a
-              href="https://github.com"
+              href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-accent transition-colors duration-300"
@@ -33,12 +34,10 @@ export default function Footer() {
               Github
             </a>
             <a
-              href="https://dribbble.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`mailto:${personalInfo.email}`}
               className="hover:text-accent transition-colors duration-300"
             >
-              Dribbble
+              Email
             </a>
           </div>
         </div>

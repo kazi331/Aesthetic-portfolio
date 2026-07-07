@@ -28,7 +28,7 @@ export default function SectionHeading({
           <div className="h-[1px] w-12 bg-white/10" />
         </div>
       )}
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-primary-text mb-4 leading-[1.1]">
+      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-primary-text mb-4 leading-[1.1] font-display">
         {mainTitle}{' '}
         <span className="font-serif italic font-light text-accent-secondary">
           {lastWord}

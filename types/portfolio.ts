@@ -59,3 +59,37 @@ export interface Service {
   iconName: string;
   capabilities: string[];
 }
+
+export interface WorkExperience {
+  role: string;
+  company: string;
+  location: string;
+  period: string;
+  highlights: string[];
+  url?: string;
+}
+
+export interface Education {
+  institution: string;
+  degree: string;
+  period: string;
+}
+
+export interface Reference {
+  name: string;
+  role: string;
+  company: string;
+  email: string;
+}
+
+export interface PersonalInfo {
+  name: string;
+  title: string;
+  location: string;
+  email: string;
+  phone: string;
+  github: string;
+  linkedin: string;
+  website: string;
+  summary: string;
+}

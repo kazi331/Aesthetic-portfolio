@@ -42,7 +42,7 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
           </span>
         </div>
 
-        <h3 className="text-xl font-bold text-primary-text mb-3 tracking-tight group-hover:text-accent transition-colors">
+        <h3 className="text-xl font-bold text-primary-text mb-3 tracking-tight group-hover:text-accent transition-colors font-display">
           {service.title}
         </h3>
         <p className="text-muted-text text-xs sm:text-sm leading-relaxed mb-6 font-sans">

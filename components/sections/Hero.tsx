@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
+import { personalInfo } from '@/lib/data';
 
 export default function Hero() {
   const handleScrollToProjects = () => {
@@ -40,7 +41,7 @@ export default function Hero() {
             className="flex items-center gap-4 mb-6"
           >
             <span className="text-[#4E85BF] font-mono text-xs tracking-widest uppercase font-semibold">
-              [ SENIOR FULL STACK ENGINEER ]
+              [ {personalInfo.title.toUpperCase()} ]
             </span>
             <div className="h-[1px] w-24 bg-white/20" />
           </motion.div>
@@ -50,11 +51,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[64px] sm:text-[96px] md:text-[112px] leading-[0.85] font-bold tracking-tighter text-[#F5F5F5]"
+            className="text-[64px] sm:text-[96px] md:text-[112px] leading-[0.85] font-bold tracking-tighter text-[#F5F5F5] font-display"
           >
-            ALEX <br />
+            KAZI <br />
             <span className="font-serif italic font-light text-[#89AACC]">
-              Rivera
+              Shariful Islam
             </span>
           </motion.h1>
 
@@ -63,9 +64,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 max-w-xl text-[#8D8D8D] leading-relaxed text-base sm:text-lg font-sans"
+            className="mt-8 max-w-2xl text-[#8D8D8D] leading-relaxed text-base sm:text-lg font-sans"
           >
-            Crafting pixel-perfect digital experiences with high-performance architectures. Specialized in Next.js, Go, Rust, and low-latency systems.
+            {personalInfo.summary}
           </motion.p>
         </div>
 
@@ -95,7 +96,7 @@ export default function Hero() {
             className="flex gap-8 text-[11px] font-mono font-semibold tracking-widest uppercase text-muted-text"
           >
             <a
-              href="https://linkedin.com"
+              href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-accent transition-colors duration-300"
@@ -103,7 +104,7 @@ export default function Hero() {
               LinkedIn
             </a>
             <a
-              href="https://github.com"
+              href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-accent transition-colors duration-300"
@@ -111,12 +112,10 @@ export default function Hero() {
               Github
             </a>
             <a
-              href="https://dribbble.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`mailto:${personalInfo.email}`}
               className="hover:text-accent transition-colors duration-300"
             >
-              Dribbble
+              Email
             </a>
           </motion.div>
         </div>

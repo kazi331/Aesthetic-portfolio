@@ -28,7 +28,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           </span>
         </div>
 
-        <h4 className="font-semibold text-lg text-primary-text mb-2.5 group-hover:text-accent transition-colors leading-snug font-sans line-clamp-2">
+        <h4 className="font-semibold text-lg text-primary-text mb-2.5 group-hover:text-accent transition-colors leading-snug font-display line-clamp-2">
           {post.title}
         </h4>
         <p className="text-muted-text text-xs leading-relaxed line-clamp-2 font-sans">

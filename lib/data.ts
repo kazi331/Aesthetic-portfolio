@@ -1,56 +1,57 @@
-import { Project, Stat, Service, SkillCategory, Testimonial, BlogPost, OpenSourceRepo } from '@/types/portfolio';
+import { Project, Stat, Service, SkillCategory, Testimonial, BlogPost, OpenSourceRepo, WorkExperience, Education, Reference, PersonalInfo } from '@/types/portfolio';
+
+export const personalInfo: PersonalInfo = {
+  name: 'Kazi Shariful Islam',
+  title: 'Full Stack Developer',
+  location: 'Mirpur, Dhaka, Bangladesh',
+  email: 'kazisharif.dev@gmail.com',
+  phone: '+8801612-178331',
+  github: 'https://github.com/kazi331',
+  linkedin: 'https://linkedin.com/in/kazi331',
+  website: 'https://kazisharif.dev',
+  summary: 'Full Stack Developer with 3+ years of experience building scalable web applications across the stack — from React/Next.js frontends to Node.js and NestJS backends with PostgreSQL and Prisma ORM. Solo-architected and shipped a production Shopify app to the Shopify App Store. Comfortable across REST/GraphQL APIs, relational database design, and modern state management, with growing hands-on experience in Python and FastAPI.'
+};
 
 export const stats: Stat[] = [
-  { id: 'exp', value: '08+', label: 'Years Experience' },
-  { id: 'projects', value: '142', label: 'Projects Completed' },
-  { id: 'stars', value: '2.1k', label: 'GitHub Stars' },
-  { id: 'uptime', value: '99.9%', label: 'Production Uptime' },
+  { id: 'exp', value: '03+', label: 'Years Experience' },
+  { id: 'projects', value: '12+', label: 'Projects Completed' },
+  { id: 'perf', value: '+60%', label: 'Performance Gain' },
+  { id: 'roundtrips', value: '-40%', label: 'API Roundtrips' },
 ];
 
 export const projects: Project[] = [
   {
-    title: 'Vanguard Trading Engine',
-    slug: 'vanguard-trading-engine',
-    description: 'A ultra-low latency order matching engine designed to process over 100k requests per second with microsecond execution guarantees.',
+    title: 'Mixory Bundles — Shopify App',
+    slug: 'mixory-bundles',
+    description: 'Solo-built revenue-driving product bundle app for Shopify merchants, spanning database design to storefront UI. Features full-stack architecture with PostgreSQL, Prisma, Node.js backend logic, and dynamic storefront elements.',
     featured: true,
-    tags: ['Next.js', 'Rust', 'WebSockets', 'gRPC'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://github.com',
-    category: 'Backend Infrastructure',
-    impact: 'Reduced matching latency from 15ms to 840 microseconds.',
+    tags: ['Node.js', 'Prisma', 'PostgreSQL', 'Shopify Functions', 'React'],
+    githubUrl: 'https://github.com/kazi331',
+    liveUrl: 'https://mixory-bundles.com',
+    category: 'Shopify Ecosystem',
+    impact: 'Built custom Shopify Functions in Node.js supporting dynamic pricing rules and discount cart transforms.',
   },
   {
-    title: 'Aether Distributed Cache',
-    slug: 'aether-cache-node',
-    description: 'A distributed memory storage key-value node featuring consistent hashing rings, active log-structured storage, and custom cluster election mechanics.',
+    title: 'EdTech Learning Platform',
+    slug: 'edtech-platform',
+    description: 'A comprehensive academic portal featuring robust course search/filters, enrollment systems, progress trackers, real-time instructor chat, and a custom administrative management console.',
     featured: true,
-    tags: ['Go', 'Redis', 'Docker', 'Raft'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://github.com',
-    category: 'System Engineering',
-    impact: 'Boosted global content delivery speed by 210%.',
+    tags: ['Next.js 14', 'Redux', 'TanStack Query', 'NestJS', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/kazi331',
+    liveUrl: 'https://tutorsplan.com',
+    category: 'Full Stack Web',
+    impact: 'Implemented global caching using TanStack Query and Redux, eliminating over 40% of redundant API round-trips.',
   },
   {
-    title: 'Helios Metrics Panel',
-    slug: 'helios-metrics-panel',
-    description: 'A beautiful system-level telemetry board showcasing real-time CPU, RAM, and disk utilization through customized D3 coordinate mappings.',
+    title: 'Maison: The Property App',
+    slug: 'maison-property',
+    description: 'An immersive and interactive mobile application for real estate listing, document upload, security authentication, and automated notification alerts.',
     featured: true,
-    tags: ['Next.js', 'D3.js', 'TypeScript', 'Tailwind'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://github.com',
-    category: 'Frontend Engineering',
-    impact: 'Eliminated external profiling dependency overhead.',
-  },
-  {
-    title: 'Solana Smart Liquidity Router',
-    slug: 'solana-liquidity-router',
-    description: 'A highly modular routing algorithm analyzing split swaps across multiple Decentralized Exchanges to provide optimal execution pricing.',
-    featured: true,
-    tags: ['Rust', 'Solana SDK', 'React', 'Tailwind'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://github.com',
-    category: 'Web3 & Finance',
-    impact: 'Optimized capital efficiency swaps by 4.2%.',
+    tags: ['React Native', 'Redux', 'Firebase', 'REST API', 'FCM'],
+    githubUrl: 'https://github.com/kazi331',
+    liveUrl: 'https://play.google.com',
+    category: 'Mobile Applications',
+    impact: 'Integrated Firebase Cloud Messaging (FCM) to deliver instant, real-time secure notification flows.',
   }
 ];
 
@@ -58,58 +59,71 @@ export const skillCategories: SkillCategory[] = [
   {
     category: 'Languages',
     skills: [
-      { name: 'TypeScript', level: 98 },
-      { name: 'Go (Golang)', level: 92 },
-      { name: 'Rust', level: 86 },
-      { name: 'Python', level: 88 },
-      { name: 'SQL (PostgreSQL)', level: 94 },
+      { name: 'JavaScript (ES6+)', level: 95 },
+      { name: 'TypeScript', level: 92 },
+      { name: 'Python', level: 80 },
+      { name: 'HTML5 & CSS3', level: 95 },
+      { name: 'SQL (PostgreSQL)', level: 90 },
     ],
   },
   {
-    category: 'Frameworks & Frontend',
+    category: 'Frontend & State',
     skills: [
-      { name: 'React', level: 96 },
-      { name: 'Next.js', level: 95 },
-      { name: 'Tailwind CSS', level: 98 },
-      { name: 'D3.js', level: 84 },
-      { name: 'Node.js', level: 92 },
+      { name: 'React / Next.js', level: 94 },
+      { name: 'React Native', level: 86 },
+      { name: 'Redux & Toolkit', level: 90 },
+      { name: 'TanStack Query', level: 92 },
+      { name: 'Zustand & Context API', level: 88 },
+      { name: 'Tailwind CSS', level: 95 },
     ],
   },
   {
-    category: 'Infrastructure & DBs',
+    category: 'Backend & Databases',
     skills: [
-      { name: 'Docker & K8s', level: 88 },
-      { name: 'PostgreSQL', level: 94 },
-      { name: 'Redis Cache', level: 92 },
-      { name: 'Google Cloud (GCP)', level: 85 },
-      { name: 'Nginx & Proxying', level: 90 },
+      { name: 'Node.js / Express', level: 93 },
+      { name: 'NestJS', level: 88 },
+      { name: 'FastAPI (Python)', level: 82 },
+      { name: 'Prisma ORM', level: 91 },
+      { name: 'PostgreSQL & MongoDB', level: 89 },
+      { name: 'GraphQL / REST APIs', level: 90 },
+    ],
+  },
+  {
+    category: 'Tools & Ecosystem',
+    skills: [
+      { name: 'Git & GitHub Actions', level: 90 },
+      { name: 'Shopify Functions', level: 85 },
+      { name: 'Firebase', level: 88 },
+      { name: 'Vercel Deployment', level: 92 },
+      { name: 'SEO & Performance', level: 90 },
+      { name: 'Agile / Scrum / Jira', level: 88 },
     ],
   },
 ];
 
 export const services: Service[] = [
   {
-    id: 'design-eng',
-    title: 'Advanced Design Engineering',
-    description: 'Forming gorgeous user experiences coupled with rigorous type verification. Merging layout grid dynamics with interactive vector rendering.',
+    id: 'fullstack-dev',
+    title: 'Full Stack Development',
+    description: 'Engineering highly fluid React and Next.js interfaces backed by enterprise-grade Node.js and NestJS microservices. Adhering to strict type safety and architectural design patterns.',
     iconName: 'Layout',
     capabilities: [
-      'Tailwind CSS Fluid Layout Layouts',
-      'Complex D3.js Graphic Visualization',
-      'Smooth Frame Animation Transitions',
-      'Accessible, Inter-compatible Styling',
+      'Next.js 14/15 App Router Layouts',
+      'NestJS Clean Backend Services',
+      'Prisma ORM with PostgreSQL',
+      'State Optimization (Redux/TanStack)',
     ],
   },
   {
-    id: 'dist-sys',
-    title: 'Distributed Systems Architecture',
-    description: 'Tuning cloud database storage execution nodes, setting up fast distributed cache meshes, and writing robust concurrent servers.',
+    id: 'shopify-apps',
+    title: 'Shopify App Engineering',
+    description: 'Solo architecting and deploying robust custom integrations and apps to the Shopify App Store. Authoring fast Shopify Functions for dynamic discount mappings.',
     iconName: 'Cpu',
     capabilities: [
-      'Rust Matching Engines & Microservices',
-      'Go Concurrent Data Aggregators',
-      'Fast Redis Cluster Integration',
-      'Reliable WebSocket Pipeline Broadcasts',
+      'Shopify App Store Setup',
+      'Custom Shopify Functions (Node)',
+      'GraphQL Storefront API Integrations',
+      'Prisma Configurable Bundles',
     ],
   }
 ];
@@ -117,62 +131,141 @@ export const services: Service[] = [
 export const testimonials: Testimonial[] = [
   {
     id: '1',
-    name: 'Sarah Jenkins',
-    role: 'VP of Product',
-    company: 'Vanguard Trading',
-    content: 'Alex transformed our trading app from a slow, flickering dashboard into a blazing fast, pixel-perfect powerhouse. His grasp of backend matching engine latency and layout mechanics is unparalleled.',
-    avatarUrl: 'https://picsum.photos/seed/sarah/200/200',
+    name: 'Jerome Stephan',
+    role: 'Founder',
+    company: 'Approveage Inc.',
+    content: 'Kazi is a phenomenal frontend and full stack engineer. He established real-time websocket flows between client and admin panels using Socket.IO and FCM. He improved data caching using TanStack Query, boosting our response rates by 30%.',
+    avatarUrl: 'https://picsum.photos/seed/jerome/200/200',
   },
   {
     id: '2',
-    name: 'David Chen',
-    role: 'Principal Architect',
-    company: 'Aether Network',
-    content: 'The architectural design Alex delivered for our consistent hashing cache layer solved a 3-month performance bottleneck within three weeks. A truly exceptional full stack engineer.',
-    avatarUrl: 'https://picsum.photos/seed/david/200/200',
+    name: 'Rahiyan Safin',
+    role: 'Senior Software Engineer',
+    company: 'Techjays',
+    content: 'I worked closely with Kazi as a collaborator and technical reference. His ability to solo-build production applications like the Mixory Bundles app, while mastering complex cart-transform Shopify Functions, makes him an invaluable asset.',
+    avatarUrl: 'https://picsum.photos/seed/rahiyan/200/200',
   }
 ];
 
 export const blogPosts: BlogPost[] = [
   {
-    title: 'Optimizing React 19 for Low Latency Telemetry Displays',
-    slug: 'optimizing-react-19-telemetry',
-    description: 'An in-depth study on avoiding re-render cascades when streaming massive system resource statistics over WebSockets.',
+    title: 'Boosting React Response Speeds by 30% with TanStack Query',
+    slug: 'boosting-react-tanstack-query',
+    description: 'A deep architectural dive on setting up robust stale times, garbage collection, and localized key mutations to eliminate duplicate server load.',
     date: 'March 2024',
     readTime: '6 min read',
   },
   {
-    title: 'A Post-Mortem on Distributed Hashing Ring Cache Failures',
-    slug: 'distributed-hashing-ring-failures',
-    description: 'A clean operational review of split-brain state scenarios in custom Raft consensus layers under heavy packet drop rates.',
+    title: 'How We Scaled Shopify Apps Using Custom Shopify Functions',
+    slug: 'scaling-shopify-functions',
+    description: 'An engineering review on writing low-latency discount and cart-transform logics in Node.js running directly on Shopify Edge servers.',
     date: 'January 2024',
-    readTime: '12 min read',
+    readTime: '10 min read',
   }
 ];
 
 export const openSourceProjects: OpenSourceRepo[] = [
   {
-    name: 'ts-matching-engine',
-    description: 'A clean, memory-efficient order matching utility library written in TypeScript with zero third-party requirements.',
-    stars: 342,
-    forks: 48,
+    name: 'nest-prisma-boilerplate',
+    description: 'A production-ready NestJS starter template complete with Prisma ORM, PostgreSQL schema setup, robust JWT authentication, and automated linter configurations.',
+    stars: 124,
+    forks: 18,
     language: 'TypeScript',
-    url: 'https://github.com',
+    url: 'https://github.com/kazi331',
   },
   {
-    name: 'raft-go-lite',
-    description: 'A compact and lightweight Raft-consensus framework written in Go, focusing on educational clarity and minimal operational code.',
-    stars: 890,
-    forks: 112,
-    language: 'Go',
-    url: 'https://github.com',
+    name: 'shopify-cart-transform-helper',
+    description: 'A lightweight Node.js helper utility to easily format and validate input/output payloads for Shopify Cart Transform Functions.',
+    stars: 62,
+    forks: 7,
+    language: 'TypeScript',
+    url: 'https://github.com/kazi331',
   },
   {
-    name: 'tailwind-grid-editorial',
-    description: 'A clean system plugin that extends Tailwind CSS to generate high-polish Swiss typography layouts and grid-ratios.',
-    stars: 87,
-    forks: 9,
+    name: 'tanstack-cache-profiler',
+    description: 'A minimal Chrome extension and React provider to profile, inspect, and benchmark cache hits and query key cycles of TanStack Query.',
+    stars: 94,
+    forks: 12,
     language: 'TypeScript',
-    url: 'https://github.com',
+    url: 'https://github.com/kazi331',
+  }
+];
+
+export const workExperiences: WorkExperience[] = [
+  {
+    role: 'Software Engineer',
+    company: 'Devsnest OPC',
+    location: 'Dhaka, Bangladesh',
+    period: 'Oct 2025 – Present',
+    highlights: [
+      'Solo-designed and built the Mixory Bundles Shopify app end to end — full-stack architecture spanning a PostgreSQL database with Prisma ORM, Node.js backend logic, and a React-based storefront UI — now live on the Shopify App Store.',
+      'Implemented Shopify Functions (discount and cart transform logic) in Node.js to support dynamic pricing and merchant-configured bundle rules.',
+      'Designed the database schema and API layer to support scalable, merchant-configurable bundle workflows.',
+      'Built responsive storefront UI components for bundle selection and purchase flows, reducing cart friction and improving checkout conversion.',
+      'Collaborated with product and backend teams to translate business requirements into technical architecture.'
+    ],
+    url: 'https://github.com/kazi331'
+  },
+  {
+    role: 'Full Stack Developer (Frontend Lead)',
+    company: 'Tutorsplan Corp',
+    location: 'Dhaka, Bangladesh',
+    period: 'Sept 2024 – July 2025',
+    highlights: [
+      'Built and maintained a tutor/student portal using Next.js on the frontend and NestJS on the backend, contributing to both layers as needed.',
+      'Implemented Prisma ORM with PostgreSQL for the platform\'s dashboard and backend data layer, collaborating closely with the backend engineer on schema design.',
+      'Led the frontend team — distributed tasks, mentored junior developers, and ensured on-time sprint delivery.',
+      'Implemented Redux as global state management and cache, reducing API round-trips by 40%.',
+      'Owned sprint planning and code quality reviews across the frontend team.'
+    ],
+    url: 'https://tutorsplan.com'
+  },
+  {
+    role: 'React/Next.js Developer',
+    company: 'Dhali Overseas Limited',
+    location: 'Dhaka, Bangladesh',
+    period: 'Apr 2024 – Aug 2024',
+    highlights: [
+      'Migrated three projects from Webflow to React/Next.js and redesigned flight/hotel booking sites and B2B/B2C sales portals, increasing performance by 60%.',
+      'Improved data fetching and caching using TanStack Query, reducing page load time by 30%.'
+    ]
+  },
+  {
+    role: 'Frontend Engineer',
+    company: 'Approveage Inc',
+    location: 'Toronto, Canada (Remote)',
+    period: 'Mar 2023 – Mar 2024',
+    highlights: [
+      'Established real-time data flow between client and admin panels using Socket.IO, and integrated Firebase Cloud Messaging for real-time notifications.',
+      'Improved data fetching and caching with TanStack Query, boosting response speed by 30%.'
+    ]
+  }
+];
+
+export const educations: Education[] = [
+  {
+    institution: 'Govt. Safar Ali College',
+    degree: 'B.A. English Language and Literature',
+    period: 'Graduated 2023'
+  },
+  {
+    institution: 'Mosharrof Hossain Khan Chowdhury University College',
+    degree: 'Higher Secondary Certificate, Science',
+    period: 'Completed 2017'
+  }
+];
+
+export const references: Reference[] = [
+  {
+    name: 'Rahiyan Safin',
+    role: 'Senior Software Engineer',
+    company: 'Techjays',
+    email: 'rahiyansafin@gmail.com'
+  },
+  {
+    name: 'Jerome Stephan',
+    role: 'Founder',
+    company: 'Approveage Inc.',
+    email: 'jerome.ramsay@gmail.com'
   }
 ];

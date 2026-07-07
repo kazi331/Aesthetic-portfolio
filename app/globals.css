@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #4E85BF;
+  --color-accent-secondary: #89AACC;
+  --color-muted-text: #8D8D8D;
+  --color-primary-text: #F5F5F5;
+  --color-surface: #121212;
+  --color-background: #090909;
+}
+
+/* Custom Editorial Aesthetic Utility Styles */
+.glass-nav {
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.project-card-gradient {
+  background: linear-gradient(135deg, #121212 0%, #161616 100%);
+}
+
+.dot-pattern {
+  background-image: radial-gradient(rgba(245, 245, 245, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Vertical Text Helper */
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #090909;
+}

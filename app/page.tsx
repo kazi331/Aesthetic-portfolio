@@ -8,7 +8,9 @@ import Hero from '@/components/sections/Hero';
 import Stats from '@/components/sections/Stats';
 import FeaturedProjects from '@/components/sections/FeaturedProjects';
 import TechStack from '@/components/sections/TechStack';
+import TechStackV2 from '@/components/sections/TechStackV2';
 import Experience from '@/components/sections/Experience';
+import ExperienceV2 from '@/components/sections/ExperienceV2';
 import Services from '@/components/sections/Services';
 import Testimonials from '@/components/sections/Testimonials';
 import RecentBlog from '@/components/sections/RecentBlog';
@@ -34,8 +36,10 @@ export default function Home() {
             <Hero />
             <Stats />
             <FeaturedProjects />
-            <TechStack />
-            <Experience />
+            {/* <TechStack /> */}
+            <TechStackV2 />
+            {/* <Experience /> */}
+            <ExperienceV2 />
             <Services />
             <Testimonials />
             <RecentBlog />

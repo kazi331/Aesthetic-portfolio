@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Terminal, Cpu, Database, Layout, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Sparkles, Terminal, Cpu, Database, Layout, ShieldCheck, ChevronDown } from 'lucide-react';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
 
@@ -22,6 +22,27 @@ interface TechnologyNode {
 export default function TechStackV2() {
   const [activeFilter, setActiveFilter] = useState<'all' | 'frontend' | 'backend' | 'database' | 'tooling'>('all');
   const [hoveredNode, setHoveredNode] = useState<TechnologyNode | null>(null);
+  const [selectedMobileTech, setSelectedMobileTech] = useState<TechnologyNode | null>(null);
+  const [popoverPos, setPopoverPos] = useState({ left: 0, top: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const clientWidth = containerRef.current.clientWidth;
+    const clientHeight = containerRef.current.clientHeight;
+
+    const xOffset = x > clientWidth * 0.6 ? -340 : 20;
+    const yOffset = y > clientHeight * 0.6 ? -220 : 20;
+
+    const left = Math.min(Math.max(16, x + xOffset), clientWidth - 336);
+    const top = Math.min(Math.max(16, y + yOffset), clientHeight - 240);
+
+    setPopoverPos({ left, top });
+  };
 
   // High fidelity technical constellation mapping based on user's reference mockup
   const technologies: TechnologyNode[] = [
@@ -213,8 +234,12 @@ export default function TechStackV2() {
           </div>
         </div>
 
-        {/* Constellation Canvas Board */}
-        <div className="relative w-full min-h-[560px] md:min-h-[640px] bg-black/20 border border-white/5 rounded-[40px] p-6 backdrop-blur-sm overflow-hidden flex flex-col justify-between">
+        {/* Constellation Canvas Board (Desktop/Tablet) */}
+        <div
+          ref={containerRef}
+          onMouseMove={handleMouseMove}
+          className="hidden md:flex relative w-full min-h-[560px] md:min-h-[640px] bg-black/20 border border-white/5 rounded-[40px] p-6 backdrop-blur-sm overflow-hidden flex-col justify-between"
+        >
           
           {/* Subtle connecting mesh lines using SVG */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25 z-0" xmlns="http://www.w3.org/2000/svg">
@@ -339,50 +364,53 @@ export default function TechStackV2() {
             })}
           </div>
 
-          {/* Absolute High-Fidelity Hover Popup Detail Card (Floating dynamic positioning) */}
-          <div className="absolute right-6 top-6 z-30 pointer-events-none w-80 max-w-full">
-            <AnimatePresence>
-              {hoveredNode && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className="bg-[#121212]/95 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-md pointer-events-auto"
-                >
-                  {/* Category-themed layout matching reference mockup */}
-                  <div className="flex items-start gap-4">
-                    <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${
-                      hoveredNode.type === 'core'
-                        ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
-                        : hoveredNode.type === 'data'
-                        ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
-                        : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
-                    }`}>
-                      {hoveredNode.icon}
-                    </div>
-                    <div>
-                      <h4 className="font-sans font-bold text-base text-[#F5F5F5]">
-                        {hoveredNode.name}
-                      </h4>
-                      <p className="font-mono text-[10px] text-muted-text uppercase font-semibold mt-0.5 tracking-wider">
-                        {hoveredNode.experience}
-                      </p>
-                    </div>
+          {/* Absolute High-Fidelity Hover Popup Detail Card (Floating dynamic positioning next to mouse) */}
+          <AnimatePresence>
+            {hoveredNode && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                style={{
+                  position: 'absolute',
+                  left: `${popoverPos.left}px`,
+                  top: `${popoverPos.top}px`,
+                }}
+                className="z-30 pointer-events-none w-80 max-w-full bg-[#121212]/95 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-md"
+              >
+                {/* Category-themed layout matching reference mockup */}
+                <div className="flex items-start gap-4 text-left">
+                  <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${
+                    hoveredNode.type === 'core'
+                      ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
+                      : hoveredNode.type === 'data'
+                      ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
+                      : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
+                  }`}>
+                    {hoveredNode.icon}
                   </div>
-
-                  <p className="text-xs text-muted-text mt-3.5 leading-relaxed font-sans border-t border-white/5 pt-3.5">
-                    {hoveredNode.description}
-                  </p>
-
-                  <div className="flex items-center gap-2 mt-4 text-[9px] font-mono text-muted-text bg-white/3 py-1.5 px-3 rounded-lg border border-white/5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
-                    <span>Domain: <strong className="text-[#F5F5F5] uppercase">{hoveredNode.category}</strong></span>
+                  <div>
+                    <h4 className="font-sans font-bold text-base text-[#F5F5F5]">
+                      {hoveredNode.name}
+                    </h4>
+                    <p className="font-mono text-[10px] text-muted-text uppercase font-semibold mt-0.5 tracking-wider">
+                      {hoveredNode.experience}
+                    </p>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                </div>
+
+                <p className="text-xs text-muted-text mt-3.5 leading-relaxed font-sans border-t border-white/5 pt-3.5 text-left">
+                  {hoveredNode.description}
+                </p>
+
+                <div className="flex items-center gap-2 mt-4 text-[9px] font-mono text-muted-text bg-white/3 py-1.5 px-3 rounded-lg border border-white/5 justify-start">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
+                  <span>Domain: <strong className="text-[#F5F5F5] uppercase">{hoveredNode.category}</strong></span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <div className="h-20" /> {/* Spacer for nodes */}
 
@@ -429,6 +457,126 @@ export default function TechStackV2() {
 
           </div>
 
+        </div>
+
+        {/* Mobile View - Beautiful Interactive Accordion Grid (block md:hidden) */}
+        <div className="md:hidden space-y-6">
+          {/* Mobile Filter bar */}
+          <div className="flex flex-wrap items-center gap-2 bg-white/3 border border-white/5 p-4 rounded-3xl">
+            <span className="font-mono text-[9px] uppercase text-muted-text/80 tracking-widest font-bold w-full mb-1">
+              FILTER:
+            </span>
+            {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
+              const isSelected = activeFilter === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setActiveFilter(cat);
+                    setSelectedMobileTech(null); // Clear selected technology on filter change
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-[9px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
+                      : 'bg-white/3 border border-white/3 text-muted-text'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Mobile Grid */}
+          <div className="grid grid-cols-1 gap-3.5">
+            {filteredTechnologies.map((tech) => {
+              const isSelected = selectedMobileTech?.name === tech.name;
+              return (
+                <div
+                  key={tech.name}
+                  onClick={() => setSelectedMobileTech(isSelected ? null : tech)}
+                  className={`p-4 rounded-2xl border transition-all duration-300 bg-black/20 ${
+                    isSelected 
+                      ? 'border-accent/40 bg-[#121212]/80 shadow-lg shadow-accent/5' 
+                      : 'border-white/5 hover:border-white/10'
+                  }`}
+                >
+                  <div className="flex items-center justify-between cursor-pointer select-none">
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-xl border flex items-center justify-center shrink-0 ${
+                        tech.type === 'core'
+                          ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
+                          : tech.type === 'data'
+                          ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
+                          : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
+                      }`}>
+                        {tech.icon}
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-sans font-bold text-sm text-[#F5F5F5]">
+                          {tech.name}
+                        </h4>
+                        <span className="font-mono text-[8px] uppercase tracking-wider text-muted-text/80 font-bold">
+                          {tech.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[9px] font-bold text-muted-text bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
+                        {tech.experience}
+                      </span>
+                      <motion.div
+                        animate={{ rotate: isSelected ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-muted-text"
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  <AnimatePresence initial={false}>
+                    {isSelected && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: 12 }}
+                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="overflow-hidden border-t border-white/5 pt-3.5 text-left"
+                      >
+                        <p className="text-xs text-muted-text leading-relaxed font-sans">
+                          {tech.description}
+                        </p>
+                        <div className="flex items-center gap-1.5 mt-3 text-[9px] font-mono text-[#89AACC] uppercase font-bold">
+                          <span className={`w-1.5 h-1.5 rounded-full ${
+                            tech.type === 'core' ? 'bg-[#4E85BF]' : tech.type === 'data' ? 'bg-[#10B981]' : 'bg-yellow-500'
+                          }`} />
+                          <span>Type: <strong className="text-white">{tech.type}</strong></span>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Legend for Mobile */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 bg-white/3 border border-white/5 p-4 rounded-2xl">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4E85BF]" />
+              <span className="font-sans text-[10px] text-muted-text font-medium">Core</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+              <span className="font-sans text-[10px] text-muted-text font-medium">Data</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
+              <span className="font-sans text-[10px] text-muted-text font-medium">Learning</span>
+            </div>
+          </div>
         </div>
 
       </Container>

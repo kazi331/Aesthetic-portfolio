@@ -8,20 +8,6 @@ import Section from '@/components/shared/Section';
 import { personalInfo } from '@/lib/data';
 
 export default function Hero() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   const handleScrollToProjects = () => {
     const el = document.getElementById('featured-projects');
     if (el) {
@@ -31,17 +17,6 @@ export default function Hero() {
 
   return (
     <Section id="hero" className="min-h-screen flex flex-col justify-center pt-32 pb-16 bg-[#090909] relative overflow-hidden border-b border-white/5">
-      {/* Dynamic Cursor Light Interaction */}
-      <div 
-        className="absolute w-[450px] h-[450px] bg-accent/8 rounded-full blur-[140px] pointer-events-none transition-opacity duration-500 hidden md:block"
-        style={{
-          left: `${mousePosition.x - 225}px`,
-          top: `${mousePosition.y - 225}px`,
-          position: 'fixed',
-          zIndex: 1,
-        }}
-      />
-
       {/* Editorial Decorative Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] z-0 pointer-events-none" />
 

@@ -5,6 +5,7 @@ import { AnimatePresence } from 'motion/react';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/sections/Hero';
+import HeroV2 from '@/components/sections/HeroV2';
 import Stats from '@/components/sections/Stats';
 import FeaturedProjects from '@/components/sections/FeaturedProjects';
 import TechStack from '@/components/sections/TechStack';
@@ -33,7 +34,8 @@ export default function Home() {
         <div className="bg-[#090909] text-primary-text min-h-screen relative font-sans antialiased selection:bg-accent/20 selection:text-primary-text">
           <Navbar />
           <main id="main-content">
-            <Hero />
+            {/* <Hero /> */}
+            <HeroV2 />
             <Stats />
             <FeaturedProjects />
             {/* <TechStack /> */}

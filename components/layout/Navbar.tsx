@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { personalInfo } from '@/lib/data';
@@ -57,7 +58,7 @@ export default function Navbar() {
         >
           <div className="w-2.5 h-2.5 bg-[#4E85BF] rounded-full" />
           <span className="font-bold tracking-tighter text-xs sm:text-sm text-[#F5F5F5]">KS.01</span>
-        </div>
+        </div> 
 
         <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
 

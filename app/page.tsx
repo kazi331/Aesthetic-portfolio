@@ -6,6 +6,7 @@ import LoadingScreen from '@/components/layout/LoadingScreen';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/sections/Hero';
 import HeroV2 from '@/components/sections/HeroV2';
+import HeroV3 from '@/components/sections/HeroV3';
 import Stats from '@/components/sections/Stats';
 import FeaturedProjects from '@/components/sections/FeaturedProjects';
 import TechStack from '@/components/sections/TechStack';
@@ -35,7 +36,8 @@ export default function Home() {
           <Navbar />
           <main id="main-content">
             {/* <Hero /> */}
-            <HeroV2 />
+            {/* <HeroV2 /> */}
+            <HeroV3 />
             <Stats />
             <FeaturedProjects />
             {/* <TechStack /> */}

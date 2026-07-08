@@ -178,10 +178,10 @@ export default function HeroV3() {
               </motion.div>
 
               <motion.div variants={childVariants} className="overflow-hidden">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-sans font-light tracking-tight text-muted-text">
-                  Full Stack Engineer & <br />
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-sans font-light tracking-tight text-muted-text leading-tight">
+                  Full Stack Developer & <br />
                   <span className="font-serif italic text-accent font-normal tracking-wide">
-                    Shopify Integration Expert
+                    Systems Architect
                   </span>
                 </h2>
               </motion.div>
@@ -192,7 +192,7 @@ export default function HeroV3() {
               variants={childVariants}
               className="text-sm text-muted-text/90 leading-relaxed font-sans max-w-lg mb-10"
             >
-              I build performant architectures using Next.js, robust backend pipelines in NestJS, and customized Shopify discount Functions written in Rust and Node.js. Focused on performance, design precision, and scalable code.
+              I engineer performant web architectures using Next.js and React paired with robust, modular backend systems in NestJS, Node.js, and Python (FastAPI). Focused on pristine UX, clean API designs, and scalable relational databases.
             </motion.p>
 
             {/* Tech tag loop */}
@@ -200,7 +200,7 @@ export default function HeroV3() {
               variants={childVariants}
               className="flex flex-wrap gap-2.5 mb-10 max-w-md"
             >
-              {['Next.js', 'NestJS', 'PostgreSQL', 'TypeScript', 'Shopify', 'Rust'].map((tag) => (
+              {['Next.js', 'NestJS', 'PostgreSQL', 'TypeScript', 'Prisma ORM', 'FastAPI', 'Redis'].map((tag) => (
                 <span 
                   key={tag}
                   className="px-3 py-1.5 bg-white/3 border border-white/5 hover:border-white/10 rounded-lg font-mono text-[10px] font-bold text-muted-text/90 hover:text-white transition-colors"

@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Terminal, Cpu, Database, Layout, ShieldCheck, ChevronDown } from 'lucide-react';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
+import { ChevronDown, Cpu, Database, Layout, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useRef, useState } from 'react';
 
 interface TechnologyNode {
   name: string;
@@ -47,12 +47,24 @@ export default function TechStackV2() {
   // High fidelity technical constellation mapping based on user's reference mockup
   const technologies: TechnologyNode[] = [
     {
+      name: 'JavaScript',
+      category: 'frontend',
+      type: 'core',
+      experience: '4 yrs exp',
+      x: 48,
+      y: 40,
+      size: 1.4,
+      color: 'rgba(78, 196, 191, 0.4)',
+      description: 'Building interactive applications with modern ES6+ features, async patterns, and DOM manipulation. Mastering closures, prototypes, and event-driven architectures.',
+      icon: <Layout className="w-5 h-5" />,
+    },
+    {
       name: 'React',
       category: 'frontend',
       type: 'core',
-      experience: '6 yrs exp',
+      experience: '4 yrs exp',
       x: 50,
-      y: 50,
+      y: 20,
       size: 1.4,
       color: 'rgba(78, 196, 191, 0.4)',
       description: 'Architecting dynamic, responsive UI architectures using declarative component trees, customized hydration strategies, and advanced hook lifecycles.',
@@ -62,7 +74,7 @@ export default function TechStackV2() {
       name: 'TypeScript',
       category: 'frontend',
       type: 'core',
-      experience: '5 yrs exp',
+      experience: '4 yrs exp',
       x: 32,
       y: 35,
       size: 1.2,
@@ -74,7 +86,7 @@ export default function TechStackV2() {
       name: 'Node.js',
       category: 'backend',
       type: 'core',
-      experience: '5 yrs exp',
+      experience: '3 yrs exp',
       x: 68,
       y: 35,
       size: 1.2,
@@ -98,7 +110,7 @@ export default function TechStackV2() {
       name: 'PostgreSQL',
       category: 'database',
       type: 'data',
-      experience: '4 yrs exp',
+      experience: '3 yrs exp',
       x: 24,
       y: 60,
       size: 1.15,
@@ -110,7 +122,7 @@ export default function TechStackV2() {
       name: 'NestJS',
       category: 'backend',
       type: 'core',
-      experience: '4 yrs exp',
+      experience: '2 yrs exp',
       x: 82,
       y: 44,
       size: 1.1,
@@ -122,7 +134,7 @@ export default function TechStackV2() {
       name: 'GraphQL',
       category: 'tooling',
       type: 'core',
-      experience: '3 yrs exp',
+      experience: '1 yrs exp',
       x: 50,
       y: 76,
       size: 0.95,
@@ -134,7 +146,7 @@ export default function TechStackV2() {
       name: 'MongoDB',
       category: 'database',
       type: 'data',
-      experience: '3 yrs exp',
+      experience: '2 yrs exp',
       x: 34,
       y: 72,
       size: 0.95,
@@ -146,7 +158,7 @@ export default function TechStackV2() {
       name: 'Prisma',
       category: 'database',
       type: 'data',
-      experience: '3 yrs exp',
+      experience: '2 yrs exp',
       x: 74,
       y: 58,
       size: 0.9,
@@ -158,7 +170,7 @@ export default function TechStackV2() {
       name: 'Shopify',
       category: 'tooling',
       type: 'learning',
-      experience: '2 yrs exp',
+      experience: '1 yrs exp',
       x: 64,
       y: 74,
       size: 0.95,
@@ -170,7 +182,7 @@ export default function TechStackV2() {
       name: 'React Native',
       category: 'frontend',
       type: 'core',
-      experience: '3 yrs exp',
+      experience: '2 yrs exp',
       x: 13,
       y: 66,
       size: 0.9,
@@ -179,15 +191,27 @@ export default function TechStackV2() {
       icon: <Layout className="w-4 h-4" />,
     },
     {
+      name: 'Python',
+      category: 'backend',
+      type: 'learning',
+      experience: '1 yrs exp',
+      x: 76,
+      y: 78,
+      size: 0.85,
+      color: 'rgba(234, 179, 8, 0.4)',
+      description: 'Building Python automation, service logic, and backend tooling with async workflows, clean abstractions, and fast data processing patterns.',
+      icon: <Cpu className="w-4 h-4" />,
+    },
+    {
       name: 'FastAPI',
       category: 'backend',
       type: 'learning',
-      experience: '2 yrs exp',
+      experience: '1 yrs exp',
       x: 86,
       y: 68,
       size: 0.85,
       color: 'rgba(234, 179, 8, 0.4)',
-      description: 'Implementing lightweight Python microservices, leveraging asynchronous execution loops, automated Pydantic schema validation, and fast routing.',
+      description: 'Building FastAPI REST APIs with async endpoints, Pydantic validation, dependency injection, and efficient routing for scalable backend services.',
       icon: <Cpu className="w-4 h-4" />,
     }
   ];
@@ -207,7 +231,7 @@ export default function TechStackV2() {
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#10B981]/5 rounded-full blur-[120px] pointer-events-none z-0" />
 
       <Container className="relative z-10">
-        
+
         {/* Header Block with Sparkle Badge */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-6xl mx-auto mb-6 md:mb-8">
           <div className="space-y-3 text-left">
@@ -253,11 +277,10 @@ export default function TechStackV2() {
                   <button
                     key={cat}
                     onClick={() => setActiveFilter(cat)}
-                    className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
-                        : 'bg-white/3 border border-white/3 text-muted-text hover:text-[#F5F5F5] hover:bg-white/5'
-                    }`}
+                    className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${isSelected
+                      ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
+                      : 'bg-white/3 border border-white/3 text-muted-text hover:text-[#F5F5F5] hover:bg-white/5'
+                      }`}
                   >
                     {cat}
                   </button>
@@ -281,7 +304,7 @@ export default function TechStackV2() {
               </div>
             </div>
           </div>
-          
+
           {/* Subtle connecting mesh lines using SVG */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25 z-0" xmlns="http://www.w3.org/2000/svg">
             {/* Center Node (React) connected to others */}
@@ -303,7 +326,7 @@ export default function TechStackV2() {
                 />
               );
             })}
-            
+
             {/* Some manual connections for extra constellation vibe */}
             <line x1="32%" y1="35%" x2="18%" y2="42%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
             <line x1="68%" y1="35%" x2="82%" y2="44%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
@@ -373,15 +396,14 @@ export default function TechStackV2() {
                       width: `${nodeSize}px`,
                       height: `${nodeSize}px`,
                     }}
-                    className={`rounded-full border transition-all duration-300 flex flex-col items-center justify-center text-center ${
-                      isHovered
-                        ? 'border-accent bg-[#151515] scale-105 shadow-2xl shadow-accent/10'
-                        : tech.type === 'core'
+                    className={`rounded-full border transition-all duration-300 flex flex-col items-center justify-center text-center ${isHovered
+                      ? 'border-accent bg-[#151515] scale-105 shadow-2xl shadow-accent/10'
+                      : tech.type === 'core'
                         ? 'border-[#4E85BF]/25 bg-black/40 hover:border-[#4E85BF]'
                         : tech.type === 'data'
-                        ? 'border-[#10B981]/25 bg-black/40 hover:border-[#10B981]'
-                        : 'border-yellow-500/25 bg-black/40 hover:border-yellow-500'
-                    }`}
+                          ? 'border-[#10B981]/25 bg-black/40 hover:border-[#10B981]'
+                          : 'border-yellow-500/25 bg-black/40 hover:border-yellow-500'
+                      }`}
                   >
                     {/* Tiny Icon */}
                     <div className={`transition-transform duration-300 ${isHovered ? 'scale-110 text-accent' : 'text-muted-text/70'}`}>
@@ -422,13 +444,12 @@ export default function TechStackV2() {
               >
                 {/* Category-themed layout matching reference mockup */}
                 <div className="flex items-start gap-4 text-left">
-                  <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${
-                    hoveredNode.type === 'core'
-                      ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
-                      : hoveredNode.type === 'data'
+                  <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${hoveredNode.type === 'core'
+                    ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
+                    : hoveredNode.type === 'data'
                       ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
                       : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
-                  }`}>
+                    }`}>
                     {hoveredNode.icon}
                   </div>
                   <div>
@@ -471,11 +492,10 @@ export default function TechStackV2() {
                     setActiveFilter(cat);
                     setSelectedMobileTech(null); // Clear selected technology on filter change
                   }}
-                  className={`px-3 py-1.5 rounded-xl text-[9px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
-                      : 'bg-white/3 border border-white/3 text-muted-text'
-                  }`}
+                  className={`px-3 py-1.5 rounded-xl text-[9px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${isSelected
+                    ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
+                    : 'bg-white/3 border border-white/3 text-muted-text'
+                    }`}
                 >
                   {cat}
                 </button>
@@ -491,21 +511,19 @@ export default function TechStackV2() {
                 <div
                   key={tech.name}
                   onClick={() => setSelectedMobileTech(isSelected ? null : tech)}
-                  className={`p-4 rounded-2xl border transition-all duration-300 bg-black/20 ${
-                    isSelected 
-                      ? 'border-accent/40 bg-[#121212]/80 shadow-lg shadow-accent/5' 
-                      : 'border-white/5 hover:border-white/10'
-                  }`}
+                  className={`p-4 rounded-2xl border transition-all duration-300 bg-black/20 ${isSelected
+                    ? 'border-accent/40 bg-[#121212]/80 shadow-lg shadow-accent/5'
+                    : 'border-white/5 hover:border-white/10'
+                    }`}
                 >
                   <div className="flex items-center justify-between cursor-pointer select-none">
                     <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-xl border flex items-center justify-center shrink-0 ${
-                        tech.type === 'core'
-                          ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
-                          : tech.type === 'data'
+                      <div className={`p-2 rounded-xl border flex items-center justify-center shrink-0 ${tech.type === 'core'
+                        ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
+                        : tech.type === 'data'
                           ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
                           : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
-                      }`}>
+                        }`}>
                         {tech.icon}
                       </div>
                       <div className="text-left">
@@ -545,9 +563,8 @@ export default function TechStackV2() {
                           {tech.description}
                         </p>
                         <div className="flex items-center gap-1.5 mt-3 text-[9px] font-mono text-[#89AACC] uppercase font-bold">
-                          <span className={`w-1.5 h-1.5 rounded-full ${
-                            tech.type === 'core' ? 'bg-[#4E85BF]' : tech.type === 'data' ? 'bg-[#10B981]' : 'bg-yellow-500'
-                          }`} />
+                          <span className={`w-1.5 h-1.5 rounded-full ${tech.type === 'core' ? 'bg-[#4E85BF]' : tech.type === 'data' ? 'bg-[#10B981]' : 'bg-yellow-500'
+                            }`} />
                           <span>Type: <strong className="text-white">{tech.type}</strong></span>
                         </div>
                       </motion.div>

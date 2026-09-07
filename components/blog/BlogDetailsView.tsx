@@ -64,7 +64,7 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
       localStorage.setItem(`bookmark-${post.slug}`, nextVal ? 'true' : 'false');
       // Dispatch custom event for listing page sync
       window.dispatchEvent(new Event('storage'));
-    } catch {}
+    } catch { }
   };
 
   const handleShare = async () => {
@@ -78,14 +78,14 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
           url,
         });
         return;
-      } catch {}
+      } catch { }
     }
 
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
-    } catch {}
+    } catch { }
   };
 
   if (!post) {
@@ -164,11 +164,10 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
               {/* Font Size Toggle */}
               <button
                 onClick={() => setTextSize(textSize === 'normal' ? 'large' : 'normal')}
-                className={`px-3 py-1.5 rounded-full text-[10px] font-mono transition-all cursor-pointer border ${
-                  textSize === 'large'
+                className={`px-3 py-1.5 rounded-full text-[10px] font-mono transition-all cursor-pointer border ${textSize === 'large'
                     ? 'bg-accent/15 border-accent/40 text-accent'
                     : 'bg-white/3 border-white/5 text-muted-text hover:text-white'
-                }`}
+                  }`}
                 title="Toggle reading text size"
               >
                 Aa {textSize === 'large' ? '+2' : ''}
@@ -177,11 +176,10 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
               {/* Bookmark button */}
               <button
                 onClick={toggleBookmark}
-                className={`p-2 rounded-full border transition-all cursor-pointer ${
-                  bookmarked
+                className={`p-2 rounded-full border transition-all cursor-pointer ${bookmarked
                     ? 'bg-accent/20 border-accent text-accent'
                     : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
-                }`}
+                  }`}
                 title={bookmarked ? 'Saved to bookmarks' : 'Save article'}
                 aria-label="Bookmark article"
               >
@@ -191,11 +189,10 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
               {/* Share button */}
               <button
                 onClick={handleShare}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-mono transition-all cursor-pointer border ${
-                  copied
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-mono transition-all cursor-pointer border ${copied
                     ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
                     : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
-                }`}
+                  }`}
                 title="Share article"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
@@ -205,7 +202,7 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
           </div>
 
           {/* Article Hero Banner */}
-          <div className="max-w-4xl mx-auto mb-12 space-y-6">
+          <div className=" mx-auto mb-12 space-y-6">
             {/* Metadata Badges */}
             <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
               {post.category && (
@@ -298,248 +295,246 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
             )}
           </div>
 
-        {/* Two-Column Grid: Article Content (8 cols) + Sticky Sidebar (4 cols) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
-          {/* Main Article Body (8 cols) */}
-          <div className={`lg:col-span-8 bg-[#0f0f0f]/60 border border-white/5 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm ${
-            textSize === 'large' ? 'text-lg' : 'text-base'
-          }`}>
-            {/* Rendered Markdown with Developer Code Blocks */}
-            <MarkdownRenderer content={post.content || ''} />
+          {/* Two-Column Grid: Article Content (8 cols) + Sticky Sidebar (4 cols) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-            {/* Tags footer */}
-            {post.tags && post.tags.length > 0 && (
-              <div className="mt-12 pt-8 border-t border-white/5 flex flex-wrap items-center gap-2">
-                <span className="font-mono text-xs text-muted-text mr-2 uppercase tracking-wider font-bold">
-                  TAGS:
-                </span>
-                {post.tags.map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`${basePath}?tag=${encodeURIComponent(tag)}`}
-                    className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-accent/20 border border-white/10 hover:border-accent/40 text-[11px] font-mono text-[#89AACC] hover:text-white transition-all cursor-pointer shadow-sm group"
-                    title={`Filter articles by tag: #${tag}`}
-                  >
-                    <span className="text-accent/70 group-hover:text-accent font-bold">#</span>
-                    <span>{tag}</span>
-                  </Link>
-                ))}
-              </div>
-            )}
+            {/* Main Article Body (8 cols) */}
+            <div className={`lg:col-span-8 bg-[#0f0f0f]/60 border border-white/5 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm ${textSize === 'large' ? 'text-lg' : 'text-base'
+              }`}>
+              {/* Rendered Markdown with Developer Code Blocks */}
+              <MarkdownRenderer content={post.content || ''} />
 
-            {/* "Was this helpful?" Reaction feedback */}
-            <div className="mt-10 p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-accent" />
-                <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-                  Did you find this architecture breakdown useful?
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                {[
-                  { label: 'Insightful', icon: <ThumbsUp className="w-3.5 h-3.5" /> },
-                  { label: 'Practical', icon: <Code2 className="w-3.5 h-3.5" /> },
-                  { label: 'Must-Save', icon: <Flame className="w-3.5 h-3.5" /> },
-                ].map((item) => (
-                  <button
-                    key={item.label}
-                    onClick={() => setReaction(item.label)}
-                    className={`px-3 py-1.5 rounded-xl text-[11px] font-mono flex items-center gap-1.5 transition-all cursor-pointer border ${
-                      reaction === item.label
-                        ? 'bg-accent/20 border-accent text-accent font-bold'
-                        : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Next / Previous Article Switcher */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10 pt-8 border-t border-white/5">
-              {prevPost ? (
-                <Link
-                  href={`${basePath}/${prevPost.slug}`}
-                  className="group p-4 rounded-2xl bg-white/2 hover:bg-white/5 border border-white/5 hover:border-white/10 transition-all block"
-                >
-                  <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-muted-text group-hover:text-accent mb-1">
-                    <ChevronLeft className="w-3.5 h-3.5" /> Previous Log
-                  </div>
-                  <h5 className="text-xs font-semibold text-white group-hover:text-accent transition-colors line-clamp-1 font-display">
-                    {prevPost.title}
-                  </h5>
-                </Link>
-              ) : <div />}
-
-              {nextPost && (
-                <Link
-                  href={`${basePath}/${nextPost.slug}`}
-                  className="group p-4 rounded-2xl bg-white/2 hover:bg-white/5 border border-white/5 hover:border-white/10 transition-all block text-right sm:text-right"
-                >
-                  <div className="flex items-center justify-end gap-1 text-[10px] font-mono uppercase tracking-widest text-muted-text group-hover:text-accent mb-1">
-                    Next Log <ChevronRight className="w-3.5 h-3.5" />
-                  </div>
-                  <h5 className="text-xs font-semibold text-white group-hover:text-accent transition-colors line-clamp-1 font-display">
-                    {nextPost.title}
-                  </h5>
-                </Link>
+              {/* Tags footer */}
+              {post.tags && post.tags.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-white/5 flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-xs text-muted-text mr-2 uppercase tracking-wider font-bold">
+                    TAGS:
+                  </span>
+                  {post.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`${basePath}?tag=${encodeURIComponent(tag)}`}
+                      className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-accent/20 border border-white/10 hover:border-accent/40 text-[11px] font-mono text-[#89AACC] hover:text-white transition-all cursor-pointer shadow-sm group"
+                      title={`Filter articles by tag: #${tag}`}
+                    >
+                      <span className="text-accent/70 group-hover:text-accent font-bold">#</span>
+                      <span>{tag}</span>
+                    </Link>
+                  ))}
+                </div>
               )}
-            </div>
-          </div>
 
-          {/* Sticky Sidebar (4 cols) */}
-          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-28">
-            {/* Table of Contents */}
-            <TableOfContents content={post.content || ''} />
+              {/* "Was this helpful?" Reaction feedback */}
+              <div className="mt-10 p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                  <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+                    Did you find this architecture breakdown useful?
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {[
+                    { label: 'Insightful', icon: <ThumbsUp className="w-3.5 h-3.5" /> },
+                    { label: 'Practical', icon: <Code2 className="w-3.5 h-3.5" /> },
+                    { label: 'Must-Save', icon: <Flame className="w-3.5 h-3.5" /> },
+                  ].map((item) => (
+                    <button
+                      key={item.label}
+                      onClick={() => setReaction(item.label)}
+                      className={`px-3 py-1.5 rounded-xl text-[11px] font-mono flex items-center gap-1.5 transition-all cursor-pointer border ${reaction === item.label
+                          ? 'bg-accent/20 border-accent text-accent font-bold'
+                          : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
+                        }`}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-            {/* Article Quick Specs */}
-            <div className="bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-muted-text font-bold block pb-2 border-b border-white/5">
-                Technical Specifications
-              </span>
-              <div className="space-y-2 text-xs font-mono">
-                <div className="flex justify-between items-center text-muted-text">
-                  <span>Domain:</span>
-                  <span className="text-[#F5F5F5] font-semibold">{post.category || 'Engineering'}</span>
-                </div>
-                <div className="flex justify-between items-center text-muted-text">
-                  <span>Audience:</span>
-                  <span className="text-[#89AACC]">Mid / Senior Engineers</span>
-                </div>
-                <div className="flex justify-between items-center text-muted-text">
-                  <span>Read Cadence:</span>
-                  <span className="text-[#F5F5F5]">{post.readTime}</span>
-                </div>
-                <div className="flex justify-between items-center text-muted-text">
-                  <span>License:</span>
-                  <span className="text-white/60">MIT / Open Knowledge</span>
-                </div>
-                {post.tags && post.tags.length > 0 && (
-                  <div className="pt-2 border-t border-white/5 space-y-1.5">
-                    <span className="text-muted-text text-[10px] uppercase tracking-wider font-semibold block">
-                      Indexed Topics:
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {post.tags.map((t) => (
-                        <Link
-                          key={t}
-                          href={`${basePath}?tag=${encodeURIComponent(t)}`}
-                          className="px-2 py-0.5 rounded bg-white/5 hover:bg-accent/20 border border-white/5 hover:border-accent/30 text-[10px] font-mono text-[#89AACC] hover:text-white transition-all cursor-pointer"
-                          title={`Filter by tag #${t}`}
-                        >
-                          #{t}
-                        </Link>
-                      ))}
+              {/* Next / Previous Article Switcher */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10 pt-8 border-t border-white/5">
+                {prevPost ? (
+                  <Link
+                    href={`${basePath}/${prevPost.slug}`}
+                    className="group p-4 rounded-2xl bg-white/2 hover:bg-white/5 border border-white/5 hover:border-white/10 transition-all block"
+                  >
+                    <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-muted-text group-hover:text-accent mb-1">
+                      <ChevronLeft className="w-3.5 h-3.5" /> Previous Log
                     </div>
-                  </div>
+                    <h5 className="text-xs font-semibold text-white group-hover:text-accent transition-colors line-clamp-1 font-display">
+                      {prevPost.title}
+                    </h5>
+                  </Link>
+                ) : <div />}
+
+                {nextPost && (
+                  <Link
+                    href={`${basePath}/${nextPost.slug}`}
+                    className="group p-4 rounded-2xl bg-white/2 hover:bg-white/5 border border-white/5 hover:border-white/10 transition-all block text-right sm:text-right"
+                  >
+                    <div className="flex items-center justify-end gap-1 text-[10px] font-mono uppercase tracking-widest text-muted-text group-hover:text-accent mb-1">
+                      Next Log <ChevronRight className="w-3.5 h-3.5" />
+                    </div>
+                    <h5 className="text-xs font-semibold text-white group-hover:text-accent transition-colors line-clamp-1 font-display">
+                      {nextPost.title}
+                    </h5>
+                  </Link>
                 )}
               </div>
             </div>
 
-            {/* Author Card */}
-            <div className="bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-4">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-muted-text font-bold block pb-2 border-b border-white/5">
-                Written By
-              </span>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center font-bold text-accent font-mono">
-                  KS
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-white font-display">
-                    {personalInfo.name}
-                  </h4>
-                  <p className="text-[11px] text-muted-text">
-                    Full Stack Developer
-                  </p>
-                </div>
-              </div>
-              <p className="text-xs text-muted-text leading-relaxed font-sans">
-                Passionate about high-performance React architectures, WebAssembly on the edge, and zero-downtime distributed deployments.
-              </p>
-              <div className="flex items-center gap-2 pt-2 border-t border-white/5">
-                <a
-                  href="https://github.com/kazi331"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-mono flex items-center justify-center gap-1.5 transition-all text-white"
-                >
-                  <Github className="w-3.5 h-3.5" />
-                  <span>GitHub</span>
-                </a>
-                <a
-                  href={`mailto:${personalInfo.email}?subject=Feedback on article: ${post.title}`}
-                  className="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-mono flex items-center justify-center gap-1.5 transition-all text-white"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>Discuss</span>
-                </a>
-              </div>
-            </div>
+            {/* Sticky Sidebar (4 cols) */}
+            <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-28">
+              {/* Table of Contents */}
+              <TableOfContents content={post.content || ''} />
 
-          </div>
-
-        </div>
-
-        {/* Related Articles Section */}
-        {relatedPosts.length > 0 && (
-          <div className="mt-20 pt-12 border-t border-white/5">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <span className="font-mono text-xs uppercase tracking-widest text-accent font-bold block mb-1">
-                  Further Reading
+              {/* Article Quick Specs */}
+              <div className="bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-text font-bold block pb-2 border-b border-white/5">
+                  Technical Specifications
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-bold font-display text-white">
-                  Related Technical Logs
-                </h3>
-              </div>
-              <Link
-                href={basePath}
-                className="hidden sm:inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-text hover:text-accent transition-colors"
-              >
-                Browse All <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {relatedPosts.map((related, idx) => (
-                <Link
-                  key={related.slug}
-                  href={`${basePath}/${related.slug}`}
-                  className="group p-6 sm:p-7 rounded-3xl bg-[#121212]/80 border border-white/5 hover:border-accent/40 transition-all duration-300 flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-[11px] font-mono text-muted-text mb-3">
-                      <span>{related.date}</span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/5 text-[10px]">
-                        {related.readTime}
+                <div className="space-y-2 text-xs font-mono">
+                  <div className="flex justify-between items-center text-muted-text">
+                    <span>Domain:</span>
+                    <span className="text-[#F5F5F5] font-semibold">{post.category || 'Engineering'}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-muted-text">
+                    <span>Audience:</span>
+                    <span className="text-[#89AACC]">Mid / Senior Engineers</span>
+                  </div>
+                  <div className="flex justify-between items-center text-muted-text">
+                    <span>Read Cadence:</span>
+                    <span className="text-[#F5F5F5]">{post.readTime}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-muted-text">
+                    <span>License:</span>
+                    <span className="text-white/60">MIT / Open Knowledge</span>
+                  </div>
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="pt-2 border-t border-white/5 space-y-1.5">
+                      <span className="text-muted-text text-[10px] uppercase tracking-wider font-semibold block">
+                        Indexed Topics:
                       </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {post.tags.map((t) => (
+                          <Link
+                            key={t}
+                            href={`${basePath}?tag=${encodeURIComponent(t)}`}
+                            className="px-2 py-0.5 rounded bg-white/5 hover:bg-accent/20 border border-white/5 hover:border-accent/30 text-[10px] font-mono text-[#89AACC] hover:text-white transition-all cursor-pointer"
+                            title={`Filter by tag #${t}`}
+                          >
+                            #{t}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                    <h4 className="text-lg font-bold font-display text-white group-hover:text-accent transition-colors mb-2 line-clamp-2">
-                      {related.title}
+                  )}
+                </div>
+              </div>
+
+              {/* Author Card */}
+              <div className="bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-4">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-text font-bold block pb-2 border-b border-white/5">
+                  Written By
+                </span>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center font-bold text-accent font-mono">
+                    KS
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-white font-display">
+                      {personalInfo.name}
                     </h4>
-                    <p className="text-xs text-muted-text line-clamp-2 leading-relaxed font-sans">
-                      {related.description}
+                    <p className="text-[11px] text-muted-text">
+                      Full Stack Developer
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 text-xs font-mono text-accent pt-4 mt-4 border-t border-white/5 uppercase tracking-wider font-bold">
-                    <span>Read Case Study</span>
-                    <ArrowLeft className="w-3.5 h-3.5 rotate-180 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              ))}
+                </div>
+                <p className="text-xs text-muted-text leading-relaxed font-sans">
+                  Passionate about high-performance React architectures, WebAssembly on the edge, and zero-downtime distributed deployments.
+                </p>
+                <div className="flex items-center gap-2 pt-2 border-t border-white/5">
+                  <a
+                    href="https://github.com/kazi331"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-mono flex items-center justify-center gap-1.5 transition-all text-white"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    <span>GitHub</span>
+                  </a>
+                  <a
+                    href={`mailto:${personalInfo.email}?subject=Feedback on article: ${post.title}`}
+                    className="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-mono flex items-center justify-center gap-1.5 transition-all text-white"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>Discuss</span>
+                  </a>
+                </div>
+              </div>
+
             </div>
+
           </div>
-        )}
 
-      </Container>
-    </main>
+          {/* Related Articles Section */}
+          {relatedPosts.length > 0 && (
+            <div className="mt-20 pt-12 border-t border-white/5">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <span className="font-mono text-xs uppercase tracking-widest text-accent font-bold block mb-1">
+                    Further Reading
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-bold font-display text-white">
+                    Related Technical Logs
+                  </h3>
+                </div>
+                <Link
+                  href={basePath}
+                  className="hidden sm:inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-text hover:text-accent transition-colors"
+                >
+                  Browse All <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
+                </Link>
+              </div>
 
-    {/* Footer for single blog page */}
-    <Footer />
-  </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {relatedPosts.map((related, idx) => (
+                  <Link
+                    key={related.slug}
+                    href={`${basePath}/${related.slug}`}
+                    className="group p-6 sm:p-7 rounded-3xl bg-[#121212]/80 border border-white/5 hover:border-accent/40 transition-all duration-300 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[11px] font-mono text-muted-text mb-3">
+                        <span>{related.date}</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-white/5 text-[10px]">
+                          {related.readTime}
+                        </span>
+                      </div>
+                      <h4 className="text-lg font-bold font-display text-white group-hover:text-accent transition-colors mb-2 line-clamp-2">
+                        {related.title}
+                      </h4>
+                      <p className="text-xs text-muted-text line-clamp-2 leading-relaxed font-sans">
+                        {related.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs font-mono text-accent pt-4 mt-4 border-t border-white/5 uppercase tracking-wider font-bold">
+                      <span>Read Case Study</span>
+                      <ArrowLeft className="w-3.5 h-3.5 rotate-180 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </Container>
+      </main>
+
+      {/* Footer for single blog page */}
+      <Footer />
+    </div>
   );
 }

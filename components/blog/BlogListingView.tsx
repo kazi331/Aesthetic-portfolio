@@ -1,33 +1,30 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'motion/react';
+import Footer from '@/components/layout/Footer';
+import Navbar from '@/components/layout/Navbar';
+import Container from '@/components/shared/Container';
+import { blogPosts } from '@/lib/data';
 import {
-  Search,
+  ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
+  Bookmark,
+  BookOpen,
   Calendar,
   Clock,
-  Bookmark,
-  Sparkles,
+  Home,
+  Layers,
   LayoutGrid,
   List,
-  X,
-  BookOpen,
-  Layers,
-  ArrowUpRight,
-  CheckCircle2,
-  ArrowLeft,
+  Search,
+  Sparkles,
   Tag,
-  Home
+  X
 } from 'lucide-react';
-import { BlogPost } from '@/types/portfolio';
-import { blogPosts } from '@/lib/data';
-import Container from '@/components/shared/Container';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useMemo, useState } from 'react';
 
 interface BlogListingViewProps {
   basePath?: string; // '/blog' or '/articles'
@@ -40,7 +37,7 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [savedOnly, setSavedOnly] = useState(false);
   const [savedSlugs, setSavedSlugs] = useState<string[]>(() => {
     if (typeof window === 'undefined') return [];
@@ -67,7 +64,7 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
           }
         });
         setSavedSlugs(saved);
-      } catch {}
+      } catch { }
     };
 
     window.addEventListener('storage', handleStorageChange);
@@ -81,7 +78,7 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
       const isSaved = savedSlugs.includes(slug);
       localStorage.setItem(`bookmark-${slug}`, isSaved ? 'false' : 'true');
       setSavedSlugs((prev) => (isSaved ? prev.filter((s) => s !== slug) : [...prev, slug]));
-    } catch {}
+    } catch { }
   };
 
   // Categories extraction
@@ -93,9 +90,16 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
     return ['All', ...Array.from(set)];
   }, []);
 
+  // Featured post (always available)
+  const featuredPost = useMemo(() => {
+    return blogPosts.find((p) => p.featured) || blogPosts[0];
+  }, []);
+
   // Filter posts (category, search, saved, AND tag)
   const filteredPosts = useMemo(() => {
     return blogPosts.filter((post) => {
+      if (post.slug === featuredPost?.slug) return false;
+
       const matchesSearch =
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -115,12 +119,7 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
 
       return matchesSearch && matchesCategory && matchesTag && matchesSaved;
     });
-  }, [searchQuery, selectedCategory, selectedTag, savedOnly, savedSlugs]);
-
-  // Featured post (always available)
-  const featuredPost = useMemo(() => {
-    return blogPosts.find((p) => p.featured) || blogPosts[0];
-  }, []);
+  }, [searchQuery, selectedCategory, selectedTag, savedOnly, savedSlugs, featuredPost]);
 
   const totalReadingTime = useMemo(() => {
     return blogPosts.reduce((acc, p) => {
@@ -333,11 +332,10 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
                 {/* Saved Articles Toggle */}
                 <button
                   onClick={() => setSavedOnly(!savedOnly)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-mono flex items-center gap-1.5 transition-all cursor-pointer border ${
-                    savedOnly
-                      ? 'bg-accent/20 border-accent text-accent font-bold'
-                      : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
-                  }`}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-mono flex items-center gap-1.5 transition-all cursor-pointer border ${savedOnly
+                    ? 'bg-accent/20 border-accent text-accent font-bold'
+                    : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
+                    }`}
                 >
                   <Bookmark className={`w-3.5 h-3.5 ${savedOnly ? 'fill-accent' : ''}`} />
                   <span>Saved ({savedSlugs.length})</span>
@@ -347,11 +345,10 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
                 <div className="flex items-center p-1 rounded-xl bg-white/3 border border-white/5">
                   <button
                     onClick={() => setViewMode('grid')}
-                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                      viewMode === 'grid'
-                        ? 'bg-white/10 text-white shadow-sm'
-                        : 'text-muted-text hover:text-white'
-                    }`}
+                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'grid'
+                      ? 'bg-white/10 text-white shadow-sm'
+                      : 'text-muted-text hover:text-white'
+                      }`}
                     title="Grid View"
                     aria-label="Grid View"
                   >
@@ -359,11 +356,10 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
-                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                      viewMode === 'list'
-                        ? 'bg-white/10 text-white shadow-sm'
-                        : 'text-muted-text hover:text-white'
-                    }`}
+                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'list'
+                      ? 'bg-white/10 text-white shadow-sm'
+                      : 'text-muted-text hover:text-white'
+                      }`}
                     title="Dense List View"
                     aria-label="Dense List View"
                   >
@@ -384,11 +380,10 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-3.5 py-1.5 rounded-xl text-[11px] font-mono font-medium tracking-wide transition-all cursor-pointer border ${
-                      isSelected
-                        ? 'bg-[#162a45] text-accent border-accent/40 shadow-sm'
-                        : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
-                    }`}
+                    className={`px-3.5 py-1.5 rounded-xl text-[11px] font-mono font-medium tracking-wide transition-all cursor-pointer border ${isSelected
+                      ? 'bg-[#162a45] text-accent border-accent/40 shadow-sm'
+                      : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
+                      }`}
                   >
                     {category}
                   </button>
@@ -447,14 +442,14 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
 
           {/* Posts Grid View */}
           {viewMode === 'grid' && filteredPosts.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div className="columns-1 md:columns-2 [column-gap:1.5rem] lg:[column-gap:2rem]">
               {filteredPosts.map((post) => {
                 const isSaved = savedSlugs.includes(post.slug);
                 return (
                   <Link
                     key={post.slug}
                     href={`${basePath}/${post.slug}`}
-                    className="group relative rounded-[28px] bg-[#121212] border border-white/5 hover:border-accent/40 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 shadow-xl cursor-pointer"
+                    className="group relative mb-6 lg:mb-8 break-inside-avoid rounded-[28px] bg-[#121212] border border-white/5 hover:border-accent/40 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 shadow-xl cursor-pointer"
                   >
                     <div>
                       {/* Optional Cover Photo on Card */}
@@ -492,11 +487,10 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
                           <button
                             type="button"
                             onClick={(e) => toggleBookmark(e, post.slug)}
-                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
-                              isSaved
-                                ? 'bg-accent/20 border-accent/40 text-accent'
-                                : 'bg-white/2 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
-                            }`}
+                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${isSaved
+                              ? 'bg-accent/20 border-accent/40 text-accent'
+                              : 'bg-white/2 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
+                              }`}
                             title={isSaved ? 'Remove bookmark' : 'Bookmark article'}
                           >
                             <Bookmark className={`w-3 h-3 ${isSaved ? 'fill-accent' : ''}`} />
@@ -527,11 +521,10 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
                               e.stopPropagation();
                               router.push(`${basePath}?tag=${encodeURIComponent(t)}`);
                             }}
-                            className={`px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${
-                              selectedTag?.toLowerCase() === t.toLowerCase()
-                                ? 'bg-accent text-black font-bold'
-                                : 'bg-white/5 text-[#89AACC] hover:bg-accent/20 hover:text-white'
-                            }`}
+                            className={`px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${selectedTag?.toLowerCase() === t.toLowerCase()
+                              ? 'bg-accent text-black font-bold'
+                              : 'bg-white/5 text-[#89AACC] hover:bg-accent/20 hover:text-white'
+                              }`}
                             title={`Filter articles by #${t}`}
                           >
                             #{t}
@@ -585,11 +578,10 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
                       <button
                         type="button"
                         onClick={(e) => toggleBookmark(e, post.slug)}
-                        className={`p-2 rounded-xl border transition-all cursor-pointer ${
-                          isSaved
-                            ? 'bg-accent/20 border-accent/40 text-accent'
-                            : 'bg-white/3 border-white/5 text-muted-text hover:text-white'
-                        }`}
+                        className={`p-2 rounded-xl border transition-all cursor-pointer ${isSaved
+                          ? 'bg-accent/20 border-accent/40 text-accent'
+                          : 'bg-white/3 border-white/5 text-muted-text hover:text-white'
+                          }`}
                       >
                         <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-accent' : ''}`} />
                       </button>

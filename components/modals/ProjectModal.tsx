@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
-import { X, ExternalLink, Github, CheckCircle2, Layers, Sparkles } from 'lucide-react';
 import { Project } from '@/types/portfolio';
+import { CheckCircle2, ExternalLink, Github, Layers, Sparkles, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import Image from 'next/image';
+import { useEffect } from 'react';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -24,7 +24,7 @@ export default function ProjectModal({ project, isOpen, onClose, index = 0 }: Pr
 
     const originalBodyOverflow = document.body.style.overflow;
     const originalHtmlOverflow = document.documentElement.style.overflow;
-    
+
     // Rigorously block background scrolling on both body and html
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
@@ -56,6 +56,7 @@ export default function ProjectModal({ project, isOpen, onClose, index = 0 }: Pr
       {isOpen && (
         <div
           id="project-modal-backdrop"
+          data-lenis-prevent
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-8"
         >
           {/* Backdrop Blur Overlay */}
@@ -78,9 +79,9 @@ export default function ProjectModal({ project, isOpen, onClose, index = 0 }: Pr
             className="relative z-10 w-full max-w-5xl max-h-[92vh] bg-[#0c0c0c] border border-white/10 rounded-[28px] sm:rounded-[36px] shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Scrollable Content wrapper */}
-            <div className="overflow-y-auto p-5 sm:p-8 lg:p-10">
+            <div className="overflow-y-auto scrollbar-none p-5 sm:p-8 lg:p-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-start">
-                
+
                 {/* Left Column: Featured Project Image */}
                 <div className="lg:col-span-5 relative w-full h-[280px] sm:h-[360px] lg:h-[520px] rounded-[22px] sm:rounded-[28px] overflow-hidden border border-white/10 shadow-xl bg-black/40">
                   {project.image ? (

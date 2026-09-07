@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import { projects } from '@/lib/data';
-import { Project } from '@/types/portfolio';
+import AnimatedButton from '@/components/buttons/AnimatedButton';
+import ProjectCard from '@/components/cards/ProjectCard';
+import ProjectModal from '@/components/modals/ProjectModal';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
 import SectionHeading from '@/components/shared/SectionHeading';
-import ProjectCard from '@/components/cards/ProjectCard';
-import ProjectModal from '@/components/modals/ProjectModal';
-import AnimatedButton from '@/components/buttons/AnimatedButton';
+import { projects } from '@/lib/data';
+import { Project } from '@/types/portfolio';
+import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 
 export default function FeaturedProjects() {
   // Get featured projects
@@ -24,7 +24,7 @@ export default function FeaturedProjects() {
     <Section id="featured-projects" className="bg-[#090909]">
       <Container>
         <SectionHeading
-          title="Projects"
+          title="Featured Projects"
           subtitle="Selected Works"
           description="A close look at some of the highly modular backend nodes, fluid interactive layouts, and high-performance caching applications I have shipped."
         />

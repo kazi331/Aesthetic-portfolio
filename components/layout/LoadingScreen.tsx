@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -37,7 +37,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 bg-[#4E85BF] rounded-full animate-pulse" />
           <span className="font-bold tracking-tighter text-base text-primary-text font-sans uppercase">
-            AR.01 // SYSTEM BOOT
+            KS.01 // SYSTEM BOOT
           </span>
         </div>
 

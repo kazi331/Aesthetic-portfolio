@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'motion/react';
-import { Plus, ArrowUpRight, Github, Sparkles } from 'lucide-react';
 import { Project } from '@/types/portfolio';
+import { ArrowUpRight, Github, Plus, Sparkles } from 'lucide-react';
+import { motion } from 'motion/react';
+import Image from 'next/image';
 
 interface ProjectCardProps {
   project: Project;
@@ -95,9 +94,9 @@ export default function ProjectCard({ project, index, onSelect }: ProjectCardPro
 
           {/* Plus Icon - 3rd to appear with glow */}
           <div className="relative ml-1 transition-all duration-300 ease-out opacity-0 translate-y-2 scale-90 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:pointer-events-auto delay-200">
-            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#8b5cf6]/70 blur-[5px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="w-11 h-11 rounded-full bg-white/20 group-hover:bg-white/30 backdrop-blur-md border border-white/25 group-hover:border-white/40 flex items-center justify-center text-white shadow-xl transition-all duration-300 transform group-hover:scale-105 group-hover:rotate-90">
-              <Plus className="w-5 h-5 text-white stroke-[2.5]" />
+            {/* <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#8b5cf6]/70 blur-[5px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
+            <div className="w-10 h-10 rounded-full bg-white/20 group-hover:bg-white/30 backdrop-blur-md border border-white/25 group-hover:border-white/40 flex items-center justify-center text-white shadow-xl transition-all duration-300 transform group-hover:scale-105 group-hover:rotate-90">
+              <Plus className="w-4 h-4 text-white stroke-[2.5]" />
             </div>
           </div>
         </div>

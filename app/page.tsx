@@ -1,24 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
-import { AnimatePresence } from 'motion/react';
+import Footer from '@/components/layout/Footer';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 import Navbar from '@/components/layout/Navbar';
-import Hero from '@/components/sections/Hero';
-import HeroV2 from '@/components/sections/HeroV2';
-import HeroV3 from '@/components/sections/HeroV3';
-import Stats from '@/components/sections/Stats';
-import FeaturedProjects from '@/components/sections/FeaturedProjects';
-import TechStack from '@/components/sections/TechStack';
-import TechStackV2 from '@/components/sections/TechStackV2';
-import Experience from '@/components/sections/Experience';
-import ExperienceV2 from '@/components/sections/ExperienceV2';
-import Services from '@/components/sections/Services';
-import Testimonials from '@/components/sections/Testimonials';
-import RecentBlog from '@/components/sections/RecentBlog';
-import GithubPreview from '@/components/sections/GithubPreview';
 import ContactCTA from '@/components/sections/ContactCTA';
-import Footer from '@/components/layout/Footer';
+import ExperienceV2 from '@/components/sections/ExperienceV2';
+import FeaturedProjects from '@/components/sections/FeaturedProjects';
+import GithubPreview from '@/components/sections/GithubPreview';
+import HeroV3 from '@/components/sections/HeroV3';
+import RecentBlog from '@/components/sections/RecentBlog';
+import Services from '@/components/sections/Services';
+import Stats from '@/components/sections/Stats';
+import TechStackV2 from '@/components/sections/TechStackV2';
+import Testimonials from '@/components/sections/Testimonials';
+import { AnimatePresence } from 'motion/react';
+import { useState } from 'react';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);

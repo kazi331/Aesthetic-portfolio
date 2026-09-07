@@ -2,25 +2,33 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { personalInfo } from '@/lib/data';
 
 const navItems = [
-  { label: 'Home', id: 'hero' },
-  { label: 'Projects', id: 'featured-projects' },
-  { label: 'Stack', id: 'tech-stack' },
-  { label: 'Journey', id: 'experience' },
-  { label: 'Services', id: 'services' },
-  { label: 'Reviews', id: 'testimonials' },
+  { label: 'Home', id: 'hero', path: '/' },
+  { label: 'Projects', id: 'featured-projects', path: '/#featured-projects' },
+  { label: 'Stack', id: 'tech-stack', path: '/#tech-stack' },
+  { label: 'Journey', id: 'experience', path: '/#experience' },
+  { label: 'Blog', id: 'recent-blog', path: '/blog' },
+  { label: 'Services', id: 'services', path: '/#services' },
+  { label: 'Reviews', id: 'testimonials', path: '/#testimonials' },
 ];
 
 export default function Navbar() {
-  const [active, setActive] = useState('hero');
+  const pathname = usePathname();
+  const router = useRouter();
+  const isBlogPage = pathname.startsWith('/blog') || pathname.startsWith('/articles');
+
+  const [active, setActive] = useState(() => (isBlogPage ? 'recent-blog' : 'hero'));
   const [isOpen, setIsOpen] = useState(false);
 
-  // Simple scroll spy to update active item
+  // Simple scroll spy to update active item on home page
   useEffect(() => {
+    if (isBlogPage) return;
+
     const handleScroll = () => {
       const scrollPos = window.scrollY + 180;
       for (const item of navItems) {
@@ -37,13 +45,30 @@ export default function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isBlogPage]);
 
-  const handleScrollTo = (id: string) => {
+  const handleScrollTo = (item: (typeof navItems)[number]) => {
     setIsOpen(false);
-    const el = document.getElementById(id);
+
+    if (item.path === '/blog') {
+      if (!isBlogPage) {
+        router.push('/blog');
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (isBlogPage) {
+      router.push(item.path || `/#${item.id}`);
+      return;
+    }
+
+    const el = document.getElementById(item.id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
+    } else if (item.path) {
+      router.push(item.path);
     }
   };
 
@@ -54,7 +79,13 @@ export default function Navbar() {
         <div
           id="navbar-logo"
           className="flex items-center gap-2 cursor-pointer shrink-0"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            if (pathname !== '/') {
+              router.push('/');
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
         >
           <div className="w-2.5 h-2.5 bg-[#4E85BF] rounded-full" />
           <span className="font-bold tracking-tighter text-xs sm:text-sm text-[#F5F5F5]">KS.01</span>
@@ -69,7 +100,7 @@ export default function Navbar() {
             return (
               <li
                 key={item.id}
-                onClick={() => handleScrollTo(item.id)}
+                onClick={() => handleScrollTo(item)}
                 className={`cursor-pointer transition-colors duration-300 ${
                   isSelected ? 'text-[#4E85BF]' : 'text-[#F5F5F5]/70 hover:text-[#F5F5F5]'
                 }`}
@@ -122,7 +153,7 @@ export default function Navbar() {
               return (
                 <button
                   key={item.id}
-                  onClick={() => handleScrollTo(item.id)}
+                  onClick={() => handleScrollTo(item)}
                   className={`w-full text-left font-mono font-bold uppercase tracking-wider text-xs py-2 px-3 rounded-lg transition-all ${
                     isSelected
                       ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'

@@ -209,7 +209,7 @@ export default function TechStackV2() {
       <Container className="relative z-10">
         
         {/* Header Block with Sparkle Badge */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-6xl mx-auto mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-6xl mx-auto mb-6 md:mb-8">
           <div className="space-y-3 text-left">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full" />
@@ -238,8 +238,49 @@ export default function TechStackV2() {
         <div
           ref={containerRef}
           onMouseMove={handleMouseMove}
-          className="hidden md:flex relative w-full min-h-[560px] md:min-h-[640px] bg-black/20 border border-white/5 rounded-[40px] p-6 backdrop-blur-sm overflow-hidden flex-col justify-between"
+          className="hidden md:flex relative w-full min-h-[560px] md:min-h-[640px] bg-black/20 border border-white/5 rounded-[40px] p-6 backdrop-blur-sm overflow-hidden flex-col"
         >
+          {/* Top Controls row: Filter Pills on left, Legend Dots on right (Moved inside at the top) */}
+          <div id="tech-stack-controls" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/5 relative z-20">
+            {/* Filter bar */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[10px] uppercase text-muted-text/80 tracking-widest font-bold mr-2">
+                FILTER:
+              </span>
+              {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
+                const isSelected = activeFilter === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveFilter(cat)}
+                    className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
+                        : 'bg-white/3 border border-white/3 text-muted-text hover:text-[#F5F5F5] hover:bg-white/5'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Legend Indicators */}
+            <div className="flex items-center gap-5">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#4E85BF]" />
+                <span className="font-sans text-[11px] text-muted-text font-medium">Core</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                <span className="font-sans text-[11px] text-muted-text font-medium">Data</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-yellow-500" />
+                <span className="font-sans text-[11px] text-muted-text font-medium">Learning</span>
+              </div>
+            </div>
+          </div>
           
           {/* Subtle connecting mesh lines using SVG */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25 z-0" xmlns="http://www.w3.org/2000/svg">
@@ -411,51 +452,6 @@ export default function TechStackV2() {
               </motion.div>
             )}
           </AnimatePresence>
-
-          <div className="h-20" /> {/* Spacer for nodes */}
-
-          {/* Bottom Controls row: Filter Pills on left, Legend Dots on right */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-6 border-t border-white/5 relative z-20">
-            {/* Filter bar */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-[10px] uppercase text-muted-text/80 tracking-widest font-bold mr-2">
-                FILTER:
-              </span>
-              {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
-                const isSelected = activeFilter === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveFilter(cat)}
-                    className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
-                        : 'bg-white/3 border border-white/3 text-muted-text hover:text-[#F5F5F5] hover:bg-white/5'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Legend Indicators */}
-            <div className="flex items-center gap-5">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#4E85BF]" />
-                <span className="font-sans text-[11px] text-muted-text font-medium">Core</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#10B981]" />
-                <span className="font-sans text-[11px] text-muted-text font-medium">Data</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-yellow-500" />
-                <span className="font-sans text-[11px] text-muted-text font-medium">Learning</span>
-              </div>
-            </div>
-
-          </div>
 
         </div>
 

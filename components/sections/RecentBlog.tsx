@@ -31,7 +31,7 @@ export default function RecentBlog() {
 
         {/* View all button */}
         <div className="flex items-center justify-center">
-          <AnimatedButton variant="outline" href="/articles">
+          <AnimatedButton variant="outline" href="/blog">
             View All Engineering Logs
             <ArrowRight className="w-4 h-4 text-accent" />
           </AnimatedButton>

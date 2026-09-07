@@ -18,6 +18,10 @@ export interface Project {
   liveUrl?: string;
   category?: string;
   impact?: string;
+  image?: string;
+  challenge?: string;
+  solution?: string;
+  metrics?: { label: string; value: string }[];
 }
 
 export interface BlogPost {
@@ -27,6 +31,10 @@ export interface BlogPost {
   date: string;
   readTime: string;
   content?: string;
+  category?: string;
+  tags?: string[];
+  featured?: boolean;
+  coverImage?: string;
 }
 
 export interface Experience {

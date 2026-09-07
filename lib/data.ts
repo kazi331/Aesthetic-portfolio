@@ -21,6 +21,44 @@ export const stats: Stat[] = [
 
 export const projects: Project[] = [
   {
+    title: 'EdTech Platform',
+    slug: 'edtech-platform',
+    description: 'A comprehensive learning management system with real-time interactions and progress tracking.',
+    featured: true,
+    tags: ['Next.js', 'TypeScript', 'Tailwind', 'Firebase'],
+    githubUrl: 'https://github.com/kazi331',
+    liveUrl: 'https://tutorsplan.com',
+    category: 'Full Stack Web',
+    image: 'https://images.unsplash.com/photo-1506146332389-18140dc7b2fb?q=80&w=1200&auto=format&fit=crop',
+    challenge: 'Traditional learning systems lacked real-time engagement and intuitive progress tracking for students.',
+    solution: 'Built a modern LMS with real-time chat, interactive quizzes, and a visual dashboard for progress monitoring.',
+    impact: 'Increased student engagement by 40% and reduced administrative overhead by 25%.',
+    metrics: [
+      { label: 'Engagement', value: '+40%' },
+      { label: 'Admin Overhead', value: '-25%' },
+      { label: 'API Roundtrips', value: '-40%' }
+    ]
+  },
+  {
+    title: 'Hotelson Flight Booking',
+    slug: 'hotelson-flight-booking',
+    description: 'A high-speed flight and hotel reservation engine engineered for dynamic airfare search, instant filtering, and seamless checkout.',
+    featured: true,
+    tags: ['React', 'Redux', 'Next.js', 'TanStack Query'],
+    githubUrl: 'https://github.com/kazi331',
+    liveUrl: 'https://hotelson.com',
+    category: 'Travel & Booking',
+    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop',
+    challenge: 'Legacy booking interfaces suffered from sluggish multi-hop search queries, state drift, and high bounce rates during checkout.',
+    solution: 'Migrated and rebuilt the platform into Next.js with optimized state stores, predictive flight search filters, and TanStack Query request caching.',
+    impact: 'Increased overall platform performance by 60% and reduced page load times by 30%.',
+    metrics: [
+      { label: 'Performance', value: '+60%' },
+      { label: 'Page Load', value: '-30%' },
+      { label: 'Search Speed', value: '<120ms' }
+    ]
+  },
+  {
     title: 'Mixory Bundles — Shopify App',
     slug: 'mixory-bundles',
     description: 'Solo-built revenue-driving product bundle app for Shopify merchants, spanning database design to storefront UI. Features full-stack architecture with PostgreSQL, Prisma, Node.js backend logic, and dynamic storefront elements.',
@@ -29,29 +67,33 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/kazi331',
     liveUrl: 'https://mixory-bundles.com',
     category: 'Shopify Ecosystem',
-    impact: 'Built custom Shopify Functions in Node.js supporting dynamic pricing rules and discount cart transforms.',
-  },
-  {
-    title: 'EdTech Learning Platform',
-    slug: 'edtech-platform',
-    description: 'A comprehensive academic portal featuring robust course search/filters, enrollment systems, progress trackers, real-time instructor chat, and a custom administrative management console.',
-    featured: true,
-    tags: ['Next.js 14', 'Redux', 'TanStack Query', 'NestJS', 'Tailwind CSS'],
-    githubUrl: 'https://github.com/kazi331',
-    liveUrl: 'https://tutorsplan.com',
-    category: 'Full Stack Web',
-    impact: 'Implemented global caching using TanStack Query and Redux, eliminating over 40% of redundant API round-trips.',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
+    challenge: 'Merchants needed dynamic tiered bundle pricing and cart transformation without checkout latency or relying on deprecated Shopify Scripts.',
+    solution: 'Engineered high-performance WebAssembly Shopify Functions in Node.js running under 5ms on Shopify Edge infrastructure, backed by PostgreSQL, Prisma ORM, and a Next.js admin portal.',
+    impact: 'Built custom Shopify Functions in Node.js supporting dynamic pricing rules and discount cart transforms, boosting conversion by 12%.',
+    metrics: [
+      { label: 'Edge Latency', value: '<5ms' },
+      { label: 'Conversion Lift', value: '+12%' },
+      { label: 'Server Overhead', value: '-80%' }
+    ]
   },
   {
     title: 'Maison: The Property App',
     slug: 'maison-property',
-    description: 'An immersive and interactive mobile application for real estate listing, document upload, security authentication, and automated notification alerts.',
+    description: 'An immersive and interactive mobile and web application for real estate listing, document upload, security authentication, and automated notification alerts.',
     featured: true,
     tags: ['React Native', 'Redux', 'Firebase', 'REST API', 'FCM'],
     githubUrl: 'https://github.com/kazi331',
     liveUrl: 'https://play.google.com',
     category: 'Mobile Applications',
-    impact: 'Integrated Firebase Cloud Messaging (FCM) to deliver instant, real-time secure notification flows.',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
+    challenge: 'Property buyers and agents experienced disjointed document sharing, slow listing updates, and missed inquiry notifications.',
+    solution: 'Integrated Firebase Cloud Messaging (FCM) to deliver instant, real-time secure notification flows, coupled with clean REST APIs and intuitive document flows.',
+    impact: 'Integrated Firebase Cloud Messaging (FCM) to deliver instant, real-time secure notification flows with sub-second alert delivery.',
+    metrics: [
+      { label: 'Notification Latency', value: '<1s' },
+      { label: 'Listing Sync', value: 'Realtime' }
+    ]
   }
 ];
 
@@ -154,6 +196,9 @@ export const blogPosts: BlogPost[] = [
     description: 'A deep architectural dive on setting up robust stale times, garbage collection, and localized key mutations to eliminate duplicate server load.',
     date: 'March 2024',
     readTime: '6 min read',
+    category: 'Performance',
+    tags: ['React', 'TanStack Query', 'State Management', 'Cache Strategy'],
+    featured: false,
     content: `
 ### Introduction
 
@@ -201,6 +246,10 @@ Additionally, we implemented **Optimistic Updates** for actions like adding or e
     description: 'An engineering review on writing low-latency discount and cart-transform logics in Node.js running directly on Shopify Edge servers.',
     date: 'January 2024',
     readTime: '10 min read',
+    category: 'Edge & Architecture',
+    tags: ['Shopify Functions', 'WebAssembly', 'Node.js', 'WASM Edge'],
+    featured: true,
+    coverImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop',
     content: `
 ### The Transition to Shopify Functions
 
@@ -271,6 +320,9 @@ By moving our calculation engines from standard external app-proxy servers direc
     description: 'A hands-on production guide to configuring Vite for local SSL development, custom ports, and advanced rollupOptions for vendor chunk separation.',
     date: 'April 2024',
     readTime: '8 min read',
+    category: 'Tooling',
+    tags: ['Vite', 'SSL', 'Rollup', 'Code Splitting', 'DevOps'],
+    featured: false,
     content: `
 ### Introduction
 
@@ -357,6 +409,10 @@ Implementing this modular bundle structure:
     description: 'How to use Next.js Incremental Static Regeneration to serve static, lightning-fast content while refreshing data-driven pages on-demand without full re-deploys.',
     date: 'June 2024',
     readTime: '7 min read',
+    category: 'Architecture',
+    tags: ['Next.js', 'ISR', 'Edge CDN', 'Caching', 'Server Actions'],
+    featured: false,
+    coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop',
     content: `
 ### Introduction
 
@@ -446,6 +502,9 @@ By replacing Server-Side Rendering (SSR) with ISR for our high-traffic lookup po
     description: 'A deep dive into enforcing clean TypeScript rules, preventing circular imports, and locking down team standards using Husky and ESLint configs.',
     date: 'May 2024',
     readTime: '5 min read',
+    category: 'Engineering Culture',
+    tags: ['TypeScript', 'ESLint', 'Husky', 'Git Hooks', 'CI/CD'],
+    featured: false,
     content: `
 ### The Cost of Tech Debt
 

@@ -24,12 +24,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${post.title} | Engineering Logs`,
+    title: `${post.title} | Engineering Blog`,
     description: post.description,
   };
 }
 
-export default async function ArticleDetailsPage({ params }: PageProps) {
+export default async function SingleBlogPage({ params }: PageProps) {
   const resolvedParams = await params;
-  return <BlogDetailsView slug={resolvedParams.slug} basePath="/articles" />;
+  return <BlogDetailsView slug={resolvedParams.slug} basePath="/blog" />;
 }

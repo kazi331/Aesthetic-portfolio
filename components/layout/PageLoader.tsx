@@ -59,14 +59,14 @@ export default function PageLoader() {
   return (
     <AnimatePresence>
       {loading && (
-        <div className="fixed inset-0 bg-[#090909]/45 backdrop-blur-[2px] z-[9999] pointer-events-none flex flex-col justify-start">
+        <div className="fixed top-0 left-0 right-0 z-[9999] pointer-events-none h-[3px] overflow-hidden">
           {/* Glowing Top Progress Bar */}
           <motion.div
             initial={{ width: '0%' }}
             animate={{ width: '92%' }}
             exit={{ width: '100%', opacity: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="h-[3px] bg-[#4E85BF] shadow-[0_0_12px_rgba(78,133,191,0.6)]"
+            className="h-full bg-[#4E85BF] shadow-[0_0_12px_rgba(78,133,191,0.8)]"
           />
         </div>
       )}

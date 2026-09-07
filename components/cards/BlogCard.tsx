@@ -13,7 +13,7 @@ interface BlogCardProps {
 
 export default function BlogCard({ post, index }: BlogCardProps) {
   return (
-    <Link href={`/articles/${post.slug}`} className="block group">
+    <Link href={`/blog/${post.slug}`} className="block group">
       <motion.div
         id={`blog-card-${index}`}
         initial={{ opacity: 0, y: 20 }}
@@ -24,7 +24,14 @@ export default function BlogCard({ post, index }: BlogCardProps) {
       >
         <div>
           <div className="flex items-center justify-between text-[10px] font-mono text-muted-text mb-4">
-            <span>{post.date}</span>
+            <div className="flex items-center gap-2">
+              {post.category && (
+                <span className="px-2 py-0.5 rounded bg-accent/10 border border-accent/20 text-accent font-semibold uppercase tracking-wider text-[8px]">
+                  {post.category}
+                </span>
+              )}
+              <span>{post.date}</span>
+            </div>
             <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5 uppercase tracking-widest text-[8px]">
               {post.readTime}
             </span>

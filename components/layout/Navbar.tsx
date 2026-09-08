@@ -46,6 +46,19 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isBlogPage]);
 
+  // Close mobile dropdown when tapping outside
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('#navbar')) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isOpen]);
+
   const handleScrollTo = (item: (typeof navItems)[number]) => {
     setIsOpen(false);
 
@@ -72,8 +85,14 @@ export default function Navbar() {
   };
 
   return (
-    <>
-      <nav id="navbar" className="fixed top-6 left-1/2 -translate-x-1/2 glass-nav px-5 sm:px-8 py-3 rounded-full flex items-center gap-4 sm:gap-8 z-50 w-[92%] max-w-3xl justify-between sm:justify-start shadow-xl border border-white/10">
+    <nav
+      id="navbar"
+      className={`fixed top-6 left-1/2 -translate-x-1/2 glass-nav z-50 w-[92%] max-w-3xl shadow-xl border border-white/10 transition-[border-radius] duration-300 overflow-hidden ${
+        isOpen ? 'rounded-[28px]' : 'rounded-full'
+      }`}
+    >
+      {/* Top Header Bar */}
+      <div className="px-5 sm:px-8 py-3 flex items-center gap-4 sm:gap-8 justify-between sm:justify-start">
         {/* Left Brand Logo */}
         <div
           id="navbar-logo"
@@ -131,39 +150,48 @@ export default function Navbar() {
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-      </nav>
+      </div>
 
-      {/* Animated Dropdown Menu for Mobile Screen */}
-      <AnimatePresence>
+      {/* Attached Mobile Slide-Down Menu Content */}
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-[#111111]/95 backdrop-blur-md border border-white/10 rounded-2xl p-5 z-40 shadow-2xl flex flex-col gap-3"
+            id="navbar-mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="sm:hidden overflow-hidden border-t border-white/10"
           >
-            <div className="font-mono text-[9px] uppercase tracking-widest text-muted-text border-b border-white/5 pb-2 mb-1">
-              Navigation Menu
-            </div>
-            {navItems.map((item) => {
-              const isSelected = active === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleScrollTo(item)}
-                  className={`w-full text-left font-mono font-bold uppercase tracking-wider text-sm py-3 px-3 rounded-lg transition-all ${isSelected
-                    ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'
-                    : 'text-muted-text hover:text-[#F5F5F5] hover:bg-white/3'
-                    }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
+            <motion.div
+              initial={{ y: -8 }}
+              animate={{ y: 0 }}
+              exit={{ y: -8 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+              className="px-5 pb-5 pt-3.5 flex flex-col gap-1.5"
+            >
+              <div className="font-mono text-[9px] uppercase tracking-widest text-muted-text border-b border-white/5 pb-2 mb-1">
+                Navigation Menu
+              </div>
+              {navItems.map((item) => {
+                const isSelected = active === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleScrollTo(item)}
+                    className={`w-full text-left font-mono font-bold uppercase tracking-wider text-sm py-2.5 px-3.5 rounded-xl transition-all ${isSelected
+                      ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'
+                      : 'text-muted-text hover:text-[#F5F5F5] hover:bg-white/3'
+                      }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </nav>
   );
 }

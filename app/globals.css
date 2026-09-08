@@ -16,9 +16,9 @@
 
 /* Custom Editorial Aesthetic Utility Styles */
 .glass-nav {
-  background: rgba(18, 18, 18, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: #121212d9;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .project-card-gradient {

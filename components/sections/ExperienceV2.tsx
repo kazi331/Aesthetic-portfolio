@@ -1,22 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Rocket, 
-  Code, 
-  Server, 
-  GitBranch, 
-  Store, 
-  Users, 
-  Zap, 
-  Compass, 
-  GraduationCap, 
-  Shield,
-  Navigation
-} from 'lucide-react';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
+import {
+  Code,
+  Compass,
+  GitBranch,
+  GraduationCap,
+  Navigation,
+  Rocket,
+  Server,
+  Shield,
+  Store,
+  Users
+} from 'lucide-react';
+import { motion } from 'motion/react';
+import React, { useState } from 'react';
 
 interface JourneyStep {
   company: string;
@@ -126,7 +125,7 @@ export default function ExperienceV2() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.03),transparent_70%)] pointer-events-none" />
 
       <Container>
-        
+
         {/* Header Block matching mockup layout */}
         <div className="max-w-6xl mx-auto mb-14 text-left">
           <div className="flex items-center gap-2.5 mb-3">
@@ -150,17 +149,16 @@ export default function ExperienceV2() {
                 <button
                   key={idx}
                   onClick={() => setActiveStep(idx)}
-                  className={`transition-all duration-300 px-1 py-1 cursor-pointer focus:outline-none relative ${
-                    isActive 
-                      ? 'text-[#10B981] scale-110 tracking-widest' 
-                      : 'text-muted-text/55 hover:text-white'
-                  }`}
+                  className={`transition-all duration-300 px-1 py-1 cursor-pointer focus:outline-none relative ${isActive
+                    ? 'text-[#10B981] scale-110 tracking-widest'
+                    : 'text-muted-text/55 hover:text-white'
+                    }`}
                 >
                   {step.yearLabel}
                   {isActive && (
-                    <motion.span 
-                      layoutId="activeYearUnderline" 
-                      className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#10B981]" 
+                    <motion.span
+                      layoutId="activeYearUnderline"
+                      className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#10B981]"
                     />
                   )}
                 </button>
@@ -171,7 +169,7 @@ export default function ExperienceV2() {
 
         {/* Desktop Waypoints Canvas Board */}
         <div className="hidden lg:block relative w-full h-[640px] bg-[#0d0d0d]/40 border border-white/5 rounded-[40px] p-10 overflow-hidden">
-          
+
           {/* Constellation lines and tracks */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -231,11 +229,10 @@ export default function ExperienceV2() {
                     {/* Ring glow for active or hovered dot */}
                     <div
                       style={{ borderColor: step.isCurrent ? '#10B981' : '#4E85BF' }}
-                      className={`absolute -inset-4 rounded-full border transition-all duration-500 ${
-                        isActive 
-                          ? 'scale-125 opacity-100 animate-pulse border-2' 
-                          : 'scale-75 opacity-0 group-hover:opacity-45 group-hover:scale-100'
-                      }`}
+                      className={`absolute -inset-4 rounded-full border transition-all duration-500 ${isActive
+                        ? 'scale-125 opacity-100 animate-pulse border-2'
+                        : 'scale-75 opacity-0 group-hover:opacity-45 group-hover:scale-100'
+                        }`}
                     />
 
                     {/* Concentric rings for lead green dot */}
@@ -246,9 +243,8 @@ export default function ExperienceV2() {
                     {/* Core node dot */}
                     <div
                       style={{ backgroundColor: isActive ? '#10B981' : '#4E85BF' }}
-                      className={`w-4 h-4 rounded-full border-2 border-[#090909] shadow-lg shadow-black/80 transition-all duration-300 ${
-                        isActive ? 'scale-130' : 'scale-100 hover:scale-115'
-                      }`}
+                      className={`w-4 h-4 rounded-full border-2 border-[#090909] shadow-lg shadow-black/80 transition-all duration-300 ${isActive ? 'scale-130' : 'scale-100 hover:scale-115'
+                        }`}
                     />
                   </div>
 
@@ -265,11 +261,10 @@ export default function ExperienceV2() {
                       top: `${step.cardY}%`,
                       transform: 'translate(-50%, -50%)',
                     }}
-                    className={`absolute w-[290px] p-5 rounded-2xl border transition-all duration-300 text-left cursor-pointer z-10 ${
-                      isActive
-                        ? 'bg-[#121212] border-white/10 shadow-2xl shadow-black/90 scale-102 ring-1 ring-white/5'
-                        : 'bg-[#121212]/50 border-white/5 hover:border-white/10 opacity-60 hover:opacity-90'
-                    }`}
+                    className={`absolute w-[290px] p-5 rounded-2xl border transition-all duration-300 text-left cursor-pointer z-10 ${isActive
+                      ? 'bg-[#121212] border-white/10 shadow-2xl shadow-black/90 scale-102 ring-1 ring-white/5'
+                      : 'bg-[#121212]/50 border-white/5 hover:border-white/10 opacity-60 hover:opacity-90'
+                      }`}
                   >
                     {/* Card Header */}
                     <div className="flex items-center justify-between gap-2 border-b border-white/5 pb-2.5">
@@ -339,14 +334,13 @@ export default function ExperienceV2() {
           {journeySteps.map((step, idx) => {
             const isActive = activeStep === idx;
             return (
-              <div 
+              <div
                 key={idx}
                 onClick={() => setActiveStep(idx)}
-                className={`p-6 rounded-2xl border transition-all duration-300 text-left relative cursor-pointer ${
-                  isActive
-                    ? 'bg-[#121212] border-[#10B981]/40 shadow-xl'
-                    : 'bg-[#121212]/50 border-white/5 opacity-80'
-                }`}
+                className={`p-6 rounded-2xl border transition-all duration-150 text-left relative cursor-pointer ${isActive
+                  ? 'bg-[#121212] border-[#10B981]/40 shadow-xl border-l-4'
+                  : 'bg-[#121212]/50 border-white/5 opacity-80'
+                  }`}
               >
                 {/* Meta details */}
                 <div className="flex items-center justify-between gap-2 border-b border-white/5 pb-3">
@@ -385,9 +379,9 @@ export default function ExperienceV2() {
                 </div>
 
                 {/* Active Indicator line */}
-                {isActive && (
+                {/* {isActive && (
                   <div className="absolute top-0 bottom-0 left-0 w-1 bg-[#10B981] rounded-l-2xl" />
-                )}
+                )} */}
               </div>
             );
           })}

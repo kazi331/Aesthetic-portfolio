@@ -192,7 +192,7 @@ export default function Navbar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="sm:hidden overflow-hidden border-t border-white/10"
+            className="sm:hidden overflow-hidden border-t border-white/10 bg-[#121212d9]"
           >
             <motion.div
               initial={{ y: -8 }}

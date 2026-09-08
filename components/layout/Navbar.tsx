@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
 import { personalInfo } from '@/lib/data';
+import { Menu, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const navItems = [
   { label: 'Home', id: 'hero', path: '/' },
@@ -89,7 +88,7 @@ export default function Navbar() {
         >
           <div className="w-2.5 h-2.5 bg-[#4E85BF] rounded-full" />
           <span className="font-bold tracking-tighter text-xs sm:text-sm text-[#F5F5F5]">KS.01</span>
-        </div> 
+        </div>
 
         <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
 
@@ -101,9 +100,8 @@ export default function Navbar() {
               <li
                 key={item.id}
                 onClick={() => handleScrollTo(item)}
-                className={`cursor-pointer transition-colors duration-300 ${
-                  isSelected ? 'text-[#4E85BF]' : 'text-[#F5F5F5]/70 hover:text-[#F5F5F5]'
-                }`}
+                className={`cursor-pointer transition-colors duration-300 ${isSelected ? 'text-[#4E85BF]' : 'text-[#F5F5F5]/70 hover:text-[#F5F5F5]'
+                  }`}
               >
                 {item.label}
               </li>
@@ -130,7 +128,7 @@ export default function Navbar() {
             className="sm:hidden text-[#F5F5F5] p-1.5 rounded-full hover:bg-white/5 transition-all cursor-pointer focus:outline-none"
             aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </nav>
@@ -154,11 +152,10 @@ export default function Navbar() {
                 <button
                   key={item.id}
                   onClick={() => handleScrollTo(item)}
-                  className={`w-full text-left font-mono font-bold uppercase tracking-wider text-xs py-2 px-3 rounded-lg transition-all ${
-                    isSelected
-                      ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'
-                      : 'text-muted-text hover:text-[#F5F5F5] hover:bg-white/3'
-                  }`}
+                  className={`w-full text-left font-mono font-bold uppercase tracking-wider text-sm py-3 px-3 rounded-lg transition-all ${isSelected
+                    ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'
+                    : 'text-muted-text hover:text-[#F5F5F5] hover:bg-white/3'
+                    }`}
                 >
                   {item.label}
                 </button>

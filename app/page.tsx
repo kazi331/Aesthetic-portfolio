@@ -20,31 +20,29 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <AnimatePresence mode="wait">
-      {loading ? (
-        <LoadingScreen onComplete={() => setLoading(false)} />
-      ) : (
-        <div className="bg-[#090909] text-primary-text min-h-screen relative font-sans antialiased selection:bg-accent/20 selection:text-primary-text">
-          <Navbar />
-          <main id="main-content">
-            {/* <Hero /> */}
-            {/* <HeroV2 /> */}
-            <HeroV3 />
-            <Stats />
-            <FeaturedProjects />
-            {/* <TechStack /> */}
-            <TechStackV2 />
-            {/* <Experience /> */}
-            <ExperienceV2 />
-            <Services />
-            <Testimonials />
-            <RecentBlog />
-            <GithubPreview />
-            <ContactCTA />
-          </main>
-          <Footer />
-        </div>
-      )}
-    </AnimatePresence>
+    <>
+      <AnimatePresence>
+        {loading && (
+          <LoadingScreen onComplete={() => setLoading(false)} />
+        )}
+      </AnimatePresence>
+
+      <div className="bg-[#090909] text-primary-text min-h-screen relative font-sans antialiased selection:bg-accent/20 selection:text-primary-text">
+        <Navbar />
+        <main id="main-content">
+          <HeroV3 isLoaded={!loading} />
+          <Stats />
+          <FeaturedProjects />
+          <TechStackV2 />
+          <ExperienceV2 />
+          <Services />
+          <Testimonials />
+          <RecentBlog />
+          <GithubPreview />
+          <ContactCTA />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }

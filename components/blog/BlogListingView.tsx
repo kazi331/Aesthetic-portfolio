@@ -134,9 +134,9 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24 relative overflow-hidden">
-        {/* Ambient background glows */}
-        <div className="absolute top-10 left-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute top-1/2 right-1/4 w-[450px] h-[450px] bg-[#10B981]/5 rounded-full blur-[140px] pointer-events-none" />
+        {/* Ambient background glows - zero-blur radial gradients */}
+        <div className="absolute top-10 left-1/4 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(78,133,191,0.06)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute top-1/2 right-1/4 w-[450px] h-[450px] bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
 
         <Container className="relative z-10 max-w-6xl">
           {/* Top Breadcrumb & Return to Homepage Action */}

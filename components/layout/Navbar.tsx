@@ -59,6 +59,41 @@ export default function Navbar() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isOpen]);
 
+  const scrollToTarget = (targetId: string) => {
+    if (targetId === 'hero') {
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number | HTMLElement, opts?: object) => void } }).__lenis;
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(0, { duration: 1 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    const targetEl =
+      document.getElementById(targetId) ||
+      (targetId === 'featured-projects' ? document.getElementById('projects') : null) ||
+      (targetId === 'projects' ? document.getElementById('featured-projects') : null) ||
+      (targetId === 'tech-stack' ? document.getElementById('stack') : null) ||
+      (targetId === 'stack' ? document.getElementById('tech-stack') : null) ||
+      (targetId === 'recent-blog' ? document.getElementById('blog') : null);
+
+    if (!targetEl) return;
+
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number | HTMLElement, opts?: object) => void } }).__lenis;
+    if (lenis && typeof lenis.scrollTo === 'function') {
+      lenis.scrollTo(targetEl, { offset: -90, duration: 1 });
+    } else {
+      const navOffset = 90;
+      const elementPosition = targetEl.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = Math.max(0, elementPosition - navOffset);
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const handleScrollTo = (item: (typeof navItems)[number]) => {
     setIsOpen(false);
 
@@ -66,7 +101,7 @@ export default function Navbar() {
       if (!isBlogPage) {
         router.push('/blog');
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollToTarget('hero');
       }
       return;
     }
@@ -76,20 +111,16 @@ export default function Navbar() {
       return;
     }
 
-    const el = document.getElementById(item.id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else if (item.path) {
-      router.push(item.path);
-    }
+    // Small timeout allows the mobile menu collapse to start without interfering with smooth scroll
+    setTimeout(() => {
+      scrollToTarget(item.id);
+    }, 20);
   };
 
   return (
     <nav
       id="navbar"
-      className={`fixed top-6 left-1/2 -translate-x-1/2 glass-nav z-50 w-[92%] max-w-3xl shadow-xl border border-white/10 transition-[border-radius] duration-300 overflow-hidden ${
-        isOpen ? 'rounded-[28px]' : 'rounded-full'
-      }`}
+      className={`fixed top-6 left-1/2 -translate-x-1/2 glass-nav z-50 w-[92%] max-w-3xl shadow-xl border border-white/10 transition-[border-radius] duration-300 overflow-hidden rounded-[28px]`}
     >
       {/* Top Header Bar */}
       <div className="px-5 sm:px-8 py-3 flex items-center gap-4 sm:gap-8 justify-between sm:justify-start">
@@ -178,6 +209,8 @@ export default function Navbar() {
                 return (
                   <button
                     key={item.id}
+                    id={`mobile-nav-${item.id}`}
+                    type="button"
                     onClick={() => handleScrollTo(item)}
                     className={`w-full text-left font-mono font-bold uppercase tracking-wider text-sm py-2.5 px-3.5 rounded-xl transition-all ${isSelected
                       ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'

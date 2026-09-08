@@ -232,6 +232,7 @@ export default function TechStackV2() {
 
   return (
     <Section id="tech-stack" className="bg-[#090909] border-b border-white/5 relative py-20 overflow-hidden">
+      <div id="stack" className="absolute top-0 left-0 pointer-events-none" />
       {/* Space Constellation Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(17,24,39,0.5),rgba(9,9,9,1))] z-0" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none z-0" />

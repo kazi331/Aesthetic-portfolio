@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
 import { BlogPost } from '@/types/portfolio';
+import { ArrowUpRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 
 interface BlogCardProps {
@@ -20,7 +19,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-[#121212] rounded-[32px] border border-white/5 p-6 md:p-8 flex flex-col justify-between min-h-[220px] group-hover:border-accent/40 transition-all duration-300 shadow-lg cursor-pointer h-full"
+        className="bg-[#121212] rounded-[32px] border border-white/5 p-6 md:p-8 flex flex-col justify-between min-h-[220px] group-hover:border-accent/40 transition-[border-color,box-shadow] duration-300 shadow-lg cursor-pointer h-full"
       >
         <div>
           <div className="flex items-center justify-between text-[10px] font-mono text-muted-text mb-4">

@@ -20,14 +20,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <>
-      <AnimatePresence mode="wait">
-        {loading && (
-          <LoadingScreen onComplete={() => setLoading(false)} />
-        )}
-      </AnimatePresence>
-
-      {!loading && (
+    <AnimatePresence mode="wait">
+      {loading ? (
+        <LoadingScreen onComplete={() => setLoading(false)} />
+      ) : (
         <div className="bg-[#090909] text-primary-text min-h-screen relative font-sans antialiased selection:bg-accent/20 selection:text-primary-text">
           <Navbar />
           <main id="main-content">
@@ -49,6 +45,6 @@ export default function Home() {
           <Footer />
         </div>
       )}
-    </>
+    </AnimatePresence>
   );
 }

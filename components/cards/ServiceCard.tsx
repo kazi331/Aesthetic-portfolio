@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'motion/react';
-import { Layout, Cpu, CheckCircle2 } from 'lucide-react';
 import { Service } from '@/types/portfolio';
+import { CheckCircle2, Cpu, Layout } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface ServiceCardProps {
   service: Service;
@@ -30,7 +29,7 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="p-8 rounded-[32px] bg-[#121212]/90 border border-white/5 flex flex-col justify-between h-full hover:border-accent/30 transition-all duration-300 shadow-xl group"
+      className="p-8 rounded-[32px] bg-[#121212]/90 border border-white/5 flex flex-col justify-between h-full hover:border-accent/30 transition-[border-color,box-shadow] duration-300 shadow-xl group"
     >
       <div>
         <div className="flex items-center justify-between mb-6">

@@ -33,7 +33,7 @@ export default function ProjectCard({ project, index, onSelect }: ProjectCardPro
       }}
       role="button"
       tabIndex={0}
-      className="group relative w-full min-h-[380px] sm:min-h-[420px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 hover:border-accent/40 shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between p-6 sm:p-8 select-none focus:outline-none focus:ring-2 focus:ring-accent/50"
+      className="group relative w-full min-h-[380px] sm:min-h-[420px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 hover:border-accent/40 shadow-2xl transition-[border-color,box-shadow] duration-500 cursor-pointer flex flex-col justify-between p-6 sm:p-8 select-none focus:outline-none focus:ring-2 focus:ring-accent/50"
     >
       {/* Background Image with Smooth Zoom Effect on Hover */}
       {project.image ? (

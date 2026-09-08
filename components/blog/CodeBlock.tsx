@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Check, Copy, Terminal, WrapText } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface CodeBlockProps {
   code: string;
@@ -174,9 +174,9 @@ export default function CodeBlock({ code, language = 'typescript', filename }: C
             <span className="text-[#C9D1D9] font-medium">
               {filename || getLanguageLabel(language)}
             </span>
-            <span className="text-[10px] text-muted-text font-normal px-2 py-0.5 rounded-full bg-white/5">
+            {/* <span className="text-[10px] text-muted-text font-normal px-2 py-0.5 rounded-full bg-white/5">
               {lineCount} {lineCount === 1 ? 'line' : 'lines'}
-            </span>
+            </span> */}
           </div>
         </div>
 
@@ -185,9 +185,8 @@ export default function CodeBlock({ code, language = 'typescript', filename }: C
           {/* Wrap toggle */}
           <button
             onClick={() => setWrapLines(!wrapLines)}
-            className={`p-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
-              wrapLines ? 'bg-white/10 text-accent' : 'text-muted-text hover:text-white hover:bg-white/5'
-            }`}
+            className={`p-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${wrapLines ? 'bg-white/10 text-accent' : 'text-muted-text hover:text-white hover:bg-white/5'
+              }`}
             title="Toggle line wrapping"
             aria-label="Toggle line wrapping"
           >
@@ -197,9 +196,8 @@ export default function CodeBlock({ code, language = 'typescript', filename }: C
           {/* Line Numbers Toggle */}
           <button
             onClick={() => setShowLineNumbers(!showLineNumbers)}
-            className={`px-2 py-1 rounded-lg text-[10px] font-mono transition-all cursor-pointer ${
-              showLineNumbers ? 'bg-white/10 text-accent font-bold' : 'text-muted-text hover:text-white hover:bg-white/5'
-            }`}
+            className={`px-2 py-1 rounded-lg text-[10px] font-mono transition-all cursor-pointer ${showLineNumbers ? 'bg-white/10 text-accent font-bold' : 'text-muted-text hover:text-white hover:bg-white/5'
+              }`}
             title="Toggle line numbers"
           >
             #
@@ -209,11 +207,10 @@ export default function CodeBlock({ code, language = 'typescript', filename }: C
           <button
             onClick={handleCopy}
             id="copy-code-btn"
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] font-mono font-medium transition-all duration-200 cursor-pointer ${
-              copied
-                ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-300'
-                : 'bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/5'
-            }`}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] font-mono font-medium transition-all duration-200 cursor-pointer ${copied
+              ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-300'
+              : 'bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/5'
+              }`}
             aria-label="Copy code to clipboard"
           >
             {copied ? (
@@ -249,9 +246,8 @@ export default function CodeBlock({ code, language = 'typescript', filename }: C
 
         {/* Code Content */}
         <pre
-          className={`flex-1 pl-4 pr-6 ${
-            wrapLines ? 'whitespace-pre-wrap break-words' : 'whitespace-pre'
-          }`}
+          className={`flex-1 pl-4 pr-6 ${wrapLines ? 'whitespace-pre-wrap break-words' : 'whitespace-pre'
+            }`}
         >
           <code>{highlightCode(cleanCode, language)}</code>
         </pre>

@@ -30,7 +30,11 @@ interface SystemNode {
   y: number; // grid row layout
 }
 
-export default function HeroV3() {
+interface HeroV3Props {
+  isLoaded?: boolean;
+}
+
+export default function HeroV3({ isLoaded = true }: HeroV3Props) {
   const [activeSystemNode, setActiveSystemNode] = useState<string>('edge');
   const [systemTraceActive, setSystemTraceActive] = useState<boolean>(true);
 
@@ -107,26 +111,26 @@ export default function HeroV3() {
 
   const currentActiveNode = systemNodes.find(node => node.id === activeSystemNode) || systemNodes[1];
 
-  // Micro-entrance animation container
+  // Mobile-optimized entrance animation container with fast springiness
   const parentVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2
+        staggerChildren: 0.08,
+        delayChildren: 0.05
       }
     }
   };
 
   const childVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 16 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.85,
-        ease: [0.16, 1, 0.3, 1] // Custom cubic-bezier for signature smooth springiness
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   };
@@ -138,15 +142,15 @@ export default function HeroV3() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.015),transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_80%,transparent_100%)] pointer-events-none z-0" />
 
-      {/* Atmospheric accent lights */}
-      <div className="absolute -top-40 right-10 w-[500px] h-[500px] bg-[#4E85BF]/5 rounded-full blur-[140px] pointer-events-none z-0" />
-      <div className="absolute -bottom-40 left-10 w-[500px] h-[500px] bg-[#10B981]/5 rounded-full blur-[140px] pointer-events-none z-0" />
+      {/* Atmospheric accent lights - zero-blur radial gradients for maximum mobile GPU speed */}
+      <div className="absolute -top-40 right-10 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(78,133,191,0.06)_0%,transparent_70%)] pointer-events-none z-0" />
+      <div className="absolute -bottom-40 left-10 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none z-0" />
 
       <Container className="relative z-10 w-full">
         <motion.div
           variants={parentVariants}
           initial="hidden"
-          animate="visible"
+          animate={isLoaded ? "visible" : "hidden"}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
         >
           {/* Left Column: Monumental Headline Typography */}
@@ -239,7 +243,7 @@ export default function HeroV3() {
             
             <motion.div
               variants={childVariants}
-              className="w-full bg-[#0c0c0c]/90 border border-white/10 rounded-[32px] p-6 md:p-8 shadow-2xl relative overflow-hidden backdrop-blur-md"
+              className="w-full bg-[#0c0c0c]/95 md:bg-[#0c0c0c]/90 border border-white/10 rounded-[32px] p-6 md:p-8 shadow-2xl relative overflow-hidden backdrop-blur-sm md:backdrop-blur-md"
             >
               {/* Header inside Blueprint */}
               <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-6">

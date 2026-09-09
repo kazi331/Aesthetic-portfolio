@@ -15,12 +15,12 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(onComplete, 400); // soft delay for smoothness
+          setTimeout(onComplete, 120); // Quick completion handoff
           return 100;
         }
-        return prev + Math.floor(Math.random() * 8) + 3; // Randomized increment
+        return prev + Math.floor(Math.random() * 9) + 6; // Quick, fluid progress
       });
-    }, 35);
+    }, 25);
 
     return () => clearInterval(interval);
   }, [onComplete]);
@@ -30,8 +30,8 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       id="loading-screen"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
-      className="fixed inset-0 z-50 bg-[#090909] flex flex-col items-center justify-center p-8 select-none"
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="fixed inset-0 z-50 bg-[#090909] flex flex-col items-center justify-center p-8 select-none pointer-events-auto"
     >
       <div className="flex flex-col items-center max-w-xs w-full gap-5">
         <div className="flex items-center gap-2">

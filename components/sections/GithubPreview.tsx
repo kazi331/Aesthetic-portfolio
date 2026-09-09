@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'motion/react';
-import { Star, GitFork, ArrowUpRight, Github } from 'lucide-react';
-import { openSourceProjects } from '@/lib/data';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
 import SectionHeading from '@/components/shared/SectionHeading';
+import { openSourceProjects } from '@/lib/data';
+import { ArrowUpRight, GitFork, Github, Star } from 'lucide-react';
+import { motion } from 'motion/react';
 
 const LANGUAGE_COLORS: Record<string, string> = {
   TypeScript: '#3178c6',
@@ -39,7 +38,7 @@ export default function GithubPreview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="p-6 rounded-2xl bg-[#121212] border border-white/5 flex flex-col justify-between h-52 hover:border-accent/30 hover:shadow-lg hover:shadow-[#4E85BF]/2 transition-all duration-300 group cursor-pointer"
+                className="p-6 rounded-2xl bg-[#121212] border border-white/5 flex flex-col justify-between h-52 hover:border-accent/30 hover:shadow-lg hover:shadow-[#4E85BF]/2 transition-[border-color,box-shadow] duration-300 group cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3.5">
@@ -52,7 +51,7 @@ export default function GithubPreview() {
                   <h4 className="text-sm font-mono font-medium text-primary-text mb-2 block group-hover:text-accent transition-colors">
                     {repo.name}
                   </h4>
-                  
+
                   <p className="text-muted-text text-[11px] leading-relaxed line-clamp-3">
                     {repo.description}
                   </p>

@@ -4,7 +4,7 @@ import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
 import { ChevronDown, Cpu, Database, Layout, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface TechnologyNode {
   name: string;
@@ -24,7 +24,17 @@ export default function TechStackV2() {
   const [hoveredNode, setHoveredNode] = useState<TechnologyNode | null>(null);
   const [selectedMobileTech, setSelectedMobileTech] = useState<TechnologyNode | null>(null);
   const [popoverPos, setPopoverPos] = useState({ left: 0, top: 0 });
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(typeof window !== 'undefined' && window.innerWidth >= 768);
+    };
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop, { passive: true });
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -222,13 +232,14 @@ export default function TechStackV2() {
 
   return (
     <Section id="tech-stack" className="bg-[#090909] border-b border-white/5 relative py-20 overflow-hidden">
+      <div id="stack" className="absolute top-0 left-0 pointer-events-none" />
       {/* Space Constellation Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(17,24,39,0.5),rgba(9,9,9,1))] z-0" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none z-0" />
 
-      {/* Nebula Ambient Glows */}
-      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[#4E85BF]/5 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#10B981]/5 rounded-full blur-[120px] pointer-events-none z-0" />
+      {/* Nebula Ambient Glows - zero-blur radial gradients for maximum mobile GPU speed */}
+      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(78,133,191,0.06)_0%,transparent_70%)] pointer-events-none z-0" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none z-0" />
 
       <Container className="relative z-10">
 
@@ -258,12 +269,13 @@ export default function TechStackV2() {
           </div>
         </div>
 
-        {/* Constellation Canvas Board (Desktop/Tablet) */}
-        <div
-          ref={containerRef}
-          onMouseMove={handleMouseMove}
-          className="hidden md:flex relative w-full min-h-[560px] md:min-h-[640px] bg-black/20 border border-white/5 rounded-[40px] p-6 backdrop-blur-sm overflow-hidden flex-col"
-        >
+        {/* Constellation Canvas Board (Desktop/Tablet) - Only rendered on desktop to avoid running 24 infinite RAF animation loops on mobile */}
+        {isDesktop && (
+          <div
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            className="hidden md:flex relative w-full min-h-[560px] md:min-h-[640px] bg-black/20 border border-white/5 rounded-[40px] p-6 backdrop-blur-sm overflow-hidden flex-col"
+          >
           {/* Top Controls row: Filter Pills on left, Legend Dots on right (Moved inside at the top) */}
           <div id="tech-stack-controls" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/5 relative z-20">
             {/* Filter bar */}
@@ -474,7 +486,8 @@ export default function TechStackV2() {
             )}
           </AnimatePresence>
 
-        </div>
+          </div>
+        )}
 
         {/* Mobile View - Beautiful Interactive Accordion Grid (block md:hidden) */}
         <div className="md:hidden space-y-6">
@@ -511,8 +524,8 @@ export default function TechStackV2() {
                 <div
                   key={tech.name}
                   onClick={() => setSelectedMobileTech(isSelected ? null : tech)}
-                  className={`p-4 rounded-2xl border transition-all duration-300 bg-black/20 ${isSelected
-                    ? 'border-accent/40 bg-[#121212]/80 shadow-lg shadow-accent/5'
+                  className={`p-4 rounded-2xl border transition-[border-color,background-color,box-shadow] duration-200 bg-black/20 ${isSelected
+                    ? 'border-accent/40 bg-[#121212]/90 shadow-lg shadow-accent/5'
                     : 'border-white/5 hover:border-white/10'
                     }`}
                 >
@@ -540,25 +553,22 @@ export default function TechStackV2() {
                       <span className="font-mono text-[9px] font-bold text-muted-text bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
                         {tech.experience}
                       </span>
-                      <motion.div
-                        animate={{ rotate: isSelected ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="text-muted-text"
-                      >
-                        <ChevronDown className="w-4 h-4" />
-                      </motion.div>
+                      <ChevronDown
+                        className={`w-4 h-4 text-muted-text transition-transform duration-200 ease-out will-change-transform ${
+                          isSelected ? 'rotate-180 text-accent' : 'rotate-0'
+                        }`}
+                      />
                     </div>
                   </div>
 
-                  <AnimatePresence initial={false}>
-                    {isSelected && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                        animate={{ height: 'auto', opacity: 1, marginTop: 12 }}
-                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                        transition={{ duration: 0.2, ease: 'easeOut' }}
-                        className="overflow-hidden border-t border-white/5 pt-3.5 text-left"
-                      >
+                  {/* Ultra-smooth hardware-accelerated CSS Grid accordion with 0 JS thrashing */}
+                  <div
+                    className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
+                      isSelected ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="border-t border-white/5 pt-3.5 mt-3 text-left">
                         <p className="text-xs text-muted-text leading-relaxed font-sans">
                           {tech.description}
                         </p>
@@ -567,9 +577,9 @@ export default function TechStackV2() {
                             }`} />
                           <span>Type: <strong className="text-white">{tech.type}</strong></span>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               );
             })}

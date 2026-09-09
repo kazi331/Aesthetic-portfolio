@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { Code2, Cpu, Zap, GitCompare } from 'lucide-react';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
+import { Code2, Cpu, GitCompare, Zap } from 'lucide-react';
+import { motion } from 'motion/react';
+import React, { useState } from 'react';
 
 interface RichStat {
   id: string;
@@ -64,7 +64,7 @@ export default function Stats() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px)] bg-[size:6rem] [mask-image:linear-gradient(to_bottom,#000,transparent)] pointer-events-none z-0" />
 
       <Container className="relative z-10">
-        
+
         {/* Modern stats grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {richStats.map((stat, index) => {
@@ -79,12 +79,12 @@ export default function Stats() {
                 transition={{ duration: 0.7, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 onMouseEnter={() => setHoveredIdx(index)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                className="relative p-6 bg-[#0c0c0c] border border-white/5 hover:border-white/10 rounded-2xl flex flex-col justify-between h-[210px] md:h-[220px] overflow-hidden group transition-all duration-300 shadow-2xl text-left"
+                className="relative p-6 bg-[#0c0c0c] border border-white/5 hover:border-white/10 rounded-2xl flex flex-col justify-between h-[210px] md:h-[220px] overflow-hidden group transition-colors duration-300 shadow-2xl text-left"
               >
                 {/* Background glow when hovered */}
-                <div 
-                  style={{ 
-                    background: `radial-gradient(circle at 50% 50%, ${stat.color}, transparent 65%)` 
+                <div
+                  style={{
+                    background: `radial-gradient(circle at 50% 50%, ${stat.color}, transparent 65%)`
                   }}
                   className="absolute -right-16 -top-16 w-36 h-36 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                 />
@@ -109,7 +109,7 @@ export default function Stats() {
                   <span className="text-4xl md:text-5xl font-display font-black text-white group-hover:text-accent transition-colors tracking-tight leading-none">
                     {stat.value}
                   </span>
-                  
+
                   <span className="text-xs font-mono font-extrabold uppercase tracking-widest text-white/90 mt-1">
                     {stat.label}
                   </span>

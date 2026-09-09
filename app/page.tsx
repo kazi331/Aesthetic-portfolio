@@ -21,34 +21,28 @@ export default function Home() {
 
   return (
     <>
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {loading && (
           <LoadingScreen onComplete={() => setLoading(false)} />
         )}
       </AnimatePresence>
 
-      {!loading && (
-        <div className="bg-[#090909] text-primary-text min-h-screen relative font-sans antialiased selection:bg-accent/20 selection:text-primary-text">
-          <Navbar />
-          <main id="main-content">
-            {/* <Hero /> */}
-            {/* <HeroV2 /> */}
-            <HeroV3 />
-            <Stats />
-            <FeaturedProjects />
-            {/* <TechStack /> */}
-            <TechStackV2 />
-            {/* <Experience /> */}
-            <ExperienceV2 />
-            <Services />
-            <Testimonials />
-            <RecentBlog />
-            <GithubPreview />
-            <ContactCTA />
-          </main>
-          <Footer />
-        </div>
-      )}
+      <div className="bg-[#090909] text-primary-text min-h-screen relative font-sans antialiased selection:bg-accent/20 selection:text-primary-text">
+        <Navbar />
+        <main id="main-content">
+          <HeroV3 isLoaded={!loading} />
+          <Stats />
+          <FeaturedProjects />
+          <TechStackV2 />
+          <ExperienceV2 />
+          <Services />
+          <Testimonials />
+          <RecentBlog />
+          <GithubPreview />
+          <ContactCTA />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

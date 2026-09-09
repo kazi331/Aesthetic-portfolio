@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
 import { personalInfo } from '@/lib/data';
+import { Menu, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const navItems = [
   { label: 'Home', id: 'hero', path: '/' },
@@ -47,6 +46,54 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isBlogPage]);
 
+  // Close mobile dropdown when tapping outside
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('#navbar')) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isOpen]);
+
+  const scrollToTarget = (targetId: string) => {
+    if (targetId === 'hero') {
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number | HTMLElement, opts?: object) => void } }).__lenis;
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(0, { duration: 1 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    const targetEl =
+      document.getElementById(targetId) ||
+      (targetId === 'featured-projects' ? document.getElementById('projects') : null) ||
+      (targetId === 'projects' ? document.getElementById('featured-projects') : null) ||
+      (targetId === 'tech-stack' ? document.getElementById('stack') : null) ||
+      (targetId === 'stack' ? document.getElementById('tech-stack') : null) ||
+      (targetId === 'recent-blog' ? document.getElementById('blog') : null);
+
+    if (!targetEl) return;
+
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number | HTMLElement, opts?: object) => void } }).__lenis;
+    if (lenis && typeof lenis.scrollTo === 'function') {
+      lenis.scrollTo(targetEl, { offset: -90, duration: 1 });
+    } else {
+      const navOffset = 90;
+      const elementPosition = targetEl.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = Math.max(0, elementPosition - navOffset);
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const handleScrollTo = (item: (typeof navItems)[number]) => {
     setIsOpen(false);
 
@@ -54,7 +101,7 @@ export default function Navbar() {
       if (!isBlogPage) {
         router.push('/blog');
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollToTarget('hero');
       }
       return;
     }
@@ -64,17 +111,19 @@ export default function Navbar() {
       return;
     }
 
-    const el = document.getElementById(item.id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else if (item.path) {
-      router.push(item.path);
-    }
+    // Small timeout allows the mobile menu collapse to start without interfering with smooth scroll
+    setTimeout(() => {
+      scrollToTarget(item.id);
+    }, 20);
   };
 
   return (
-    <>
-      <nav id="navbar" className="fixed top-6 left-1/2 -translate-x-1/2 glass-nav px-5 sm:px-8 py-3 rounded-full flex items-center gap-4 sm:gap-8 z-50 w-[92%] max-w-3xl justify-between sm:justify-start shadow-xl border border-white/10">
+    <nav
+      id="navbar"
+      className={`fixed top-6 left-1/2 -translate-x-1/2 glass-nav z-50 w-[92%] max-w-3xl shadow-xl border border-white/10 transition-[border-radius] duration-300 overflow-hidden rounded-[28px]`}
+    >
+      {/* Top Header Bar */}
+      <div className="px-5 sm:px-8 py-3 flex items-center gap-4 sm:gap-8 justify-between sm:justify-start">
         {/* Left Brand Logo */}
         <div
           id="navbar-logo"
@@ -89,7 +138,7 @@ export default function Navbar() {
         >
           <div className="w-2.5 h-2.5 bg-[#4E85BF] rounded-full" />
           <span className="font-bold tracking-tighter text-xs sm:text-sm text-[#F5F5F5]">KS.01</span>
-        </div> 
+        </div>
 
         <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
 
@@ -101,9 +150,8 @@ export default function Navbar() {
               <li
                 key={item.id}
                 onClick={() => handleScrollTo(item)}
-                className={`cursor-pointer transition-colors duration-300 ${
-                  isSelected ? 'text-[#4E85BF]' : 'text-[#F5F5F5]/70 hover:text-[#F5F5F5]'
-                }`}
+                className={`cursor-pointer transition-colors duration-300 ${isSelected ? 'text-[#4E85BF]' : 'text-[#F5F5F5]/70 hover:text-[#F5F5F5]'
+                  }`}
               >
                 {item.label}
               </li>
@@ -130,43 +178,53 @@ export default function Navbar() {
             className="sm:hidden text-[#F5F5F5] p-1.5 rounded-full hover:bg-white/5 transition-all cursor-pointer focus:outline-none"
             aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-      </nav>
+      </div>
 
-      {/* Animated Dropdown Menu for Mobile Screen */}
-      <AnimatePresence>
+      {/* Attached Mobile Slide-Down Menu Content */}
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-[#111111]/95 backdrop-blur-md border border-white/10 rounded-2xl p-5 z-40 shadow-2xl flex flex-col gap-3"
+            id="navbar-mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="sm:hidden overflow-hidden border-t border-white/10 bg-[#121212d9]"
           >
-            <div className="font-mono text-[9px] uppercase tracking-widest text-muted-text border-b border-white/5 pb-2 mb-1">
-              Navigation Menu
-            </div>
-            {navItems.map((item) => {
-              const isSelected = active === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleScrollTo(item)}
-                  className={`w-full text-left font-mono font-bold uppercase tracking-wider text-xs py-2 px-3 rounded-lg transition-all ${
-                    isSelected
+            <motion.div
+              initial={{ y: -8 }}
+              animate={{ y: 0 }}
+              exit={{ y: -8 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+              className="px-5 pb-5 pt-3.5 flex flex-col gap-1.5"
+            >
+              <div className="font-mono text-[9px] uppercase tracking-widest text-muted-text border-b border-white/5 pb-2 mb-1">
+                Navigation Menu
+              </div>
+              {navItems.map((item) => {
+                const isSelected = active === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    id={`mobile-nav-${item.id}`}
+                    type="button"
+                    onClick={() => handleScrollTo(item)}
+                    className={`w-full text-left font-mono font-bold uppercase tracking-wider text-sm py-2.5 px-3.5 rounded-xl transition-all ${isSelected
                       ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'
                       : 'text-muted-text hover:text-[#F5F5F5] hover:bg-white/3'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
+                      }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </nav>
   );
 }

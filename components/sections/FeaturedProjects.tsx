@@ -21,7 +21,8 @@ export default function FeaturedProjects() {
     : 0;
 
   return (
-    <Section id="featured-projects" className="bg-[#090909]">
+    <Section id="featured-projects" className="bg-[#090909] relative">
+      <div id="projects" className="absolute top-0 left-0 pointer-events-none" />
       <Container>
         <SectionHeading
           title="Featured Projects"

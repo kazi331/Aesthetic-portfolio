@@ -2,6 +2,7 @@
 
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
+import MobileSphereTechStack from './MobileSphereTechStack';
 import { ChevronDown, Cpu, Database, Layout, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -255,8 +256,11 @@ export default function TechStackV2() {
             <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-[#F5F5F5]">
               Toolkit & Ecosystem
             </h2>
-            <p className="text-sm font-sans text-muted-text max-w-xl">
+            <p className="text-sm font-sans text-muted-text max-w-xl hidden md:block">
               Hover over each node to explore my interactive technical constellation.
+            </p>
+            <p className="text-sm font-sans text-muted-text max-w-xl md:hidden">
+              Rotate the interactive 3D constellation with touch to explore my technical skills.
             </p>
           </div>
 
@@ -264,7 +268,7 @@ export default function TechStackV2() {
           <div className="flex items-center gap-2.5 px-4 py-2 bg-white/3 border border-white/5 rounded-full self-start md:self-auto shadow-xl">
             <Sparkles className="w-4 h-4 text-accent animate-pulse" />
             <span className="font-mono text-xs font-bold text-[#F5F5F5]">
-              12 technologies mapped
+              16 technologies mapped
             </span>
           </div>
         </div>
@@ -489,9 +493,13 @@ export default function TechStackV2() {
           </div>
         )}
 
-        {/* Mobile View - Beautiful Interactive Accordion Grid (block md:hidden) */}
+        {/* Mobile View - High-Performance 3D Orbital Constellation (Rendered ONLY on mobile devices) */}
+        <div className="md:hidden">
+          <MobileSphereTechStack />
+        </div>
+
+        {/* PREVIOUS ACCORDION STYLE TECHSTACK (Commented out for mobile as requested)
         <div className="md:hidden space-y-6">
-          {/* Mobile Filter bar */}
           <div className="flex flex-wrap items-center gap-2 bg-white/3 border border-white/5 p-4 rounded-3xl">
             <span className="font-mono text-[9px] uppercase text-muted-text/80 tracking-widest font-bold w-full mb-1">
               FILTER:
@@ -503,7 +511,7 @@ export default function TechStackV2() {
                   key={cat}
                   onClick={() => {
                     setActiveFilter(cat);
-                    setSelectedMobileTech(null); // Clear selected technology on filter change
+                    setSelectedMobileTech(null);
                   }}
                   className={`px-3 py-1.5 rounded-xl text-[9px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${isSelected
                     ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
@@ -516,7 +524,6 @@ export default function TechStackV2() {
             })}
           </div>
 
-          {/* Mobile Grid */}
           <div className="grid grid-cols-1 gap-3.5">
             {filteredTechnologies.map((tech) => {
               const isSelected = selectedMobileTech?.name === tech.name;
@@ -561,7 +568,6 @@ export default function TechStackV2() {
                     </div>
                   </div>
 
-                  {/* Ultra-smooth hardware-accelerated CSS Grid accordion with 0 JS thrashing */}
                   <div
                     className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
                       isSelected ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
@@ -585,7 +591,6 @@ export default function TechStackV2() {
             })}
           </div>
 
-          {/* Legend for Mobile */}
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 bg-white/3 border border-white/5 p-4 rounded-2xl">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#4E85BF]" />
@@ -601,6 +606,7 @@ export default function TechStackV2() {
             </div>
           </div>
         </div>
+        */}
 
       </Container>
     </Section>

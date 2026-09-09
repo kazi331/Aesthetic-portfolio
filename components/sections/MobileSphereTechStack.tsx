@@ -245,7 +245,6 @@ export default function MobileSphereTechStack() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [activeFilter, setActiveFilter] = useState<'all' | 'frontend' | 'backend' | 'database' | 'tooling'>('all');
   const [selectedTech, setSelectedTech] = useState<MobileTechItem>(mobileTechList[1]); // Default to React
   const [isInteracting, setIsInteracting] = useState(false);
 
@@ -556,31 +555,66 @@ export default function MobileSphereTechStack() {
         }
       }
 
-      // 5. Draw Central HUD Target Crosshair (saasocalypse center reticle)
+      // 5. Draw Central HUD Target Reticle (Tactical Observatory Crosshair + Corner Brackets)
       ctx.save();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-      ctx.lineWidth = 1;
-      // Crosshair lines
+      const activeHex = frontCenterNode ? frontCenterNode.item.accentHex : '#4E85BF';
+      const reticlePulse = (Math.sin(Date.now() * 0.004) + 1) / 2; // 0 to 1
+
+      // Subtle 3D astrolabe latitude guide ellipse
       ctx.beginPath();
-      ctx.moveTo(centerX - 16, centerY);
-      ctx.lineTo(centerX - 6, centerY);
-      ctx.moveTo(centerX + 6, centerY);
-      ctx.lineTo(centerX + 16, centerY);
-      ctx.moveTo(centerX, centerY - 16);
-      ctx.lineTo(centerX, centerY - 6);
-      ctx.moveTo(centerX, centerY + 6);
-      ctx.lineTo(centerX, centerY + 16);
+      ctx.ellipse(centerX, centerY, sphereRadius * 0.94, Math.max(4, Math.abs(sphereRadius * 0.94 * sinX)), 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 6]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Observatory Crosshair Lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(centerX - 18, centerY);
+      ctx.lineTo(centerX - 7, centerY);
+      ctx.moveTo(centerX + 7, centerY);
+      ctx.lineTo(centerX + 18, centerY);
+      ctx.moveTo(centerX, centerY - 18);
+      ctx.lineTo(centerX, centerY - 7);
+      ctx.moveTo(centerX, centerY + 7);
+      ctx.lineTo(centerX, centerY + 18);
+      ctx.stroke();
+
+      // Tactical Corner Brackets around center target [ + ]
+      const bDist = 20;
+      const bLen = 6;
+      ctx.strokeStyle = `${activeHex}${Math.round((0.35 + reticlePulse * 0.45) * 255).toString(16).padStart(2, '0')}`;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      // Top-Left
+      ctx.moveTo(centerX - bDist, centerY - bDist + bLen);
+      ctx.lineTo(centerX - bDist, centerY - bDist);
+      ctx.lineTo(centerX - bDist + bLen, centerY - bDist);
+      // Top-Right
+      ctx.moveTo(centerX + bDist - bLen, centerY - bDist);
+      ctx.lineTo(centerX + bDist, centerY - bDist);
+      ctx.lineTo(centerX + bDist, centerY - bDist + bLen);
+      // Bottom-Left
+      ctx.moveTo(centerX - bDist, centerY + bDist - bLen);
+      ctx.lineTo(centerX - bDist, centerY + bDist);
+      ctx.lineTo(centerX - bDist + bLen, centerY + bDist);
+      // Bottom-Right
+      ctx.moveTo(centerX + bDist - bLen, centerY + bDist);
+      ctx.lineTo(centerX + bDist, centerY + bDist);
+      ctx.lineTo(centerX + bDist, centerY + bDist - bLen);
       ctx.stroke();
 
       // Central reticle guide circle
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 13, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(78, 133, 191, 0.16)';
+      ctx.arc(centerX, centerY, 12, 0, Math.PI * 2);
+      ctx.strokeStyle = `${activeHex}33`;
       ctx.stroke();
       ctx.restore();
 
       // 6. Draw constellation connection mesh between nearby nodes
-      ctx.lineWidth = 0.8;
       for (let i = 0; i < projectedNodes.length; i++) {
         const n1 = projectedNodes[i];
         for (let j = i + 1; j < projectedNodes.length; j++) {
@@ -607,13 +641,16 @@ export default function MobileSphereTechStack() {
             ctx.lineTo(n2.screenX, n2.screenY);
 
             if (isConnectedToActive && avgZ > -0.2) {
-              ctx.strokeStyle = `rgba(78, 133, 191, ${lineAlpha * 2.8})`;
+              ctx.strokeStyle = activeHex;
+              ctx.globalAlpha = Math.min(0.85, lineAlpha * 3.4);
               ctx.lineWidth = 1.3;
             } else {
-              ctx.strokeStyle = `rgba(255, 255, 255, ${lineAlpha})`;
+              ctx.strokeStyle = '#FFFFFF';
+              ctx.globalAlpha = lineAlpha;
               ctx.lineWidth = 0.7;
             }
             ctx.stroke();
+            ctx.globalAlpha = 1;
           }
         }
       }
@@ -621,37 +658,35 @@ export default function MobileSphereTechStack() {
       // 7. Sort nodes by Z (back to front painter's algorithm)
       const sortedNodes = [...projectedNodes].sort((a, b) => a.z - b.z);
 
-      // 8. Draw nodes and badges
+      // 8. Draw nodes and badges (All 16 nodes permanently active)
       sortedNodes.forEach((node) => {
         const isCentered = node.item.id === centeredNodeIdRef.current;
-        const matchesFilter = activeFilter === 'all' || node.item.category === activeFilter;
-
         const isFront = node.z > 0;
         const baseRadius = (isCentered ? 5.8 : 3.8) * node.scale;
-        const nodeAlpha = matchesFilter ? node.alpha : node.alpha * 0.25;
+        const nodeAlpha = node.alpha;
 
         // Outer glow halo for front nodes or centered node
-        if (isCentered || (isFront && matchesFilter)) {
+        if (isCentered || isFront) {
           const haloGrad = ctx.createRadialGradient(
             node.screenX,
             node.screenY,
             0,
             node.screenX,
             node.screenY,
-            baseRadius * (isCentered ? 3.8 : 2.2)
+            baseRadius * (isCentered ? 4.0 : 2.4)
           );
 
           if (isCentered) {
-            haloGrad.addColorStop(0, 'rgba(78, 133, 191, 0.65)');
-            haloGrad.addColorStop(1, 'rgba(78, 133, 191, 0)');
+            haloGrad.addColorStop(0, `${node.item.accentHex}aa`);
+            haloGrad.addColorStop(1, `${node.item.accentHex}00`);
           } else if (node.item.type === 'data') {
-            haloGrad.addColorStop(0, 'rgba(16, 185, 129, 0.35)');
+            haloGrad.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
             haloGrad.addColorStop(1, 'rgba(16, 185, 129, 0)');
           } else if (node.item.type === 'learning') {
-            haloGrad.addColorStop(0, 'rgba(234, 179, 8, 0.35)');
+            haloGrad.addColorStop(0, 'rgba(234, 179, 8, 0.4)');
             haloGrad.addColorStop(1, 'rgba(234, 179, 8, 0)');
           } else {
-            haloGrad.addColorStop(0, 'rgba(78, 196, 191, 0.35)');
+            haloGrad.addColorStop(0, 'rgba(78, 196, 191, 0.4)');
             haloGrad.addColorStop(1, 'rgba(78, 196, 191, 0)');
           }
 
@@ -659,7 +694,7 @@ export default function MobileSphereTechStack() {
           ctx.arc(
             node.screenX,
             node.screenY,
-            baseRadius * (isCentered ? 3.8 : 2.2),
+            baseRadius * (isCentered ? 4.0 : 2.4),
             0,
             Math.PI * 2
           );
@@ -686,14 +721,14 @@ export default function MobileSphereTechStack() {
         ctx.lineWidth = 1.2 * node.scale;
         ctx.stroke();
 
-        // Target reticle / radar ring for CENTERED node (auto-highlighted!)
+        // Target reticle radar ring for CENTERED node
         if (isCentered) {
           const pulse = (Math.sin(Date.now() * 0.005) + 1) / 2; // 0 to 1
           const ringRadius = baseRadius * (2.4 + pulse * 0.8);
 
           ctx.beginPath();
           ctx.arc(node.screenX, node.screenY, ringRadius, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(78, 133, 191, ${0.45 + pulse * 0.45})`;
+          ctx.strokeStyle = `${node.item.accentHex}${Math.round((0.45 + pulse * 0.45) * 255).toString(16).padStart(2, '0')}`;
           ctx.lineWidth = 1.6;
           ctx.stroke();
 
@@ -702,14 +737,14 @@ export default function MobileSphereTechStack() {
           ctx.setLineDash([3, 4]);
           ctx.beginPath();
           ctx.arc(node.screenX, node.screenY, ringRadius + 6, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
           ctx.lineWidth = 1;
           ctx.stroke();
           ctx.restore();
         }
 
         // 9. Typography labels
-        const shouldShowLabel = isCentered || (node.z > -0.22 && matchesFilter);
+        const shouldShowLabel = isCentered || node.z > -0.25;
 
         if (shouldShowLabel) {
           const fontSize = Math.max(9, Math.min(12, Math.round(10.5 * node.scale)));
@@ -723,16 +758,16 @@ export default function MobileSphereTechStack() {
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
 
-          ctx.strokeStyle = 'rgba(9, 9, 9, 0.85)';
-          ctx.lineWidth = 3;
+          ctx.strokeStyle = 'rgba(9, 9, 9, 0.9)';
+          ctx.lineWidth = 3.2;
           ctx.strokeText(text, node.screenX, textY);
 
           if (isCentered) {
             ctx.fillStyle = '#FFFFFF';
           } else if (isFront) {
-            ctx.fillStyle = `rgba(245, 245, 245, ${Math.max(0.4, nodeAlpha)})`;
+            ctx.fillStyle = `rgba(245, 245, 245, ${Math.max(0.5, nodeAlpha)})`;
           } else {
-            ctx.fillStyle = `rgba(141, 141, 141, ${nodeAlpha * 0.7})`;
+            ctx.fillStyle = `rgba(141, 141, 141, ${nodeAlpha * 0.75})`;
           }
           ctx.fillText(text, node.screenX, textY);
         }
@@ -747,7 +782,7 @@ export default function MobileSphereTechStack() {
       window.removeEventListener('resize', updateDimensions);
       cancelAnimationFrame(animId);
     };
-  }, [activeFilter]);
+  }, []);
 
   // Touch & Pointer gesture listeners with velocity-based inertia tracking
   const handleStart = useCallback((clientX: number, clientY: number) => {
@@ -932,77 +967,53 @@ export default function MobileSphereTechStack() {
     animateToIndex(nextIndex);
   };
 
-  // Switch category filter and rotate to first matching item
-  const handleFilterSelect = (cat: 'all' | 'frontend' | 'backend' | 'database' | 'tooling') => {
-    setActiveFilter(cat);
-    if (cat !== 'all') {
-      const matchIndex = mobileTechList.findIndex((t) => t.category === cat);
-      if (matchIndex !== -1) {
-        animateToIndex(matchIndex);
-      }
-    }
-  };
-
   return (
     <div className="w-full flex flex-col items-center">
-      {/* 1. Header Bar: Filter Pills matching saasocalypse mockup */}
-      <div className="w-full flex flex-col gap-3 mb-2">
+      {/* 1. Header Bar: Orbit Status & Quick Controls */}
+      <div className="w-full flex flex-col gap-2.5 mb-2">
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]" />
+            </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#89AACC] font-bold">
-              3D ORBITAL CLUSTER
+              3D Orbital Constellation
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-muted-text">
+              16 Nodes
             </span>
           </div>
 
           <button
             onClick={handleResetView}
             className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted-text text-[10px] font-mono hover:text-white transition-colors active:scale-95"
+            aria-label="Reset 3D constellation orientation"
           >
             <RotateCcw className="w-3 h-3" />
             <span>RESET</span>
           </button>
         </div>
 
-        {/* Filter Chips Bar */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-left">
-          {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
-            const isSelected = activeFilter === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => handleFilterSelect(cat)}
-                className={`shrink-0 px-3 py-1.5 rounded-xl text-[10px] font-mono font-bold uppercase tracking-wider transition-all active:scale-95 ${
-                  isSelected
-                    ? 'bg-[#162a45] text-[#89AACC] border border-[#4E85BF]/40 shadow-sm'
-                    : 'bg-white/3 border border-white/5 text-muted-text hover:text-white'
-                }`}
-              >
-                {cat}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Legend Indicators (Product, Infrastructure, etc. matching saasocalypse) */}
+        {/* Legend Indicators */}
         <div className="flex items-center justify-between px-2 pt-1 border-t border-white/5">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#4E85BF]" />
+              <span className="w-2 h-2 rounded-full bg-[#4E85BF] shadow-[0_0_6px_#4E85BF]" />
               <span className="font-mono text-[9px] text-muted-text uppercase">Core</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+              <span className="w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_6px_#10B981]" />
               <span className="font-mono text-[9px] text-muted-text uppercase">Data</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-yellow-500" />
+              <span className="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_6px_#EAB308]" />
               <span className="font-mono text-[9px] text-muted-text uppercase">Learning</span>
             </div>
           </div>
 
-          <span className="font-mono text-[9px] text-muted-text/70 italic">
-            {isInteracting ? 'Dragging orbit...' : 'Drag freely across'}
+          <span className="font-mono text-[9px] text-muted-text/80 italic">
+            {isInteracting ? 'Orbiting in 3D...' : 'Drag freely in 3D'}
           </span>
         </div>
       </div>

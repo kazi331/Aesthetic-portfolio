@@ -1,4 +1,4 @@
-import { Project, Stat, Service, SkillCategory, Testimonial, BlogPost, OpenSourceRepo, WorkExperience, Education, Reference, PersonalInfo } from '@/types/portfolio';
+import { BlogPost, Education, OpenSourceRepo, PersonalInfo, Project, Reference, Service, SkillCategory, Stat, Testimonial, WorkExperience } from '@/types/portfolio';
 
 export const personalInfo: PersonalInfo = {
   name: 'Kazi Shariful Islam',
@@ -665,4 +665,37 @@ export const references: Reference[] = [
     company: 'Approveage Inc.',
     email: 'jerome.ramsay@gmail.com'
   }
+];
+
+export const snippetSkills = [
+  {
+    name: 'React',
+    code: 'const App = () => {\n  return <Dashboard />;\n};',
+    dots: ['#4EC4BF', '#7054E6', '#8F3DB8', '#42B883'],
+  },
+  {
+    name: 'Next.js',
+    code: 'export default function Page() {\n  return <main className="flex" />\n}',
+    dots: ['#ffffff', '#888888', '#444444', '#111111'],
+  },
+  {
+    name: 'Node.js',
+    code: "app.listen(3000, () => {\n  console.log('Live on port 3000');\n});",
+    dots: ['#81C784', '#66BB6A', '#4CAF50', '#388E3C'],
+  },
+  {
+    name: 'TypeScript',
+    code: 'interface User {\n  id: string;\n  role: "admin" | "user";\n}',
+    dots: ['#3178C6', '#2F74C0', '#1F5E9B', '#4EA2FF'],
+  },
+  {
+    name: 'PostgreSQL',
+    code: 'SELECT * FROM users\nWHERE active = true\nORDER BY created_at DESC;',
+    dots: ['#336791', '#2F5D85', '#1D3B55', '#4D82B8'],
+  },
+  {
+    name: 'Python',
+    code: 'def handle_event(event):\n    return {"status": "success"}',
+    dots: ['#306998', '#FFD43B', '#4B8BBE', '#FFE873'],
+  },
 ];

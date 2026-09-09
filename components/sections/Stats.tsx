@@ -16,47 +16,48 @@ interface RichStat {
   color: string;
 }
 
+const richStats: RichStat[] = [
+  {
+    id: 'exp',
+    value: '03+',
+    label: 'Years Experience',
+    subtitle: 'System Engineering',
+    description: 'Designing modular frontend structures and high-performance server microservices.',
+    icon: <Code2 className="w-5 h-5 text-accent" />,
+    color: 'rgba(78, 133, 191, 0.12)'
+  },
+  {
+    id: 'projects',
+    value: '12+',
+    label: 'Projects Completed',
+    subtitle: 'Production Deployed',
+    description: 'Powering multi-tenant administrative portals, custom dashboards, and real-time backends.',
+    icon: <Cpu className="w-5 h-5 text-emerald-400" />,
+    color: 'rgba(16, 185, 129, 0.12)'
+  },
+  {
+    id: 'perf',
+    value: '+60%',
+    label: 'Performance Gain',
+    subtitle: 'Speed & Optimization',
+    description: 'Maximized via server-side caching, localized state hydration, and asset budget optimizations.',
+    icon: <Zap className="w-5 h-5 text-amber-400" />,
+    color: 'rgba(245, 158, 11, 0.12)'
+  },
+  {
+    id: 'roundtrips',
+    value: '-40%',
+    label: 'API Roundtrips',
+    subtitle: 'Caching Efficiency',
+    description: 'Minimized network latency by fine-tuning stale state queries and persistent cache rules.',
+    icon: <GitCompare className="w-5 h-5 text-[#89AACC]" />,
+    color: 'rgba(137, 170, 204, 0.12)'
+  }
+];
+
 export default function Stats() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
-  const richStats: RichStat[] = [
-    {
-      id: 'exp',
-      value: '03+',
-      label: 'Years Experience',
-      subtitle: 'System Engineering',
-      description: 'Designing modular frontend structures and high-performance server microservices.',
-      icon: <Code2 className="w-5 h-5 text-accent" />,
-      color: 'rgba(78, 133, 191, 0.12)'
-    },
-    {
-      id: 'projects',
-      value: '12+',
-      label: 'Projects Completed',
-      subtitle: 'Production Deployed',
-      description: 'Powering multi-tenant administrative portals, custom dashboards, and real-time backends.',
-      icon: <Cpu className="w-5 h-5 text-emerald-400" />,
-      color: 'rgba(16, 185, 129, 0.12)'
-    },
-    {
-      id: 'perf',
-      value: '+60%',
-      label: 'Performance Gain',
-      subtitle: 'Speed & Optimization',
-      description: 'Maximized via server-side caching, localized state hydration, and asset budget optimizations.',
-      icon: <Zap className="w-5 h-5 text-amber-400" />,
-      color: 'rgba(245, 158, 11, 0.12)'
-    },
-    {
-      id: 'roundtrips',
-      value: '-40%',
-      label: 'API Roundtrips',
-      subtitle: 'Caching Efficiency',
-      description: 'Minimized network latency by fine-tuning stale state queries and persistent cache rules.',
-      icon: <GitCompare className="w-5 h-5 text-[#89AACC]" />,
-      color: 'rgba(137, 170, 204, 0.12)'
-    }
-  ];
 
   return (
     <Section id="stats" className="py-16 md:py-20 bg-[#080808] border-b border-white/5 relative overflow-hidden">

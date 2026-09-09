@@ -1,33 +1,35 @@
 'use client';
 
 import { triggerRouteTransition } from '@/components/layout/PageLoader';
-import { personalInfo } from '@/lib/data';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const navItems = [
   { label: 'Home', id: 'hero', path: '/' },
+  { label: 'Profile', id: 'profile', path: '/profile' },
   { label: 'Projects', id: 'featured-projects', path: '/#featured-projects' },
   { label: 'Stack', id: 'tech-stack', path: '/#tech-stack' },
   { label: 'Journey', id: 'experience', path: '/#experience' },
   { label: 'Blog', id: 'recent-blog', path: '/blog' },
   { label: 'Services', id: 'services', path: '/#services' },
-  { label: 'Reviews', id: 'testimonials', path: '/#testimonials' },
+  // { label: 'Contact', id: 'contact', path: '/contact' },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const isBlogPage = pathname.startsWith('/blog') || pathname.startsWith('/articles');
+  const isStandalonePage = pathname === '/profile' || pathname === '/contact';
 
   const [active, setActive] = useState(() => (isBlogPage ? 'recent-blog' : 'hero'));
   const [isOpen, setIsOpen] = useState(false);
 
   // Simple scroll spy to update active item on home page
   useEffect(() => {
-    if (isBlogPage) return;
+    if (isBlogPage || isStandalonePage) return;
 
     const handleScroll = () => {
       const scrollPos = window.scrollY + 180;
@@ -45,7 +47,7 @@ export default function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isBlogPage]);
+  }, [isBlogPage, isStandalonePage]);
 
   // Close mobile dropdown when tapping outside
   useEffect(() => {
@@ -108,6 +110,18 @@ export default function Navbar() {
       return;
     }
 
+    if (item.path === '/profile' || item.path === '/contact') {
+      triggerRouteTransition(item.path);
+      router.push(item.path);
+      return;
+    }
+
+    if (isStandalonePage) {
+      triggerRouteTransition(item.path || '/');
+      router.push(item.path || `/#${item.id}`);
+      return;
+    }
+
     if (isBlogPage) {
       triggerRouteTransition(item.path || '/');
       router.push(item.path || `/#${item.id}`);
@@ -126,7 +140,7 @@ export default function Navbar() {
       className={`fixed top-6 left-1/2 -translate-x-1/2 glass-nav z-50 w-[92%] max-w-3xl shadow-xl border border-white/10 transition-[border-radius] duration-300 overflow-hidden rounded-[28px]`}
     >
       {/* Top Header Bar */}
-      <div className="px-5 sm:px-8 py-3 flex items-center gap-4 sm:gap-8 justify-between sm:justify-start">
+      <div className="px-5 py-3 flex items-center gap-4 sm:gap-8 justify-between sm:justify-between">
         {/* Left Brand Logo */}
         <div
           id="navbar-logo"
@@ -144,7 +158,7 @@ export default function Navbar() {
           <span className="font-bold tracking-tighter text-xs sm:text-sm text-[#F5F5F5]">KS.01</span>
         </div>
 
-        <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
+        <div className="h-4 w-[1px] bg-white/10 hidden lg:block" />
 
         {/* Desktop Menu */}
         <ul id="navbar-menu" className="hidden sm:flex gap-5 text-[10px] font-mono font-semibold tracking-widest uppercase opacity-85">
@@ -163,17 +177,17 @@ export default function Navbar() {
           })}
         </ul>
 
-        <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
+        <div className="h-4 w-[1px] bg-white/10 hidden lg:block" />
 
         {/* Right Buttons Container */}
         <div className="flex items-center gap-2">
-          <button
+          <Link href="/contact"
             id="navbar-resume-btn"
-            onClick={() => window.open(`mailto:${personalInfo.email}?subject=Hi Kazi, let's connect!`, '_self')}
+            // onClick={() => window.open(`mailto:${personalInfo.email}?subject=Hi Kazi, let's connect!`, '_self')}
             className="text-[9px] sm:text-[10px] font-mono font-bold bg-[#F5F5F5] text-black px-3.5 py-1.5 rounded-full uppercase tracking-widest hover:bg-[#F5F5F5]/90 transition-all cursor-pointer"
           >
             Hire Me
-          </button>
+          </Link>
 
           {/* Hamburger Icon on mobile view */}
           <button

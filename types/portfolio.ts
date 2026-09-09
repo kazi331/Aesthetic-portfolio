@@ -112,4 +112,12 @@ export interface PersonalInfo {
   linkedin: string;
   website: string;
   summary: string;
+  profileImage?: string;
+}
+
+export interface Certification {
+  name: string;
+  issuer: string;
+  completedDate: string;
+  url: string;
 }

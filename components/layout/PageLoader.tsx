@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'motion/react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function triggerRouteTransition(targetPath?: string) {
   if (typeof window !== 'undefined') {
@@ -72,6 +72,12 @@ export default function PageLoader() {
     }, 3500);
   }, [completeLoading]);
 
+  const scheduleLoading = useCallback((targetPath?: string) => {
+    window.setTimeout(() => {
+      startLoading(targetPath);
+    }, 0);
+  }, [startLoading]);
+
   // When pathname changes, complete route transition
   useEffect(() => {
     if (currentPathRef.current !== pathname) {
@@ -113,12 +119,12 @@ export default function PageLoader() {
           const url = new URL(href, window.location.origin);
           // Only trigger if destination pathname differs from current pathname
           if (url.origin === window.location.origin && url.pathname !== window.location.pathname) {
-            startLoading(url.pathname);
+            scheduleLoading(url.pathname);
           }
         } catch {
           // If relative path
           if (href.startsWith('/') && !href.startsWith('//') && href !== window.location.pathname) {
-            startLoading(href);
+            scheduleLoading(href);
           }
         }
       }
@@ -127,13 +133,13 @@ export default function PageLoader() {
     // 2. Custom event listener for programmatic navigation
     const handleCustomRouteStart = (e: Event) => {
       const customEvent = e as CustomEvent<{ targetPath?: string }>;
-      startLoading(customEvent.detail?.targetPath);
+      scheduleLoading(customEvent.detail?.targetPath);
     };
 
     // 3. Browser back/forward navigation
     const handlePopState = () => {
       if (window.location.pathname !== currentPathRef.current) {
-        startLoading(window.location.pathname);
+        scheduleLoading(window.location.pathname);
       }
     };
 
@@ -147,9 +153,9 @@ export default function PageLoader() {
         try {
           const dest = new URL(url, window.location.origin);
           if (dest.pathname !== window.location.pathname) {
-            startLoading(dest.pathname);
+            scheduleLoading(dest.pathname);
           }
-        } catch {}
+        } catch { }
       }
       return originalPushState.apply(this, args);
     };
@@ -160,9 +166,9 @@ export default function PageLoader() {
         try {
           const dest = new URL(url, window.location.origin);
           if (dest.pathname !== window.location.pathname) {
-            startLoading(dest.pathname);
+            scheduleLoading(dest.pathname);
           }
-        } catch {}
+        } catch { }
       }
       return originalReplaceState.apply(this, args);
     };
@@ -180,7 +186,7 @@ export default function PageLoader() {
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [startLoading]);
+  }, [scheduleLoading]);
 
   return (
     <AnimatePresence>

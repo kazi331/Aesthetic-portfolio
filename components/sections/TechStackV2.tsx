@@ -494,7 +494,7 @@ export default function TechStackV2() {
         )}
 
         {/* Mobile View - Both 3D Orbital Constellation & Full Stack Index with Filter */}
-        <div className="md:hidden space-y-6">
+        <div className="md:hidden space-y-6 select-none">
           {/* 1. 3D Orbital Constellation */}
           <MobileSphereTechStack />
 

@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { triggerRouteTransition } from '@/components/layout/PageLoader';
 
 const navItems = [
   { label: 'Home', id: 'hero', path: '/' },
@@ -99,6 +100,7 @@ export default function Navbar() {
 
     if (item.path === '/blog') {
       if (!isBlogPage) {
+        triggerRouteTransition('/blog');
         router.push('/blog');
       } else {
         scrollToTarget('hero');
@@ -107,6 +109,7 @@ export default function Navbar() {
     }
 
     if (isBlogPage) {
+      triggerRouteTransition(item.path || '/');
       router.push(item.path || `/#${item.id}`);
       return;
     }
@@ -130,6 +133,7 @@ export default function Navbar() {
           className="flex items-center gap-2 cursor-pointer shrink-0"
           onClick={() => {
             if (pathname !== '/') {
+              triggerRouteTransition('/');
               router.push('/');
             } else {
               window.scrollTo({ top: 0, behavior: 'smooth' });

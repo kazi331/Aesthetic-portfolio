@@ -778,9 +778,18 @@ export default function MobileSphereTechStack() {
 
     animId = requestAnimationFrame(render);
 
+    const container = containerRef.current;
+    const preventSelect = (e: Event) => e.preventDefault();
+    if (container) {
+      container.addEventListener('selectstart', preventSelect);
+    }
+
     return () => {
       window.removeEventListener('resize', updateDimensions);
       cancelAnimationFrame(animId);
+      if (container) {
+        container.removeEventListener('selectstart', preventSelect);
+      }
     };
   }, []);
 
@@ -940,10 +949,20 @@ export default function MobileSphereTechStack() {
 
   // Mouse handlers for desktop/emulator testing
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (typeof window !== 'undefined' && window.getSelection) {
+      window.getSelection()?.removeAllRanges();
+    }
     handleStart(e.clientX, e.clientY);
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (touchStateRef.current.isDown) {
+      e.preventDefault();
+      if (typeof window !== 'undefined' && window.getSelection) {
+        window.getSelection()?.removeAllRanges();
+      }
+    }
     handleMove(e.clientX, e.clientY);
   };
 
@@ -968,7 +987,10 @@ export default function MobileSphereTechStack() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div 
+      className="w-full flex flex-col items-center select-none"
+      style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
+    >
       {/* 1. Header Bar: Orbit Status & Quick Controls */}
       <div className="w-full flex flex-col gap-2.5 mb-2">
         <div className="flex items-center justify-between px-1">
@@ -1029,7 +1051,7 @@ export default function MobileSphereTechStack() {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
-        style={{ touchAction: 'none' }}
+        style={{ touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
         className="relative w-full aspect-square max-w-[360px] my-1 flex items-center justify-center select-none touch-none cursor-grab active:cursor-grabbing"
       >
         <canvas
@@ -1038,21 +1060,23 @@ export default function MobileSphereTechStack() {
         />
 
         {/* Subtle Guidance Overlay on first interaction */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-mono text-muted-text/90 whitespace-nowrap">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-mono text-muted-text/90 whitespace-nowrap select-none">
           Drag freely • Auto-centers into focus
         </div>
       </div>
 
       {/* 3. Bottom Attached Detail Card (Direct homage to saasocalypse bottom card) */}
-      <div className="w-full mt-2">
+      <div className="w-full mt-2 select-none">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="w-full p-5 rounded-3xl bg-[#111111]/95 border backdrop-blur-xl shadow-2xl text-left relative overflow-hidden transition-[border-color,box-shadow] duration-300"
+          className="w-full p-5 rounded-3xl bg-[#111111]/95 border backdrop-blur-xl shadow-2xl text-left relative overflow-hidden transition-[border-color,box-shadow] duration-300 select-none"
           style={{
             borderColor: `${selectedTech.accentHex}33`,
             boxShadow: `0 10px 30px -10px rgba(0,0,0,0.8), 0 0 20px -6px ${selectedTech.accentHex}22`,
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
           }}
         >
           {/* Top glowing ambient accent stripe */}

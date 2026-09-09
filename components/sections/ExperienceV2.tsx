@@ -267,8 +267,8 @@ export default function ExperienceV2() {
                       top: `${step.cardY}%`,
                       transform: 'translate(-50%, -50%)',
                     }}
-                    className={`absolute w-[290px] p-5 rounded-2xl border transition-all duration-300 text-left cursor-pointer z-10 ${isActive
-                      ? 'bg-[#121212] border-white/10 shadow-2xl shadow-black/90 scale-102 ring-1 ring-white/5'
+                    className={`absolute w-[290px] p-5 rounded-2xl border transition-all duration-300 text-left cursor-pointer ${isActive
+                      ? 'bg-[#121212] border-white/10 shadow-2xl shadow-black/90 scale-102 ring-1 ring-white/5 z-[11]'
                       : 'bg-[#121212]/50 border-white/5 hover:border-white/10 opacity-60 hover:opacity-90'
                       }`}
                   >

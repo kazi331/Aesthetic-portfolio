@@ -265,7 +265,7 @@ export default function TechStackV2() {
           </div>
 
           {/* Sparkle Badge at Top Right */}
-          <div className="flex items-center gap-2.5 px-4 py-2 bg-white/3 border border-white/5 rounded-full self-start md:self-auto shadow-xl">
+          <div className="hidden md:flex items-center gap-2.5 px-4 py-2 bg-white/3 border border-white/5 rounded-full self-start md:self-auto shadow-xl">
             <Sparkles className="w-4 h-4 text-accent animate-pulse" />
             <span className="font-mono text-xs font-bold text-[#F5F5F5]">
               16 technologies mapped
@@ -518,7 +518,7 @@ export default function TechStackV2() {
               </div>
 
               {/* Filter Chips Bar */}
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-left">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-left scrollbar-none">
                 {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
                   const isSelected = activeFilter === cat;
                   const count =

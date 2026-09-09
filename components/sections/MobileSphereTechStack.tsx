@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { 
-  RotateCcw, 
+import {
   CheckCircle2,
+  RotateCcw,
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface MobileTechItem {
   id: string;
@@ -810,7 +810,7 @@ export default function MobileSphereTechStack() {
     historyRef.current = [{ x: clientX, y: clientY, time: Date.now() }];
     targetAngleYRef.current = null;
     targetAngleXRef.current = null; // User takes immediate manual control
-    
+
     const rot = rotationRef.current;
     rot.velX = 0;
     rot.velY = 0;
@@ -987,7 +987,7 @@ export default function MobileSphereTechStack() {
   };
 
   return (
-    <div 
+    <div
       className="w-full flex flex-col items-center select-none"
       style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
     >
@@ -1000,13 +1000,9 @@ export default function MobileSphereTechStack() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]" />
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#89AACC] font-bold">
-              3D Orbital Constellation
-            </span>
-            <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-muted-text">
-              16 Nodes
+              16 technologies mapped
             </span>
           </div>
-
           <button
             onClick={handleResetView}
             className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted-text text-[10px] font-mono hover:text-white transition-colors active:scale-95"
@@ -1082,14 +1078,14 @@ export default function MobileSphereTechStack() {
           {/* Top glowing ambient accent stripe */}
           <div
             className="absolute top-0 left-0 right-0 h-[2px] transition-all duration-300"
-            style={{ 
+            style={{
               backgroundColor: selectedTech.accentHex,
-              boxShadow: `0 0 10px ${selectedTech.accentHex}` 
+              boxShadow: `0 0 10px ${selectedTech.accentHex}`
             }}
           />
 
           {/* Ambient soft glow in corner matching skill accent */}
-          <div 
+          <div
             className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl pointer-events-none transition-colors duration-500 opacity-20"
             style={{ backgroundColor: selectedTech.accentHex }}
           />
@@ -1100,9 +1096,9 @@ export default function MobileSphereTechStack() {
               <div className="flex items-center gap-2 mb-1">
                 <span
                   className="w-2 h-2 rounded-full transition-all duration-300 shrink-0"
-                  style={{ 
+                  style={{
                     backgroundColor: selectedTech.accentHex,
-                    boxShadow: `0 0 6px ${selectedTech.accentHex}` 
+                    boxShadow: `0 0 6px ${selectedTech.accentHex}`
                   }}
                 />
                 <span className="font-mono text-[9px] uppercase tracking-widest text-muted-text font-bold">
@@ -1118,7 +1114,7 @@ export default function MobileSphereTechStack() {
               <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-[10px] font-bold text-[#F5F5F5]">
                 {selectedTech.experience}
               </span>
-              <span 
+              <span
                 className="font-mono text-[9px] font-bold transition-colors duration-300"
                 style={{ color: selectedTech.accentHex }}
               >

@@ -1,11 +1,11 @@
 'use client';
 
+import { triggerRouteTransition } from '@/components/layout/PageLoader';
 import { personalInfo } from '@/lib/data';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { triggerRouteTransition } from '@/components/layout/PageLoader';
 
 const navItems = [
   { label: 'Home', id: 'hero', path: '/' },

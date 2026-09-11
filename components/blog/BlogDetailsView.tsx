@@ -20,7 +20,10 @@ import {
   Mail,
   Share2,
   Sparkles,
-  ThumbsUp
+  ThumbsUp,
+  Twitter,
+  Linkedin,
+  Link2
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -470,6 +473,54 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
                     <span>Discuss</span>
                   </a>
                 </div>
+              </div>
+
+              {/* Social Share Card */}
+              <div className="bg-[#121212]/80 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-text font-bold block pb-2 border-b border-white/5">
+                  Share Article
+                </span>
+                <p className="text-xs text-muted-text leading-relaxed">
+                  Share this breakdown with your engineering team or community:
+                </p>
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${post.title} by @kazi331`)}&url=${encodeURIComponent(`https://kazisharif.dev/blog/${post.slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2 px-3 rounded-xl bg-white/5 hover:bg-[#1DA1F2]/20 hover:border-[#1DA1F2]/40 border border-white/5 text-xs font-mono flex items-center justify-center gap-1.5 transition-all text-white hover:text-[#1DA1F2]"
+                    title="Share on X / Twitter"
+                  >
+                    <Twitter className="w-3.5 h-3.5" />
+                    <span>X / Twitter</span>
+                  </a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://kazisharif.dev/blog/${post.slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2 px-3 rounded-xl bg-white/5 hover:bg-[#0A66C2]/20 hover:border-[#0A66C2]/40 border border-white/5 text-xs font-mono flex items-center justify-center gap-1.5 transition-all text-white hover:text-[#0A66C2]"
+                    title="Share on LinkedIn"
+                  >
+                    <Linkedin className="w-3.5 h-3.5" />
+                    <span>LinkedIn</span>
+                  </a>
+                </div>
+                <button
+                  onClick={handleShare}
+                  className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-accent/20 hover:border-accent/40 border border-white/5 text-xs font-mono flex items-center justify-center gap-1.5 transition-all text-white cursor-pointer mt-1"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400">Link Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Link2 className="w-3.5 h-3.5 text-accent" />
+                      <span>Copy Direct Link</span>
+                    </>
+                  )}
+                </button>
               </div>
 
             </div>

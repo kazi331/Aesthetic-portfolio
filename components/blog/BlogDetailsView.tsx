@@ -1,35 +1,32 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
+import Footer from '@/components/layout/Footer';
+import Navbar from '@/components/layout/Navbar';
+import Container from '@/components/shared/Container';
+import { blogPosts, personalInfo } from '@/lib/data';
 import {
   ArrowLeft,
-  Calendar,
-  Clock,
-  Share2,
   Bookmark,
+  BookOpen,
+  Calendar,
   Check,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
-  Github,
-  Mail,
-  BookOpen,
-  ThumbsUp,
-  Flame,
+  Clock,
   Code2,
-  Tag,
-  Home
+  Flame,
+  Github,
+  Home,
+  Mail,
+  Share2,
+  Sparkles,
+  ThumbsUp
 } from 'lucide-react';
-import { BlogPost } from '@/types/portfolio';
-import { blogPosts, personalInfo } from '@/lib/data';
-import Container from '@/components/shared/Container';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import ReadingProgressBar from './ReadingProgressBar';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
+import ReadingProgressBar from './ReadingProgressBar';
 import TableOfContents from './TableOfContents';
 
 interface BlogDetailsViewProps {
@@ -121,8 +118,8 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
         <ReadingProgressBar />
 
         {/* Atmospheric Ambient Glows - zero-blur radial gradients */}
-        <div className="absolute top-20 left-1/3 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(78,133,191,0.06)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute top-1/2 right-10 w-[450px] h-[450px] bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
+        {/* <div className="absolute top-20 left-1/3 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(78,133,191,0.06)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute top-1/2 right-10 w-[450px] h-[450px] bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" /> */}
 
         <Container className="relative z-10 max-w-6xl">
           {/* Top Navigation & Breadcrumbs (Back to Home / Blog) */}
@@ -165,8 +162,8 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
               <button
                 onClick={() => setTextSize(textSize === 'normal' ? 'large' : 'normal')}
                 className={`px-3 py-1.5 rounded-full text-[10px] font-mono transition-all cursor-pointer border ${textSize === 'large'
-                    ? 'bg-accent/15 border-accent/40 text-accent'
-                    : 'bg-white/3 border-white/5 text-muted-text hover:text-white'
+                  ? 'bg-accent/15 border-accent/40 text-accent'
+                  : 'bg-white/3 border-white/5 text-muted-text hover:text-white'
                   }`}
                 title="Toggle reading text size"
               >
@@ -177,8 +174,8 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
               <button
                 onClick={toggleBookmark}
                 className={`p-2 rounded-full border transition-all cursor-pointer ${bookmarked
-                    ? 'bg-accent/20 border-accent text-accent'
-                    : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
+                  ? 'bg-accent/20 border-accent text-accent'
+                  : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
                   }`}
                 title={bookmarked ? 'Saved to bookmarks' : 'Save article'}
                 aria-label="Bookmark article"
@@ -190,8 +187,8 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
               <button
                 onClick={handleShare}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-mono transition-all cursor-pointer border ${copied
-                    ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                    : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
+                  ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
+                  : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
                   }`}
                 title="Share article"
               >
@@ -329,10 +326,10 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-accent" />
                   <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-                    Did you find this architecture breakdown useful?
+                    Did you find this article useful?
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   {[
                     { label: 'Insightful', icon: <ThumbsUp className="w-3.5 h-3.5" /> },
                     { label: 'Practical', icon: <Code2 className="w-3.5 h-3.5" /> },
@@ -342,8 +339,8 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
                       key={item.label}
                       onClick={() => setReaction(item.label)}
                       className={`px-3 py-1.5 rounded-xl text-[11px] font-mono flex items-center gap-1.5 transition-all cursor-pointer border ${reaction === item.label
-                          ? 'bg-accent/20 border-accent text-accent font-bold'
-                          : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
+                        ? 'bg-accent/20 border-accent text-accent font-bold'
+                        : 'bg-white/3 border-white/5 text-muted-text hover:text-white hover:bg-white/5'
                         }`}
                     >
                       {item.icon}

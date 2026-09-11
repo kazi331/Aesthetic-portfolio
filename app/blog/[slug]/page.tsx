@@ -1,7 +1,6 @@
-import React from 'react';
-import { Metadata } from 'next';
-import { blogPosts } from '@/lib/data';
 import BlogDetailsView from '@/components/blog/BlogDetailsView';
+import { blogPosts } from '@/lib/data';
+import { Metadata } from 'next';
 
 interface PageProps {
   params: Promise<{ slug: string }>;

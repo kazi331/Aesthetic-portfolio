@@ -1,48 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, Cpu, ChevronRight, Terminal, Sparkles, Github, GitCommit, GitBranch } from 'lucide-react';
-import { skillCategories } from '@/lib/data';
-import { Skill } from '@/types/portfolio';
+import SkillCard from '@/components/cards/SkillCard';
 import Container from '@/components/shared/Container';
+import Modal from '@/components/shared/Modal';
 import Section from '@/components/shared/Section';
 import SectionHeading from '@/components/shared/SectionHeading';
-import SkillCard from '@/components/cards/SkillCard';
-import Modal from '@/components/shared/Modal';
+import { snippetSkills } from '@/lib';
+import { skillCategories } from '@/lib/data';
+import { Skill } from '@/types/portfolio';
+import { CheckCircle2, ChevronRight, Cpu, GitBranch, GitCommit, Github, Terminal } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useState } from 'react';
 
-const snippetSkills = [
-  {
-    name: 'React',
-    code: 'const App = () => {\n  return <Dashboard />;\n};',
-    dots: ['#4EC4BF', '#7054E6', '#8F3DB8', '#42B883'],
-  },
-  {
-    name: 'Next.js',
-    code: 'export default function Page() {\n  return <main className="flex" />\n}',
-    dots: ['#ffffff', '#888888', '#444444', '#111111'],
-  },
-  {
-    name: 'Node.js',
-    code: "app.listen(3000, () => {\n  console.log('Live on port 3000');\n});",
-    dots: ['#81C784', '#66BB6A', '#4CAF50', '#388E3C'],
-  },
-  {
-    name: 'TypeScript',
-    code: 'interface User {\n  id: string;\n  role: "admin" | "user";\n}',
-    dots: ['#3178C6', '#2F74C0', '#1F5E9B', '#4EA2FF'],
-  },
-  {
-    name: 'PostgreSQL',
-    code: 'SELECT * FROM users\nWHERE active = true\nORDER BY created_at DESC;',
-    dots: ['#336791', '#2F5D85', '#1D3B55', '#4D82B8'],
-  },
-  {
-    name: 'Python',
-    code: 'def handle_event(event):\n    return {"status": "success"}',
-    dots: ['#306998', '#FFD43B', '#4B8BBE', '#FFE873'],
-  },
-];
+
 
 // High-Fidelity Contribution Dots matching the user's mockup image
 const contributionLevels = [
@@ -118,36 +88,34 @@ export default function TechStack() {
                 Categories
               </span>
             </div>
-            
+
             {skillCategories.map((cat) => {
               const isSelected = activeCategory === cat.category;
               return (
                 <button
                   key={cat.category}
                   onClick={() => setActiveCategory(cat.category)}
-                  className={`group relative flex items-center justify-between px-5 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider text-left transition-all cursor-pointer ${
-                    isSelected
-                      ? 'text-[#F5F5F5] bg-accent/15 border border-accent/25 shadow-lg shadow-accent/5'
-                      : 'text-muted-text bg-white/3 border border-white/3 hover:text-primary-text hover:bg-white/5'
-                  }`}
+                  className={`group relative flex items-center justify-between px-5 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider text-left transition-all cursor-pointer ${isSelected
+                    ? 'text-[#F5F5F5] bg-accent/15 border border-accent/25 shadow-lg shadow-accent/5'
+                    : 'text-muted-text bg-white/3 border border-white/3 hover:text-primary-text hover:bg-white/5'
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     <span className={`w-1 h-1 rounded-full transition-all duration-300 ${isSelected ? 'bg-accent scale-150' : 'bg-transparent'}`} />
                     <span>{cat.category}</span>
                   </div>
-                  
-                  <ChevronRight 
-                    className={`w-4 h-4 transition-all duration-300 ${
-                      isSelected 
-                        ? 'text-accent translate-x-0' 
-                        : 'text-muted-text/30 group-hover:text-muted-text/70 -translate-x-1 group-hover:translate-x-0'
-                    }`}
+
+                  <ChevronRight
+                    className={`w-4 h-4 transition-all duration-300 ${isSelected
+                      ? 'text-accent translate-x-0'
+                      : 'text-muted-text/30 group-hover:text-muted-text/70 -translate-x-1 group-hover:translate-x-0'
+                      }`}
                   />
-                  
+
                   {/* Vertical left accent bar */}
                   {isSelected && (
-                    <motion.div 
-                      layoutId="verticalTabActive" 
+                    <motion.div
+                      layoutId="verticalTabActive"
                       className="absolute left-0 top-3 bottom-3 w-1 bg-accent rounded-r-md"
                       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                     />
@@ -195,7 +163,7 @@ export default function TechStack() {
 
         {/* Bento Grid Footer: Sandbox Terminal & GitHub Activity Stats side-by-side */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-6xl mx-auto">
-          
+
           {/* Card 1: Live Coding Sandbox Terminal Widget (lg:col-span-7) */}
           <div className="lg:col-span-7 border border-white/5 rounded-2xl bg-[#111111]/40 p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between gap-4">
             <div className="flex items-center justify-between border-b border-white/5 pb-3">
@@ -205,7 +173,7 @@ export default function TechStack() {
                   Sandbox compiler
                 </span>
               </div>
-              
+
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSnippet.name}
@@ -247,7 +215,7 @@ export default function TechStack() {
 
           {/* Card 2: High-Fidelity GitHub Live Activity Stats Widget (lg:col-span-5) */}
           <div className="lg:col-span-5 border border-white/5 rounded-2xl bg-[#111111]/40 p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between gap-4">
-            
+
             {/* Header block matching user's image mockup */}
             <div className="flex items-center justify-between border-b border-white/5 pb-3">
               <div className="flex items-center gap-2">
@@ -256,7 +224,7 @@ export default function TechStack() {
                   GitHub Activity
                 </span>
               </div>
-              
+
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
                 <span className="text-[#10B981] font-mono text-[10px] uppercase font-bold tracking-wider">

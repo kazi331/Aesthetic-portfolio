@@ -12,7 +12,6 @@ import RecentBlog from '@/components/sections/RecentBlog';
 import Services from '@/components/sections/Services';
 import Stats from '@/components/sections/Stats';
 import TechStackV2 from '@/components/sections/TechStackV2';
-import Testimonials from '@/components/sections/Testimonials';
 import { AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 
@@ -36,7 +35,7 @@ export default function Home() {
           <TechStackV2 />
           <ExperienceV2 />
           <Services />
-          <Testimonials />
+          {/* <Testimonials /> */}
           <RecentBlog />
           <GithubPreview />
           <ContactCTA />

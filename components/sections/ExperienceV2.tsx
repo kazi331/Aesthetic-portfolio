@@ -55,8 +55,8 @@ export default function ExperienceV2() {
       ],
       dotX: 8,
       dotY: 88,
-      cardX: 12,
-      cardY: 62,
+      cardX: 8,
+      cardY: 58,
       yearLabel: '2023',
       color: '#4E85BF',
     },
@@ -70,8 +70,8 @@ export default function ExperienceV2() {
         { icon: <Server className="w-3.5 h-3.5" />, text: 'Migrated 3 Webflow projects to Next.js routes' },
         { icon: <GitBranch className="w-3.5 h-3.5" />, text: 'Implemented TanStack Query cutting latency 30%' }
       ],
-      dotX: 29.5,
-      dotY: 69,
+      dotX: 32.5,
+      dotY: 67,
       cardX: 32.5,
       cardY: 41,
       yearLabel: '2024',
@@ -87,8 +87,8 @@ export default function ExperienceV2() {
         { icon: <Store className="w-3.5 h-3.5" />, text: 'Built portal with Next.js/NestJS & PostgreSQL' },
         { icon: <Users className="w-3.5 h-3.5" />, text: 'Led and mentored frontend development team' }
       ],
-      dotX: 53.5,
-      dotY: 55,
+      dotX: 58.5,
+      dotY: 50,
       cardX: 47.5,
       cardY: 18,
       yearLabel: '2025',
@@ -106,9 +106,9 @@ export default function ExperienceV2() {
         { icon: <Shield className="w-3.5 h-3.5" />, text: 'Ships scalable TypeScript at production scale' }
       ],
       dotX: 73.5,
-      dotY: 41,
+      dotY: 30,
       cardX: 73.5,
-      cardY: 51,
+      cardY: 4,
       yearLabel: 'Now',
       color: '#10B981',
       isCurrent: true,
@@ -168,10 +168,15 @@ export default function ExperienceV2() {
         </div>
 
         {/* Desktop Waypoints Canvas Board */}
-        <div className="hidden lg:block relative w-full h-[640px] bg-[#0d0d0d]/40 border border-white/5 rounded-[40px] p-10 overflow-hidden">
+        <div className="hidden lg:block relative w-full h-[640px] bg-[#0d0d0d]/40 border border-white/5 rounded-[40px]  overflow-hidden">
 
           {/* Constellation lines and tracks */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none z-0"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
             <defs>
               <linearGradient id="curveGradient" x1="0%" y1="100%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#4E85BF" stopOpacity="0.2" />
@@ -186,23 +191,24 @@ export default function ExperienceV2() {
 
             {/* Faint static background track */}
             <path
-              d="M 80 528 C 150 480, 220 440, 295 414 C 370 380, 450 350, 535 330 C 620 300, 680 270, 735 246"
+              d="M 8 88 C 15 80, 22 73, 29.5 69 C 38 63, 45 59, 53.5 55 C 61 47, 67 37, 73.5 30"
               fill="none"
               stroke="url(#curveGradient)"
-              strokeWidth="2"
-              strokeDasharray="4 6"
+              strokeWidth="0.25"
+              strokeDasharray="0.5 0.75"
             />
 
             {/* Glowing trace line up to active dot */}
             <motion.path
-              d="M 80 528 C 150 480, 220 440, 295 414 C 370 380, 450 350, 535 330 C 620 300, 680 270, 735 246"
+              d="M 8 88 C 15 80, 22 73, 29.5 69 C 38 63, 45 59, 53.5 55 C 61 47, 67 37, 73.5 30"
               fill="none"
               stroke="url(#activeTrack)"
-              strokeWidth="2.5"
+              strokeWidth="0.3"
               strokeLinecap="round"
-              initial={{ strokeDasharray: '0 1000' }}
+              pathLength={100}
+              initial={{ strokeDasharray: '0 100' }}
               animate={{
-                strokeDasharray: `${(activeStep / (journeySteps.length - 1)) * 320} 1000`
+                strokeDasharray: `${(activeStep / (journeySteps.length - 1)) * 100} 100`
               }}
               transition={{ duration: 0.8, ease: 'easeInOut' }}
             />
@@ -228,7 +234,7 @@ export default function ExperienceV2() {
                   >
                     {/* Ring glow for active or hovered dot */}
                     <div
-                      style={{ borderColor: step.isCurrent ? '#10B981' : '#4E85BF' }}
+                      style={{ borderColor: step.color }}
                       className={`absolute -inset-4 rounded-full border transition-all duration-500 ${isActive
                         ? 'scale-125 opacity-100 animate-pulse border-2'
                         : 'scale-75 opacity-0 group-hover:opacity-45 group-hover:scale-100'
@@ -242,7 +248,7 @@ export default function ExperienceV2() {
 
                     {/* Core node dot */}
                     <div
-                      style={{ backgroundColor: isActive ? '#10B981' : '#4E85BF' }}
+                      style={{ backgroundColor: step.color }}
                       className={`w-4 h-4 rounded-full border-2 border-[#090909] shadow-lg shadow-black/80 transition-all duration-300 ${isActive ? 'scale-130' : 'scale-100 hover:scale-115'
                         }`}
                     />
@@ -261,8 +267,8 @@ export default function ExperienceV2() {
                       top: `${step.cardY}%`,
                       transform: 'translate(-50%, -50%)',
                     }}
-                    className={`absolute w-[290px] p-5 rounded-2xl border transition-all duration-300 text-left cursor-pointer z-10 ${isActive
-                      ? 'bg-[#121212] border-white/10 shadow-2xl shadow-black/90 scale-102 ring-1 ring-white/5'
+                    className={`absolute w-[290px] p-5 rounded-2xl border transition-all duration-300 text-left cursor-pointer ${isActive
+                      ? 'bg-[#121212] border-white/10 shadow-2xl shadow-black/90 scale-102 ring-1 ring-white/5 z-[11]'
                       : 'bg-[#121212]/50 border-white/5 hover:border-white/10 opacity-60 hover:opacity-90'
                       }`}
                   >
@@ -306,13 +312,14 @@ export default function ExperienceV2() {
 
           {/* Bottom Journey Navigation Bar matching mockup */}
           <div className="absolute bottom-10 left-10 right-10 flex items-center justify-between z-20 font-mono text-[11px]">
-            <div className="flex items-center gap-2 text-muted-text/80">
-              <Navigation className="w-3.5 h-3.5 text-[#10B981] rotate-45 animate-bounce" />
+            {/* <div className="flex items-center gap-2 text-muted-text/80">
               <span>Scroll or click to advance the journey</span>
-            </div>
+              </div> */}
+            <span></span>
 
             {/* Ascent status progress bar */}
             <div className="flex items-center gap-4 w-64">
+              <Navigation className="w-3.5 h-3.5 text-[#10B981] rotate-45 animate-bounce" />
               <div className="h-[3px] bg-white/5 rounded-full flex-1 overflow-hidden">
                 <motion.div
                   className="h-full bg-[#10B981]"

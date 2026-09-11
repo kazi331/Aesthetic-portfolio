@@ -37,7 +37,7 @@ export default function BlogListingView({ basePath = '/blog' }: BlogListingViewP
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [savedOnly, setSavedOnly] = useState(false);
   const [savedSlugs, setSavedSlugs] = useState<string[]>(() => {
     if (typeof window === 'undefined') return [];

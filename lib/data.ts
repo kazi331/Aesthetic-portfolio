@@ -1,4 +1,4 @@
-import { Project, Stat, Service, SkillCategory, Testimonial, BlogPost, OpenSourceRepo, WorkExperience, Education, Reference, PersonalInfo } from '@/types/portfolio';
+import { BlogPost, Certification, Education, OpenSourceRepo, PersonalInfo, Project, Reference, Service, SkillCategory, Stat, Testimonial, WorkExperience } from '@/types/portfolio';
 
 export const personalInfo: PersonalInfo = {
   name: 'Kazi Shariful Islam',
@@ -9,7 +9,8 @@ export const personalInfo: PersonalInfo = {
   github: 'https://github.com/kazi331',
   linkedin: 'https://linkedin.com/in/kazi331',
   website: 'https://kazisharif.dev',
-  summary: 'Full Stack Developer with 3+ years of experience building scalable web applications across the stack — from React/Next.js frontends to Node.js and NestJS backends with PostgreSQL and Prisma ORM. Solo-architected and shipped a production Shopify app to the Shopify App Store. Comfortable across REST/GraphQL APIs, relational database design, and modern state management, with growing hands-on experience in Python and FastAPI.'
+  summary: 'Full Stack Software Engineer with 3+ years of experience building production applications with Node.js, TypeScript, and Next.js. Experienced across frontend, REST APIs, databases, and Docker, with end-to-end ownership of production applications.',
+  profileImage: 'https://github.com/kazi331.png'
 };
 
 export const stats: Stat[] = [
@@ -139,6 +140,17 @@ export const skillCategories: SkillCategory[] = [
       { name: 'Vercel Deployment', level: 92 },
       { name: 'SEO & Performance', level: 90 },
       { name: 'Agile / Scrum / Jira', level: 88 },
+    ],
+  },
+  {
+    category: 'Systems & AI Workflow',
+    skills: [
+      { name: 'Docker', level: 82 },
+      { name: 'Linux', level: 80 },
+      { name: 'AI-Assisted Development', level: 88 },
+      { name: 'Claude Code', level: 84 },
+      { name: 'Cursor', level: 84 },
+      { name: 'GitHub Copilot', level: 90 },
     ],
   },
 ];
@@ -595,13 +607,11 @@ export const workExperiences: WorkExperience[] = [
     location: 'Dhaka, Bangladesh',
     period: 'Oct 2025 – Present',
     highlights: [
-      'Solo-designed and built the Mixory Bundles Shopify app end to end — full-stack architecture spanning a PostgreSQL database with Prisma ORM, Node.js backend logic, and a React-based storefront UI — now live on the Shopify App Store.',
-      'Implemented Shopify Functions (discount and cart transform logic) in Node.js to support dynamic pricing and merchant-configured bundle rules.',
-      'Designed the database schema and API layer to support scalable, merchant-configurable bundle workflows.',
-      'Built responsive storefront UI components for bundle selection and purchase flows, reducing cart friction and improving checkout conversion.',
-      'Collaborated with product and backend teams to translate business requirements into technical architecture.'
+      'Solo-built a production Shopify app end to end — Next.js/React frontend, Node.js backend, PostgreSQL database via Prisma — now live on the Shopify App Store.',
+      'Implemented REST API endpoints for dynamic pricing and cart-transform logic via Shopify Functions, with a strong focus on clean, debuggable code.',
+      'Containerized local development with Docker, standardizing the development environment and reducing environment-specific setup issues.'
     ],
-    url: 'https://github.com/kazi331'
+    url: 'https://devsnest.net/'
   },
   {
     role: 'Full Stack Developer (Frontend Lead)',
@@ -609,11 +619,8 @@ export const workExperiences: WorkExperience[] = [
     location: 'Dhaka, Bangladesh',
     period: 'Sept 2024 – July 2025',
     highlights: [
-      'Built and maintained a tutor/student portal using Next.js on the frontend and NestJS on the backend, contributing to both layers as needed.',
-      'Implemented Prisma ORM with PostgreSQL for the platform\'s dashboard and backend data layer, collaborating closely with the backend engineer on schema design.',
-      'Led the frontend team — distributed tasks, mentored junior developers, and ensured on-time sprint delivery.',
-      'Implemented Redux as global state management and cache, reducing API round-trips by 40%.',
-      'Owned sprint planning and code quality reviews across the frontend team.'
+      'Led the frontend team on a Next.js tutor/student portal, running code reviews and managing Git branching/PR workflows across the team.',
+      'Partnered with the backend engineer on Prisma/PostgreSQL schema design and REST API endpoints for the NestJS backend.'
     ],
     url: 'https://tutorsplan.com'
   },
@@ -652,6 +659,39 @@ export const educations: Education[] = [
   }
 ];
 
+export const certifications: Certification[] = [
+  {
+    name: 'Introduction to Docker',
+    issuer: 'DataCamp',
+    completedDate: 'June 2026',
+    url: 'https://www.datacamp.com/statement-of-accomplishment/course/0363f9f0f14bd98d27948149dfdc7466717e66fe?raw=1'
+  },
+  {
+    name: 'Intermediate Docker',
+    issuer: 'DataCamp',
+    completedDate: 'July 2026',
+    url: 'https://www.datacamp.com/statement-of-accomplishment/course/2f8bda46a9eed9d42a07195798c797848c3d519a?raw=1'
+  },
+  {
+    name: 'Learn Linux',
+    issuer: 'Boot.dev',
+    completedDate: 'July 2026',
+    url: 'https://www.boot.dev/certificates/a452e6c7-8f5a-49cc-be66-322b50db9265'
+  },
+  {
+    name: 'Introduction to Python',
+    issuer: 'Boot.dev',
+    completedDate: 'August 2026',
+    url: 'https://www.boot.dev/certificates/fc11106e-bd26-4fe5-b204-c47fe76f2b23'
+  },
+  {
+    name: 'Think in a Redux Way',
+    issuer: 'LWS',
+    completedDate: 'April 2023',
+    url: 'https://learnwithsumit.com/reports/LWSCTXN-I7ZSR07E'
+  }
+];
+
 export const references: Reference[] = [
   {
     name: 'Rahiyan Safin',
@@ -665,4 +705,37 @@ export const references: Reference[] = [
     company: 'Approveage Inc.',
     email: 'jerome.ramsay@gmail.com'
   }
+];
+
+export const snippetSkills = [
+  {
+    name: 'React',
+    code: 'const App = () => {\n  return <Dashboard />;\n};',
+    dots: ['#4EC4BF', '#7054E6', '#8F3DB8', '#42B883'],
+  },
+  {
+    name: 'Next.js',
+    code: 'export default function Page() {\n  return <main className="flex" />\n}',
+    dots: ['#ffffff', '#888888', '#444444', '#111111'],
+  },
+  {
+    name: 'Node.js',
+    code: "app.listen(3000, () => {\n  console.log('Live on port 3000');\n});",
+    dots: ['#81C784', '#66BB6A', '#4CAF50', '#388E3C'],
+  },
+  {
+    name: 'TypeScript',
+    code: 'interface User {\n  id: string;\n  role: "admin" | "user";\n}',
+    dots: ['#3178C6', '#2F74C0', '#1F5E9B', '#4EA2FF'],
+  },
+  {
+    name: 'PostgreSQL',
+    code: 'SELECT * FROM users\nWHERE active = true\nORDER BY created_at DESC;',
+    dots: ['#336791', '#2F5D85', '#1D3B55', '#4D82B8'],
+  },
+  {
+    name: 'Python',
+    code: 'def handle_event(event):\n    return {"status": "success"}',
+    dots: ['#306998', '#FFD43B', '#4B8BBE', '#FFE873'],
+  },
 ];

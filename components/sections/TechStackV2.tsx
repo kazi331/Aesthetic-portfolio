@@ -2,11 +2,12 @@
 
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
-import { ChevronDown, Cpu, Database, Layout, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
+import { Cpu, Database, Layout, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useRef, useState } from 'react';
+import MobileSphereTechStack from './MobileSphereTechStack';
 
-interface TechnologyNode {
+export interface TechnologyNode {
   name: string;
   category: 'frontend' | 'backend' | 'database' | 'tooling';
   type: 'core' | 'data' | 'learning';
@@ -18,6 +19,179 @@ interface TechnologyNode {
   description: string;
   icon: React.ReactNode;
 }
+
+// High fidelity technical constellation mapping based on user's reference mockup
+const technologies: TechnologyNode[] = [
+  {
+    name: 'JavaScript',
+    category: 'frontend',
+    type: 'core',
+    experience: '4 yrs exp',
+    x: 48,
+    y: 40,
+    size: 1.4,
+    color: 'rgba(78, 196, 191, 0.4)',
+    description: 'Building interactive applications with modern ES6+ features, async patterns, and DOM manipulation. Mastering closures, prototypes, and event-driven architectures.',
+    icon: <Layout className="w-5 h-5" />,
+  },
+  {
+    name: 'React',
+    category: 'frontend',
+    type: 'core',
+    experience: '4 yrs exp',
+    x: 50,
+    y: 20,
+    size: 1.4,
+    color: 'rgba(78, 196, 191, 0.4)',
+    description: 'Architecting dynamic, responsive UI architectures using declarative component trees, customized hydration strategies, and advanced hook lifecycles.',
+    icon: <Layout className="w-5 h-5" />,
+  },
+  {
+    name: 'TypeScript',
+    category: 'frontend',
+    type: 'core',
+    experience: '4 yrs exp',
+    x: 32,
+    y: 35,
+    size: 1.2,
+    color: 'rgba(78, 133, 191, 0.4)',
+    description: 'Enforcing robust, compile-time strict type safety across full-stack applications. Authoring highly reusable generic interfaces and automated mapping utilities.',
+    icon: <ShieldCheck className="w-4 h-4" />,
+  },
+  {
+    name: 'Node.js',
+    category: 'backend',
+    type: 'core',
+    experience: '3 yrs exp',
+    x: 68,
+    y: 35,
+    size: 1.2,
+    color: 'rgba(78, 196, 191, 0.4)',
+    description: 'Designing highly concurrent runtime environments, implementing custom event loops, cluster load management, and memory-safe stream pipelines.',
+    icon: <Cpu className="w-4 h-4" />,
+  },
+  {
+    name: 'Next.js',
+    category: 'frontend',
+    type: 'core',
+    experience: '4 yrs exp',
+    x: 18,
+    y: 42,
+    size: 1.0,
+    color: 'rgba(255, 255, 255, 0.2)',
+    description: 'Optimizing application performance via Server Components, Incremental Static Regeneration (ISR), static bails, and edge route execution.',
+    icon: <Terminal className="w-4 h-4" />,
+  },
+  {
+    name: 'PostgreSQL',
+    category: 'database',
+    type: 'data',
+    experience: '3 yrs exp',
+    x: 24,
+    y: 60,
+    size: 1.15,
+    color: 'rgba(16, 185, 129, 0.4)',
+    description: 'Authoring highly optimized schema layouts, custom relational index architectures, nested queries, and handling concurrent transaction locking models.',
+    icon: <Database className="w-4 h-4" />,
+  },
+  {
+    name: 'NestJS',
+    category: 'backend',
+    type: 'core',
+    experience: '2 yrs exp',
+    x: 82,
+    y: 44,
+    size: 1.1,
+    color: 'rgba(78, 133, 191, 0.4)',
+    description: 'Architecting scalable, modular backend services with declarative dependency injection, strict interceptors, custom filters, and robust domain separation.',
+    icon: <Cpu className="w-4 h-4" />,
+  },
+  {
+    name: 'GraphQL',
+    category: 'tooling',
+    type: 'core',
+    experience: '1 yrs exp',
+    x: 50,
+    y: 76,
+    size: 0.95,
+    color: 'rgba(139, 92, 246, 0.4)',
+    description: 'Designing unified gateway graphs with granular query execution paths, batching resolvers via DataLoader, and custom storefront queries.',
+    icon: <Terminal className="w-4 h-4" />,
+  },
+  {
+    name: 'MongoDB',
+    category: 'database',
+    type: 'data',
+    experience: '2 yrs exp',
+    x: 34,
+    y: 72,
+    size: 0.95,
+    color: 'rgba(16, 185, 129, 0.4)',
+    description: 'Modeling high-throughput non-relational document trees with nested collections, writing aggregation pipes, and tuning cluster sharding strategies.',
+    icon: <Database className="w-4 h-4" />,
+  },
+  {
+    name: 'Prisma',
+    category: 'database',
+    type: 'data',
+    experience: '2 yrs exp',
+    x: 74,
+    y: 58,
+    size: 0.9,
+    color: 'rgba(16, 185, 129, 0.4)',
+    description: 'Writing robust schema declarations, auto-generating relational types, migrating database structures safely, and profiling query response times.',
+    icon: <Database className="w-4 h-4" />,
+  },
+  {
+    name: 'Shopify',
+    category: 'tooling',
+    type: 'learning',
+    experience: '1 yrs exp',
+    x: 64,
+    y: 74,
+    size: 0.95,
+    color: 'rgba(16, 185, 129, 0.4)',
+    description: 'Solo-architecting customized embedded Shopify apps, writing cart-transform Shopify Functions in Rust/JS, and optimizing Checkout UI extensions.',
+    icon: <Sparkles className="w-4 h-4" />,
+  },
+  {
+    name: 'React Native',
+    category: 'frontend',
+    type: 'core',
+    experience: '2 yrs exp',
+    x: 13,
+    y: 66,
+    size: 0.9,
+    color: 'rgba(78, 133, 191, 0.4)',
+    description: 'Building cross-platform mobile frameworks with native bridges, performance-tuned lists, fast layouts, and localized local cache layers.',
+    icon: <Layout className="w-4 h-4" />,
+  },
+  {
+    name: 'Python',
+    category: 'backend',
+    type: 'learning',
+    experience: '1 yrs exp',
+    x: 76,
+    y: 78,
+    size: 0.85,
+    color: 'rgba(234, 179, 8, 0.4)',
+    description: 'Building Python automation, service logic, and backend tooling with async workflows, clean abstractions, and fast data processing patterns.',
+    icon: <Cpu className="w-4 h-4" />,
+  },
+  {
+    name: 'FastAPI',
+    category: 'backend',
+    type: 'learning',
+    experience: '1 yrs exp',
+    x: 86,
+    y: 68,
+    size: 0.85,
+    color: 'rgba(234, 179, 8, 0.4)',
+    description: 'Building FastAPI REST APIs with async endpoints, Pydantic validation, dependency injection, and efficient routing for scalable backend services.',
+    icon: <Cpu className="w-4 h-4" />,
+  }
+];
+
 
 export default function TechStackV2() {
   const [activeFilter, setActiveFilter] = useState<'all' | 'frontend' | 'backend' | 'database' | 'tooling'>('all');
@@ -54,177 +228,6 @@ export default function TechStackV2() {
     setPopoverPos({ left, top });
   };
 
-  // High fidelity technical constellation mapping based on user's reference mockup
-  const technologies: TechnologyNode[] = [
-    {
-      name: 'JavaScript',
-      category: 'frontend',
-      type: 'core',
-      experience: '4 yrs exp',
-      x: 48,
-      y: 40,
-      size: 1.4,
-      color: 'rgba(78, 196, 191, 0.4)',
-      description: 'Building interactive applications with modern ES6+ features, async patterns, and DOM manipulation. Mastering closures, prototypes, and event-driven architectures.',
-      icon: <Layout className="w-5 h-5" />,
-    },
-    {
-      name: 'React',
-      category: 'frontend',
-      type: 'core',
-      experience: '4 yrs exp',
-      x: 50,
-      y: 20,
-      size: 1.4,
-      color: 'rgba(78, 196, 191, 0.4)',
-      description: 'Architecting dynamic, responsive UI architectures using declarative component trees, customized hydration strategies, and advanced hook lifecycles.',
-      icon: <Layout className="w-5 h-5" />,
-    },
-    {
-      name: 'TypeScript',
-      category: 'frontend',
-      type: 'core',
-      experience: '4 yrs exp',
-      x: 32,
-      y: 35,
-      size: 1.2,
-      color: 'rgba(78, 133, 191, 0.4)',
-      description: 'Enforcing robust, compile-time strict type safety across full-stack applications. Authoring highly reusable generic interfaces and automated mapping utilities.',
-      icon: <ShieldCheck className="w-4 h-4" />,
-    },
-    {
-      name: 'Node.js',
-      category: 'backend',
-      type: 'core',
-      experience: '3 yrs exp',
-      x: 68,
-      y: 35,
-      size: 1.2,
-      color: 'rgba(78, 196, 191, 0.4)',
-      description: 'Designing highly concurrent runtime environments, implementing custom event loops, cluster load management, and memory-safe stream pipelines.',
-      icon: <Cpu className="w-4 h-4" />,
-    },
-    {
-      name: 'Next.js',
-      category: 'frontend',
-      type: 'core',
-      experience: '4 yrs exp',
-      x: 18,
-      y: 42,
-      size: 1.0,
-      color: 'rgba(255, 255, 255, 0.2)',
-      description: 'Optimizing application performance via Server Components, Incremental Static Regeneration (ISR), static bails, and edge route execution.',
-      icon: <Terminal className="w-4 h-4" />,
-    },
-    {
-      name: 'PostgreSQL',
-      category: 'database',
-      type: 'data',
-      experience: '3 yrs exp',
-      x: 24,
-      y: 60,
-      size: 1.15,
-      color: 'rgba(16, 185, 129, 0.4)',
-      description: 'Authoring highly optimized schema layouts, custom relational index architectures, nested queries, and handling concurrent transaction locking models.',
-      icon: <Database className="w-4 h-4" />,
-    },
-    {
-      name: 'NestJS',
-      category: 'backend',
-      type: 'core',
-      experience: '2 yrs exp',
-      x: 82,
-      y: 44,
-      size: 1.1,
-      color: 'rgba(78, 133, 191, 0.4)',
-      description: 'Architecting scalable, modular backend services with declarative dependency injection, strict interceptors, custom filters, and robust domain separation.',
-      icon: <Cpu className="w-4 h-4" />,
-    },
-    {
-      name: 'GraphQL',
-      category: 'tooling',
-      type: 'core',
-      experience: '1 yrs exp',
-      x: 50,
-      y: 76,
-      size: 0.95,
-      color: 'rgba(139, 92, 246, 0.4)',
-      description: 'Designing unified gateway graphs with granular query execution paths, batching resolvers via DataLoader, and custom storefront queries.',
-      icon: <Terminal className="w-4 h-4" />,
-    },
-    {
-      name: 'MongoDB',
-      category: 'database',
-      type: 'data',
-      experience: '2 yrs exp',
-      x: 34,
-      y: 72,
-      size: 0.95,
-      color: 'rgba(16, 185, 129, 0.4)',
-      description: 'Modeling high-throughput non-relational document trees with nested collections, writing aggregation pipes, and tuning cluster sharding strategies.',
-      icon: <Database className="w-4 h-4" />,
-    },
-    {
-      name: 'Prisma',
-      category: 'database',
-      type: 'data',
-      experience: '2 yrs exp',
-      x: 74,
-      y: 58,
-      size: 0.9,
-      color: 'rgba(16, 185, 129, 0.4)',
-      description: 'Writing robust schema declarations, auto-generating relational types, migrating database structures safely, and profiling query response times.',
-      icon: <Database className="w-4 h-4" />,
-    },
-    {
-      name: 'Shopify',
-      category: 'tooling',
-      type: 'learning',
-      experience: '1 yrs exp',
-      x: 64,
-      y: 74,
-      size: 0.95,
-      color: 'rgba(16, 185, 129, 0.4)',
-      description: 'Solo-architecting customized embedded Shopify apps, writing cart-transform Shopify Functions in Rust/JS, and optimizing Checkout UI extensions.',
-      icon: <Sparkles className="w-4 h-4" />,
-    },
-    {
-      name: 'React Native',
-      category: 'frontend',
-      type: 'core',
-      experience: '2 yrs exp',
-      x: 13,
-      y: 66,
-      size: 0.9,
-      color: 'rgba(78, 133, 191, 0.4)',
-      description: 'Building cross-platform mobile frameworks with native bridges, performance-tuned lists, fast layouts, and localized local cache layers.',
-      icon: <Layout className="w-4 h-4" />,
-    },
-    {
-      name: 'Python',
-      category: 'backend',
-      type: 'learning',
-      experience: '1 yrs exp',
-      x: 76,
-      y: 78,
-      size: 0.85,
-      color: 'rgba(234, 179, 8, 0.4)',
-      description: 'Building Python automation, service logic, and backend tooling with async workflows, clean abstractions, and fast data processing patterns.',
-      icon: <Cpu className="w-4 h-4" />,
-    },
-    {
-      name: 'FastAPI',
-      category: 'backend',
-      type: 'learning',
-      experience: '1 yrs exp',
-      x: 86,
-      y: 68,
-      size: 0.85,
-      color: 'rgba(234, 179, 8, 0.4)',
-      description: 'Building FastAPI REST APIs with async endpoints, Pydantic validation, dependency injection, and efficient routing for scalable backend services.',
-      icon: <Cpu className="w-4 h-4" />,
-    }
-  ];
 
   const filteredTechnologies = technologies.filter(
     (tech) => activeFilter === 'all' || tech.category === activeFilter
@@ -255,16 +258,19 @@ export default function TechStackV2() {
             <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight text-[#F5F5F5]">
               Toolkit & Ecosystem
             </h2>
-            <p className="text-sm font-sans text-muted-text max-w-xl">
+            <p className="text-sm font-sans text-muted-text max-w-xl hidden md:block">
               Hover over each node to explore my interactive technical constellation.
+            </p>
+            <p className="text-sm font-sans text-muted-text max-w-xl md:hidden">
+              Rotate the interactive 3D constellation with touch to explore my technical skills.
             </p>
           </div>
 
           {/* Sparkle Badge at Top Right */}
-          <div className="flex items-center gap-2.5 px-4 py-2 bg-white/3 border border-white/5 rounded-full self-start md:self-auto shadow-xl">
+          <div className="hidden md:flex items-center gap-2.5 px-4 py-2 bg-white/3 border border-white/5 rounded-full self-start md:self-auto shadow-xl">
             <Sparkles className="w-4 h-4 text-accent animate-pulse" />
             <span className="font-mono text-xs font-bold text-[#F5F5F5]">
-              12 technologies mapped
+              16 technologies mapped
             </span>
           </div>
         </div>
@@ -276,330 +282,227 @@ export default function TechStackV2() {
             onMouseMove={handleMouseMove}
             className="hidden md:flex relative w-full min-h-[560px] md:min-h-[640px] bg-black/20 border border-white/5 rounded-[40px] p-6 backdrop-blur-sm overflow-hidden flex-col"
           >
-          {/* Top Controls row: Filter Pills on left, Legend Dots on right (Moved inside at the top) */}
-          <div id="tech-stack-controls" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/5 relative z-20">
-            {/* Filter bar */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-[10px] uppercase text-muted-text/80 tracking-widest font-bold mr-2">
-                FILTER:
-              </span>
-              {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
-                const isSelected = activeFilter === cat;
+            {/* Top Controls row: Filter Pills on left, Legend Dots on right (Moved inside at the top) */}
+            <div id="tech-stack-controls" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/5 relative z-20">
+              {/* Filter bar */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-mono text-[10px] uppercase text-muted-text/80 tracking-widest font-bold mr-2">
+                  FILTER:
+                </span>
+                {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
+                  const isSelected = activeFilter === cat;
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => setActiveFilter(cat)}
+                      className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${isSelected
+                        ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
+                        : 'bg-white/3 border border-white/3 text-muted-text hover:text-[#F5F5F5] hover:bg-white/5'
+                        }`}
+                    >
+                      {cat}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Legend Indicators */}
+              <div className="flex items-center gap-5">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#4E85BF]" />
+                  <span className="font-sans text-[11px] text-muted-text font-medium">Core</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                  <span className="font-sans text-[11px] text-muted-text font-medium">Data</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-yellow-500" />
+                  <span className="font-sans text-[11px] text-muted-text font-medium">Learning</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Subtle connecting mesh lines using SVG */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25 z-0" xmlns="http://www.w3.org/2000/svg">
+              {/* Center Node (React) connected to others */}
+              {filteredTechnologies.map((tech, idx) => {
+                if (tech.name === 'React') return null;
                 return (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveFilter(cat)}
-                    className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${isSelected
-                      ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
-                      : 'bg-white/3 border border-white/3 text-muted-text hover:text-[#F5F5F5] hover:bg-white/5'
-                      }`}
+                  <motion.line
+                    key={`line-${idx}`}
+                    x1={`${50}%`}
+                    y1={`${50}%`}
+                    x2={`${tech.x}%`}
+                    y2={`${tech.y}%`}
+                    stroke="rgba(137, 170, 204, 0.4)"
+                    strokeWidth="1"
+                    strokeDasharray="4 6"
+                    initial={{ strokeDashoffset: 0 }}
+                    animate={{ strokeDashoffset: -20 }}
+                    transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
+                  />
+                );
+              })}
+
+              {/* Some manual connections for extra constellation vibe */}
+              <line x1="32%" y1="35%" x2="18%" y2="42%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
+              <line x1="68%" y1="35%" x2="82%" y2="44%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
+              <line x1="32%" y1="35%" x2="24%" y2="60%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
+              <line x1="68%" y1="35%" x2="74%" y2="58%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
+              <line x1="24%" y1="60%" x2="34%" y2="72%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
+              <line x1="74%" y1="58%" x2="64%" y2="74%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
+            </svg>
+
+            {/* Floating constellation nodes */}
+            <div className="absolute inset-0 z-10">
+              {filteredTechnologies.map((tech) => {
+                const isHovered = hoveredNode?.name === tech.name;
+                const isFilteredOut = activeFilter !== 'all' && tech.category !== activeFilter;
+
+                // Position offsets based on sizing
+                const nodeSize = 74 * tech.size;
+
+                return (
+                  <motion.div
+                    key={tech.name}
+                    style={{
+                      left: `${tech.x}%`,
+                      top: `${tech.y}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                    className="absolute cursor-pointer select-none"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{
+                      opacity: isFilteredOut ? 0.25 : 1,
+                      scale: isFilteredOut ? 0.9 : 1,
+                      y: [0, Math.sin(tech.x + tech.y) * 6, 0],
+                    }}
+                    transition={{
+                      opacity: { duration: 0.3 },
+                      scale: { duration: 0.3 },
+                      y: {
+                        repeat: Infinity,
+                        duration: 4 + (tech.x % 3),
+                        ease: 'easeInOut',
+                      }
+                    }}
+                    onMouseEnter={() => setHoveredNode(tech)}
+                    onMouseLeave={() => setHoveredNode(null)}
                   >
-                    {cat}
-                  </button>
+                    {/* Glowing backing ring on hover */}
+                    <AnimatePresence>
+                      {isHovered && (
+                        <motion.div
+                          layoutId="glow-ring"
+                          className="absolute inset-0 rounded-full pointer-events-none filter blur-[15px]"
+                          style={{
+                            background: tech.color,
+                            scale: 1.4,
+                          }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 0.8 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                        />
+                      )}
+                    </AnimatePresence>
+
+                    {/* Primary Node Sphere */}
+                    <div
+                      style={{
+                        width: `${nodeSize}px`,
+                        height: `${nodeSize}px`,
+                      }}
+                      className={`rounded-full border transition-all duration-300 flex flex-col items-center justify-center text-center ${isHovered
+                        ? 'border-accent bg-[#151515] scale-105 shadow-2xl shadow-accent/10'
+                        : tech.type === 'core'
+                          ? 'border-[#4E85BF]/25 bg-black/40 hover:border-[#4E85BF]'
+                          : tech.type === 'data'
+                            ? 'border-[#10B981]/25 bg-black/40 hover:border-[#10B981]'
+                            : 'border-yellow-500/25 bg-black/40 hover:border-yellow-500'
+                        }`}
+                    >
+                      {/* Tiny Icon */}
+                      <div className={`transition-transform duration-300 ${isHovered ? 'scale-110 text-accent' : 'text-muted-text/70'}`}>
+                        {tech.icon}
+                      </div>
+
+                      {/* Node Text Name */}
+                      <span className="font-sans font-bold text-[11px] text-[#F5F5F5] mt-1 tracking-tight">
+                        {tech.name}
+                      </span>
+
+                      {/* Experience Subtext */}
+                      {tech.size >= 1.0 && (
+                        <span className="font-mono text-[8px] text-muted-text mt-0.5 uppercase tracking-wider font-bold">
+                          {tech.experience.split(' ')[0]} yrs
+                        </span>
+                      )}
+                    </div>
+                  </motion.div>
                 );
               })}
             </div>
 
-            {/* Legend Indicators */}
-            <div className="flex items-center gap-5">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#4E85BF]" />
-                <span className="font-sans text-[11px] text-muted-text font-medium">Core</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#10B981]" />
-                <span className="font-sans text-[11px] text-muted-text font-medium">Data</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-yellow-500" />
-                <span className="font-sans text-[11px] text-muted-text font-medium">Learning</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Subtle connecting mesh lines using SVG */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25 z-0" xmlns="http://www.w3.org/2000/svg">
-            {/* Center Node (React) connected to others */}
-            {filteredTechnologies.map((tech, idx) => {
-              if (tech.name === 'React') return null;
-              return (
-                <motion.line
-                  key={`line-${idx}`}
-                  x1={`${50}%`}
-                  y1={`${50}%`}
-                  x2={`${tech.x}%`}
-                  y2={`${tech.y}%`}
-                  stroke="rgba(137, 170, 204, 0.4)"
-                  strokeWidth="1"
-                  strokeDasharray="4 6"
-                  initial={{ strokeDashoffset: 0 }}
-                  animate={{ strokeDashoffset: -20 }}
-                  transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
-                />
-              );
-            })}
-
-            {/* Some manual connections for extra constellation vibe */}
-            <line x1="32%" y1="35%" x2="18%" y2="42%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
-            <line x1="68%" y1="35%" x2="82%" y2="44%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
-            <line x1="32%" y1="35%" x2="24%" y2="60%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
-            <line x1="68%" y1="35%" x2="74%" y2="58%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
-            <line x1="24%" y1="60%" x2="34%" y2="72%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
-            <line x1="74%" y1="58%" x2="64%" y2="74%" stroke="rgba(137, 170, 204, 0.3)" strokeWidth="1" />
-          </svg>
-
-          {/* Floating constellation nodes */}
-          <div className="absolute inset-0 z-10">
-            {filteredTechnologies.map((tech) => {
-              const isHovered = hoveredNode?.name === tech.name;
-              const isFilteredOut = activeFilter !== 'all' && tech.category !== activeFilter;
-
-              // Position offsets based on sizing
-              const nodeSize = 74 * tech.size;
-
-              return (
+            {/* Absolute High-Fidelity Hover Popup Detail Card (Floating dynamic positioning next to mouse) */}
+            <AnimatePresence>
+              {hoveredNode && (
                 <motion.div
-                  key={tech.name}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.15, ease: 'easeOut' }}
                   style={{
-                    left: `${tech.x}%`,
-                    top: `${tech.y}%`,
-                    transform: 'translate(-50%, -50%)',
+                    position: 'absolute',
+                    left: `${popoverPos.left}px`,
+                    top: `${popoverPos.top}px`,
                   }}
-                  className="absolute cursor-pointer select-none"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{
-                    opacity: isFilteredOut ? 0.25 : 1,
-                    scale: isFilteredOut ? 0.9 : 1,
-                    y: [0, Math.sin(tech.x + tech.y) * 6, 0],
-                  }}
-                  transition={{
-                    opacity: { duration: 0.3 },
-                    scale: { duration: 0.3 },
-                    y: {
-                      repeat: Infinity,
-                      duration: 4 + (tech.x % 3),
-                      ease: 'easeInOut',
-                    }
-                  }}
-                  onMouseEnter={() => setHoveredNode(tech)}
-                  onMouseLeave={() => setHoveredNode(null)}
+                  className="z-30 pointer-events-none w-80 max-w-full bg-[#121212]/95 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-md"
                 >
-                  {/* Glowing backing ring on hover */}
-                  <AnimatePresence>
-                    {isHovered && (
-                      <motion.div
-                        layoutId="glow-ring"
-                        className="absolute inset-0 rounded-full pointer-events-none filter blur-[15px]"
-                        style={{
-                          background: tech.color,
-                          scale: 1.4,
-                        }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.8 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.25 }}
-                      />
-                    )}
-                  </AnimatePresence>
-
-                  {/* Primary Node Sphere */}
-                  <div
-                    style={{
-                      width: `${nodeSize}px`,
-                      height: `${nodeSize}px`,
-                    }}
-                    className={`rounded-full border transition-all duration-300 flex flex-col items-center justify-center text-center ${isHovered
-                      ? 'border-accent bg-[#151515] scale-105 shadow-2xl shadow-accent/10'
-                      : tech.type === 'core'
-                        ? 'border-[#4E85BF]/25 bg-black/40 hover:border-[#4E85BF]'
-                        : tech.type === 'data'
-                          ? 'border-[#10B981]/25 bg-black/40 hover:border-[#10B981]'
-                          : 'border-yellow-500/25 bg-black/40 hover:border-yellow-500'
-                      }`}
-                  >
-                    {/* Tiny Icon */}
-                    <div className={`transition-transform duration-300 ${isHovered ? 'scale-110 text-accent' : 'text-muted-text/70'}`}>
-                      {tech.icon}
+                  {/* Category-themed layout matching reference mockup */}
+                  <div className="flex items-start gap-4 text-left">
+                    <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${hoveredNode.type === 'core'
+                      ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
+                      : hoveredNode.type === 'data'
+                        ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
+                        : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
+                      }`}>
+                      {hoveredNode.icon}
                     </div>
+                    <div>
+                      <h4 className="font-sans font-bold text-base text-[#F5F5F5]">
+                        {hoveredNode.name}
+                      </h4>
+                      <p className="font-mono text-[10px] text-muted-text uppercase font-semibold mt-0.5 tracking-wider">
+                        {hoveredNode.experience}
+                      </p>
+                    </div>
+                  </div>
 
-                    {/* Node Text Name */}
-                    <span className="font-sans font-bold text-[11px] text-[#F5F5F5] mt-1 tracking-tight">
-                      {tech.name}
-                    </span>
+                  <p className="text-xs text-muted-text mt-3.5 leading-relaxed font-sans border-t border-white/5 pt-3.5 text-left">
+                    {hoveredNode.description}
+                  </p>
 
-                    {/* Experience Subtext */}
-                    {tech.size >= 1.0 && (
-                      <span className="font-mono text-[8px] text-muted-text mt-0.5 uppercase tracking-wider font-bold">
-                        {tech.experience.split(' ')[0]} yrs
-                      </span>
-                    )}
+                  <div className="flex items-center gap-2 mt-4 text-[9px] font-mono text-muted-text bg-white/3 py-1.5 px-3 rounded-lg border border-white/5 justify-start">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
+                    <span>Domain: <strong className="text-[#F5F5F5] uppercase">{hoveredNode.category}</strong></span>
                   </div>
                 </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Absolute High-Fidelity Hover Popup Detail Card (Floating dynamic positioning next to mouse) */}
-          <AnimatePresence>
-            {hoveredNode && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.15, ease: 'easeOut' }}
-                style={{
-                  position: 'absolute',
-                  left: `${popoverPos.left}px`,
-                  top: `${popoverPos.top}px`,
-                }}
-                className="z-30 pointer-events-none w-80 max-w-full bg-[#121212]/95 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-md"
-              >
-                {/* Category-themed layout matching reference mockup */}
-                <div className="flex items-start gap-4 text-left">
-                  <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 ${hoveredNode.type === 'core'
-                    ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
-                    : hoveredNode.type === 'data'
-                      ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
-                      : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
-                    }`}>
-                    {hoveredNode.icon}
-                  </div>
-                  <div>
-                    <h4 className="font-sans font-bold text-base text-[#F5F5F5]">
-                      {hoveredNode.name}
-                    </h4>
-                    <p className="font-mono text-[10px] text-muted-text uppercase font-semibold mt-0.5 tracking-wider">
-                      {hoveredNode.experience}
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-xs text-muted-text mt-3.5 leading-relaxed font-sans border-t border-white/5 pt-3.5 text-left">
-                  {hoveredNode.description}
-                </p>
-
-                <div className="flex items-center gap-2 mt-4 text-[9px] font-mono text-muted-text bg-white/3 py-1.5 px-3 rounded-lg border border-white/5 justify-start">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
-                  <span>Domain: <strong className="text-[#F5F5F5] uppercase">{hoveredNode.category}</strong></span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              )}
+            </AnimatePresence>
 
           </div>
         )}
 
-        {/* Mobile View - Beautiful Interactive Accordion Grid (block md:hidden) */}
-        <div className="md:hidden space-y-6">
-          {/* Mobile Filter bar */}
-          <div className="flex flex-wrap items-center gap-2 bg-white/3 border border-white/5 p-4 rounded-3xl">
-            <span className="font-mono text-[9px] uppercase text-muted-text/80 tracking-widest font-bold w-full mb-1">
-              FILTER:
-            </span>
-            {(['all', 'frontend', 'backend', 'database', 'tooling'] as const).map((cat) => {
-              const isSelected = activeFilter === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setActiveFilter(cat);
-                    setSelectedMobileTech(null); // Clear selected technology on filter change
-                  }}
-                  className={`px-3 py-1.5 rounded-xl text-[9px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${isSelected
-                    ? 'bg-[#162a45]/60 text-accent border border-accent/35 shadow-lg'
-                    : 'bg-white/3 border border-white/3 text-muted-text'
-                    }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
+        {/* Mobile View - Both 3D Orbital Constellation & Full Stack Index with Filter */}
+        <div className="md:hidden space-y-6 select-none">
+          {/* 1. 3D Orbital Constellation */}
+          <MobileSphereTechStack />
 
-          {/* Mobile Grid */}
-          <div className="grid grid-cols-1 gap-3.5">
-            {filteredTechnologies.map((tech) => {
-              const isSelected = selectedMobileTech?.name === tech.name;
-              return (
-                <div
-                  key={tech.name}
-                  onClick={() => setSelectedMobileTech(isSelected ? null : tech)}
-                  className={`p-4 rounded-2xl border transition-[border-color,background-color,box-shadow] duration-200 bg-black/20 ${isSelected
-                    ? 'border-accent/40 bg-[#121212]/90 shadow-lg shadow-accent/5'
-                    : 'border-white/5 hover:border-white/10'
-                    }`}
-                >
-                  <div className="flex items-center justify-between cursor-pointer select-none">
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-xl border flex items-center justify-center shrink-0 ${tech.type === 'core'
-                        ? 'bg-[#4E85BF]/10 border-[#4E85BF]/25 text-[#4E85BF]'
-                        : tech.type === 'data'
-                          ? 'bg-[#10B981]/10 border-[#10B981]/25 text-[#10B981]'
-                          : 'bg-yellow-500/10 border-yellow-500/25 text-yellow-500'
-                        }`}>
-                        {tech.icon}
-                      </div>
-                      <div className="text-left">
-                        <h4 className="font-sans font-bold text-sm text-[#F5F5F5]">
-                          {tech.name}
-                        </h4>
-                        <span className="font-mono text-[8px] uppercase tracking-wider text-muted-text/80 font-bold">
-                          {tech.category}
-                        </span>
-                      </div>
-                    </div>
+          {/* 2. Full Tech Stack Browser with Domain Filter */}
+          {/* <MobileTechStackBrowser activeFilter={activeFilter} filteredTechnologies={filteredTechnologies} setActiveFilter={setActiveFilter} setSelectedMobileTech={setSelectedMobileTech} technologies={technologies} selectedMobileTech={selectedMobileTech} /> */}
 
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[9px] font-bold text-muted-text bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
-                        {tech.experience}
-                      </span>
-                      <ChevronDown
-                        className={`w-4 h-4 text-muted-text transition-transform duration-200 ease-out will-change-transform ${
-                          isSelected ? 'rotate-180 text-accent' : 'rotate-0'
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Ultra-smooth hardware-accelerated CSS Grid accordion with 0 JS thrashing */}
-                  <div
-                    className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
-                      isSelected ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="border-t border-white/5 pt-3.5 mt-3 text-left">
-                        <p className="text-xs text-muted-text leading-relaxed font-sans">
-                          {tech.description}
-                        </p>
-                        <div className="flex items-center gap-1.5 mt-3 text-[9px] font-mono text-[#89AACC] uppercase font-bold">
-                          <span className={`w-1.5 h-1.5 rounded-full ${tech.type === 'core' ? 'bg-[#4E85BF]' : tech.type === 'data' ? 'bg-[#10B981]' : 'bg-yellow-500'
-                            }`} />
-                          <span>Type: <strong className="text-white">{tech.type}</strong></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Legend for Mobile */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 bg-white/3 border border-white/5 p-4 rounded-2xl">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4E85BF]" />
-              <span className="font-sans text-[10px] text-muted-text font-medium">Core</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
-              <span className="font-sans text-[10px] text-muted-text font-medium">Data</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
-              <span className="font-sans text-[10px] text-muted-text font-medium">Learning</span>
-            </div>
-          </div>
         </div>
 
       </Container>

@@ -33,6 +33,7 @@ export default function ContactView() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [feedback, setFeedback] = useState<string>('');
   const [isCredentialsMissing, setIsCredentialsMissing] = useState(false);
+  const [isHtmlError, setIsHtmlError] = useState(false);
 
   const revealContact = (contact: 'email' | 'phone') => {
     setRevealedContact(contact);
@@ -51,6 +52,10 @@ export default function ContactView() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    if (status === 'success') {
+      setStatus('idle');
+      setFeedback('');
+    }
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -62,33 +67,99 @@ export default function ContactView() {
     setStatus('loading');
     setFeedback('');
     setIsCredentialsMissing(false);
+    setIsHtmlError(false);
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json, text/plain, */*',
         },
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
+      // Safely inspect content type and read body as text to prevent "Unexpected token '<'" JSON parse crashes
+      const contentType = res.headers.get('content-type') || '';
+      const rawText = await res.text();
+      const trimmedText = (rawText || '').trim();
+
+      // Check if server or gateway returned an HTML document (e.g. 502/504 Bad Gateway, 500 HTML error page, 404)
+      const isHtmlResponse =
+        trimmedText.startsWith('<') ||
+        trimmedText.includes('<html') ||
+        trimmedText.includes('<!DOCTYPE') ||
+        trimmedText.includes('<body') ||
+        contentType.includes('text/html');
+
+      if (isHtmlResponse) {
+        setIsHtmlError(true);
+        setStatus('error');
+
+        if (res.status === 503) {
+          setIsCredentialsMissing(true);
+          setFeedback('Email service credentials are not configured in environment variables.');
+        } else if (res.status === 404) {
+          setFeedback('The email endpoint (/api/contact) was not found (HTTP 404).');
+        } else if (res.status === 502 || res.status === 504) {
+          setFeedback(`Mail gateway or proxy timeout (HTTP ${res.status}). The service is temporarily unreachable.`);
+        } else {
+          setFeedback(
+            `The server returned an unexpected HTML response instead of JSON (HTTP ${res.status} ${res.statusText || 'Error'}).`
+          );
+        }
+        return;
+      }
+
+      // Parse JSON safely
+      let data: { success?: boolean; error?: string; message?: string; configured?: boolean } = {};
+      try {
+        data = trimmedText ? JSON.parse(trimmedText) : {};
+      } catch {
+        setIsHtmlError(true);
+        setStatus('error');
+        setFeedback(
+          `Unable to parse response as JSON (HTTP ${res.status}). Server returned an unexpected format.`
+        );
+        return;
+      }
 
       if (!res.ok || !data.success) {
         if (data.configured === false) {
           setIsCredentialsMissing(true);
         }
         setStatus('error');
-        setFeedback(data.error || 'Failed to deliver message. Please try again.');
+        let errorMsg = data.error || 'Failed to deliver message. Please try again.';
+
+        // Also guard against error messages containing HTML snippets from third-party APIs
+        if (typeof errorMsg === 'string' && (errorMsg.trim().startsWith('<') || errorMsg.includes('<html'))) {
+          setIsHtmlError(true);
+          errorMsg = `Email service responded with an unexpected error page (HTTP ${res.status}).`;
+        }
+
+        setFeedback(errorMsg);
         return;
       }
 
       setStatus('success');
-      setFeedback(data.message || 'Message sent successfully! Thank you for reaching out.');
+      setFeedback(data.message || 'Message delivered successfully! Thank you for reaching out.');
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Network error while transmitting message.';
+
+      // Intercept any JSON parsing syntax errors (e.g. "Unexpected token '<', "<html><hea"... is not valid JSON")
+      if (
+        typeof msg === 'string' &&
+        (msg.includes('is not valid JSON') ||
+          msg.includes('Unexpected token') ||
+          msg.includes('JSON.parse'))
+      ) {
+        setIsHtmlError(true);
+        setFeedback('The server returned an unexpected HTML error page instead of JSON. The service may be restarting or temporarily unconfigured.');
+      } else {
+        setFeedback(msg);
+      }
       setStatus('error');
-      setFeedback(msg);
     }
   };
 
@@ -96,13 +167,6 @@ export default function ContactView() {
     const subject = formData.subject || 'Project inquiry';
     const body = `From: ${formData.name} <${formData.email}>\n\n${formData.message}`;
     window.location.href = `mailto:${personalInfo.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
-
-  const handleResetForm = () => {
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setStatus('idle');
-    setFeedback('');
-    setIsCredentialsMissing(false);
   };
 
   return (
@@ -220,69 +284,67 @@ export default function ContactView() {
                 id="contact-form-container"
                 className="relative border border-white/10 bg-[#111111] p-6 sm:p-10 rounded-3xl shadow-2xl backdrop-blur-sm"
               >
-                {status === 'success' ? (
-                  <div id="contact-success-panel" className="py-12 text-center space-y-6">
-                    <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
-                      <CheckCircle2 className="w-8 h-8" />
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="text-2xl font-bold font-display text-white">
-                        Transmission Successful
-                      </h3>
-                      <p className="text-sm text-muted-text max-w-md mx-auto leading-relaxed">
-                        {feedback}
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-10 flex items-center justify-between border-b border-white/10 pb-5">
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-widest text-accent">
+                        Project brief
+                      </p>
+                      <p className="mt-2 text-sm text-muted-text">
+                        Share a few details about your project, timeline, or goals, and I&apos;ll get back to you shortly.
                       </p>
                     </div>
-                    <div className="pt-4">
-                      <button
-                        id="contact-send-another-btn"
-                        type="button"
-                        onClick={handleResetForm}
-                        className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3 text-xs font-mono uppercase tracking-widest text-white hover:bg-white/5 transition-all cursor-pointer"
-                      >
-                        <RotateCcw className="w-3.5 h-3.5" /> Send Another Note
-                      </button>
-                    </div>
+                    <Send className="h-5 w-5 text-white/20" />
                   </div>
-                ) : (
-                  <form onSubmit={handleSubmit}>
-                    <div className="mb-10 flex items-center justify-between border-b border-white/10 pb-5">
-                      <div>
-                        <p className="font-mono text-xs uppercase tracking-widest text-accent">
-                          Project brief
-                        </p>
-                        <p className="mt-2 text-sm text-muted-text">
-                          A few details are enough to begin. Messages are delivered directly via EmailJS.
-                        </p>
-                      </div>
-                      <Send className="h-5 w-5 text-white/20" />
-                    </div>
 
                     {status === 'error' && (
                       <div
                         id="contact-error-alert"
-                        className="mb-8 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-xs font-mono space-y-3"
+                        className="mb-8 p-5 rounded-2xl bg-red-500/10 border border-red-500/25 text-xs space-y-3.5"
                       >
                         <div className="flex items-start gap-2.5 text-red-400">
                           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                          <div className="leading-relaxed">{feedback}</div>
+                          <div className="leading-relaxed font-mono font-medium">{feedback}</div>
                         </div>
+
+                        {isHtmlError && (
+                          <div className="pt-2 border-t border-red-500/15 text-muted-text text-xs leading-relaxed font-sans">
+                            This typically occurs when a cloud proxy, gateway (502/504), or server error page responds with an HTML document rather than a JSON API response. Your drafted text has been preserved below.
+                          </div>
+                        )}
 
                         {isCredentialsMissing && (
                           <div className="pt-2 border-t border-red-500/15 text-muted-text space-y-2 font-sans">
                             <p className="text-xs">
-                              You can add your credentials to <code className="text-accent bg-white/5 px-1 py-0.5 rounded">EMAILJS_SERVICE_ID</code>, <code className="text-accent bg-white/5 px-1 py-0.5 rounded">EMAILJS_TEMPLATE_ID</code>, and <code className="text-accent bg-white/5 px-1 py-0.5 rounded">EMAILJS_PUBLIC_KEY</code>.
+                              You can configure your credentials in <code className="text-accent bg-white/5 px-1 py-0.5 rounded font-mono">EMAILJS_SERVICE_ID</code>, <code className="text-accent bg-white/5 px-1 py-0.5 rounded font-mono">EMAILJS_TEMPLATE_ID</code>, and <code className="text-accent bg-white/5 px-1 py-0.5 rounded font-mono">EMAILJS_PUBLIC_KEY</code>.
                             </p>
-                            <button
-                              id="contact-mailto-fallback-btn"
-                              type="button"
-                              onClick={handleMailtoFallback}
-                              className="inline-flex items-center gap-1.5 text-xs text-white font-mono uppercase tracking-wider underline hover:text-accent transition-colors cursor-pointer"
-                            >
-                              Send via default email app instead <ArrowUpRight className="w-3.5 h-3.5" />
-                            </button>
                           </div>
                         )}
+
+                        <div className="pt-2 border-t border-red-500/15 flex flex-wrap items-center gap-4 font-sans">
+                          <button
+                            id="contact-mailto-fallback-btn"
+                            type="button"
+                            onClick={handleMailtoFallback}
+                            className="inline-flex items-center gap-1.5 text-xs text-white font-mono uppercase tracking-wider underline hover:text-accent transition-colors cursor-pointer"
+                          >
+                            Send via default email app instead <ArrowUpRight className="w-3.5 h-3.5" />
+                          </button>
+
+                          <button
+                            id="contact-retry-btn"
+                            type="button"
+                            onClick={() => {
+                              setStatus('idle');
+                              setFeedback('');
+                              setIsHtmlError(false);
+                              setIsCredentialsMissing(false);
+                            }}
+                            className="inline-flex items-center gap-1.5 text-xs text-white/70 hover:text-white font-mono uppercase tracking-wider transition-colors cursor-pointer"
+                          >
+                            <RotateCcw className="w-3 h-3" /> Dismiss &amp; Retry
+                          </button>
+                        </div>
                       </div>
                     )}
 
@@ -377,12 +439,23 @@ export default function ContactView() {
 
                       {status === 'idle' && (
                         <span className="text-[11px] font-mono text-muted-text">
-                          Direct transmission via EmailJS
+                          Typically responds within 24 hours
                         </span>
                       )}
                     </div>
+
+                    {status === 'success' && (
+                      <div
+                        id="contact-success-message"
+                        className="mt-6 flex items-center gap-3 rounded-2xl border border-emerald-500/25 bg-emerald-500/10 p-4 font-mono text-xs text-emerald-400"
+                      >
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+                        <span className="leading-relaxed">
+                          {feedback || 'Message delivered successfully! Thank you for reaching out.'}
+                        </span>
+                      </div>
+                    )}
                   </form>
-                )}
               </div>
             </div>
           </div>

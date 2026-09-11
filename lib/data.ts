@@ -211,6 +211,7 @@ export const blogPosts: BlogPost[] = [
     category: 'Performance',
     tags: ['React', 'TanStack Query', 'State Management', 'Cache Strategy'],
     featured: false,
+    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop',
     content: `
 ### Introduction
 
@@ -335,6 +336,7 @@ By moving our calculation engines from standard external app-proxy servers direc
     category: 'Tooling',
     tags: ['Vite', 'SSL', 'Rollup', 'Code Splitting', 'DevOps'],
     featured: false,
+    coverImage: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=1600&auto=format&fit=crop',
     content: `
 ### Introduction
 
@@ -517,6 +519,7 @@ By replacing Server-Side Rendering (SSR) with ISR for our high-traffic lookup po
     category: 'Engineering Culture',
     tags: ['TypeScript', 'ESLint', 'Husky', 'Git Hooks', 'CI/CD'],
     featured: false,
+    coverImage: 'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?q=80&w=1470&auto=format&fit=crop',
     content: `
 ### The Cost of Tech Debt
 

@@ -109,7 +109,7 @@ export default function BlogDetailsView({ slug, basePath = '/blog' }: BlogDetail
   const relatedPosts = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 2);
 
   return (
-    <div className="bg-[#090909] min-h-screen flex flex-col justify-between">
+    <div className="bg-[#090909] min-h-screen flex flex-col justify-between overflow-x-hidden">
       {/* Portfolio Navbar */}
       <Navbar />
 

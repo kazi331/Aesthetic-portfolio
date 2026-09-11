@@ -42,6 +42,10 @@ export default function GithubRepositories({ profile = false }: GithubRepositori
         fetch('/api/github/repositories', { signal: controller.signal })
             .then(async (response) => {
                 if (!response.ok) throw new Error('GitHub request failed');
+                const contentType = response.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) {
+                    throw new Error('Unexpected non-JSON response');
+                }
                 return response.json() as Promise<{ repositories: GithubRepository[] }>;
             })
             .then((payload) => setRepositories(payload.repositories))

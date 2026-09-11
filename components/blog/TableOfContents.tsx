@@ -83,7 +83,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
         </span>
       </div>
 
-      <nav className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
+      <nav className="space-y-1 max-h-[60vh] overflow-y-auto pr-1 scrollbar-none">
         {headings.map((h) => {
           const isActive = activeId === h.id;
           return (

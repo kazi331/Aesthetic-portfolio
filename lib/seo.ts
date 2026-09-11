@@ -5,7 +5,7 @@ export const siteConfig = {
   headline: 'Full Stack Developer & Software Engineer',
   description: 'An elegant, editorial-styled engineering portfolio showcase for Kazi Shariful Islam.',
   url: 'https://kazisharif.dev',
-  ogImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&h=630&auto=format&fit=crop',
+  ogImage: 'https://github.com/kazi331.png',
   twitterHandle: '@kazi331',
   email: 'kazisharif.dev@gmail.com',
   github: 'https://github.com/kazi331',

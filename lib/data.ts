@@ -519,7 +519,7 @@ By replacing Server-Side Rendering (SSR) with ISR for our high-traffic lookup po
     category: 'Engineering Culture',
     tags: ['TypeScript', 'ESLint', 'Husky', 'Git Hooks', 'CI/CD'],
     featured: false,
-    coverImage: 'https://images.unsplash.com/photo-1516116211227-bbc13c73335c?q=80&w=1600&auto=format&fit=crop',
+    coverImage: 'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?q=80&w=1470&auto=format&fit=crop',
     content: `
 ### The Cost of Tech Debt
 

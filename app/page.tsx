@@ -10,6 +10,7 @@ import GithubPreview from '@/components/sections/GithubPreview';
 import HeroV3 from '@/components/sections/HeroV3';
 import RecentBlog from '@/components/sections/RecentBlog';
 import Services from '@/components/sections/Services';
+import GlobalReach from '@/components/sections/GlobalReach';
 import Stats from '@/components/sections/Stats';
 import TechStackV2 from '@/components/sections/TechStackV2';
 import { AnimatePresence } from 'motion/react';
@@ -35,6 +36,7 @@ export default function Home() {
           <TechStackV2 />
           <ExperienceV2 />
           <Services />
+          <GlobalReach />
           {/* <Testimonials /> */}
           <RecentBlog />
           <GithubPreview />

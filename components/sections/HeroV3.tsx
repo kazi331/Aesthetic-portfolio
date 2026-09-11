@@ -159,14 +159,14 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
             {/* Status Live Tag */}
             <motion.div
               variants={childVariants}
-              className="flex items-center gap-2 px-3 py-1 bg-white/3 border border-white/5 rounded-full mb-6"
+              className="flex items-center gap-2 px-3.5 py-1.5 bg-white/3 border border-white/5 rounded-full mb-6"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
               </span>
-              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-[#89AACC]">
-                Live Portfolio Engine
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#89AACC]">
+                Available for Hire · EU / US / UK / Global
               </span>
             </motion.div>
 
@@ -174,43 +174,45 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
             <div className="space-y-4 mb-8">
               <motion.div variants={childVariants} className="overflow-hidden">
                 <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/40 block mb-1">
-                  INTRODUCING
+                  KAZI SHARIFUL ISLAM
                 </span>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight text-white leading-none">
-                  Kazi Shariful Islam
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-display font-black tracking-tight text-white leading-[1.08]">
+                  Full Stack Developer | <br className="hidden sm:inline" />
+                  <span className="text-white/90">React, Next.js & Node.js Expert</span>
                 </h1>
               </motion.div>
 
               <motion.div variants={childVariants} className="overflow-hidden">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-sans font-light tracking-tight text-muted-text leading-tight">
-                  Full Stack Developer & <br />
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-sans font-light tracking-tight text-muted-text leading-tight">
+                  High-Performance Systems & <br />
                   <span className="font-serif italic text-accent font-normal tracking-wide">
-                    Systems Architect
+                    Scalable Backend Architecture
                   </span>
                 </h2>
               </motion.div>
             </div>
 
-            {/* Short editorial description */}
+            {/* Lead editorial description with top 5 keywords naturally embedded */}
             <motion.p
               variants={childVariants}
-              className="text-sm text-muted-text/90 leading-relaxed font-sans max-w-lg mb-10"
+              className="text-sm text-muted-text/90 leading-relaxed font-sans max-w-lg mb-8"
             >
-              I engineer performant web architectures using Next.js and React paired with robust, modular backend systems in NestJS, Node.js, and Python (FastAPI). Focused on pristine UX, clean API designs, and scalable relational databases.
+              I am a Senior <strong className="text-white font-semibold">Full Stack Developer</strong> specializing in <strong className="text-white font-semibold">React</strong> and <strong className="text-white font-semibold">Next.js</strong> frontend architectures paired with type-safe <strong className="text-white font-semibold">TypeScript</strong>, high-throughput <strong className="text-white font-semibold">Node.js / Nest.js</strong> services, and low-latency <strong className="text-white font-semibold">FastAPI</strong> backends.
             </motion.p>
 
             {/* Tech tag loop */}
             <motion.div
               variants={childVariants}
-              className="flex flex-wrap gap-2.5 mb-10 max-w-md"
+              className="flex flex-wrap gap-2.5 mb-8 max-w-md"
             >
-              {['Next.js', 'NestJS', 'PostgreSQL', 'TypeScript', 'Prisma ORM', 'FastAPI', 'Redis'].map((tag) => (
-                <span 
+              {['React', 'Next.js', 'TypeScript', 'Node.js', 'Nest.js', 'Express', 'FastAPI', 'PostgreSQL'].map((tag) => (
+                <a 
                   key={tag}
-                  className="px-3 py-1.5 bg-white/3 border border-white/5 hover:border-white/10 rounded-lg font-mono text-[10px] font-bold text-muted-text/90 hover:text-white transition-colors"
+                  href="#featured-projects"
+                  className="px-3 py-1.5 bg-white/3 border border-white/5 hover:border-accent/40 hover:text-accent rounded-lg font-mono text-[10px] font-bold text-muted-text/90 transition-colors"
                 >
-                  {tag}
-                </span>
+                  #{tag}
+                </a>
               ))}
             </motion.div>
 
@@ -219,20 +221,29 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
               variants={childVariants}
               className="flex flex-wrap gap-4 items-center w-full sm:w-auto"
             >
-              <button
-                onClick={handleScrollToProjects}
+              <a
+                href="#contact-cta"
                 className="px-6 py-3.5 bg-accent text-primary-bg rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-xl shadow-accent/10 hover:shadow-accent/20 hover:bg-accent/90 flex items-center gap-2 group cursor-pointer w-full sm:w-auto justify-center"
               >
-                <span>View My Work</span>
+                <span>Hire Me</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+
+              <button
+                onClick={handleScrollToProjects}
+                className="px-6 py-3.5 bg-white/3 border border-white/5 hover:border-white/10 text-[#F5F5F5] rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-sm flex items-center gap-2 w-full sm:w-auto justify-center cursor-pointer"
+              >
+                <span>View Portfolio</span>
               </button>
 
               <a
-                href="#contact"
-                className="px-6 py-3.5 bg-white/3 border border-white/5 hover:border-white/10 text-[#F5F5F5] rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-sm flex items-center gap-2 w-full sm:w-auto justify-center"
+                href="https://calendly.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3.5 text-muted-text hover:text-white rounded-xl font-mono text-xs tracking-wider transition-colors flex items-center gap-1.5 w-full sm:w-auto justify-center text-center"
               >
-                <span>Connect</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+                <span>Schedule Consultation</span>
+                <span className="text-accent">↗</span>
               </a>
             </motion.div>
 

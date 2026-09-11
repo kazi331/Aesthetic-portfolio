@@ -25,9 +25,9 @@ export default function FeaturedProjects() {
       <div id="projects" className="absolute top-0 left-0 pointer-events-none" />
       <Container>
         <SectionHeading
-          title="Featured Projects"
-          subtitle="Selected Works"
-          description="A close look at some of the highly modular backend nodes, fluid interactive layouts, and high-performance caching applications I have shipped."
+          title="React & Full Stack Case Studies"
+          subtitle="Portfolio Projects"
+          description="Production-grade case studies highlighting React, Next.js, Node.js, and Shopify engineering with real-world latency, conversion, and architectural metrics."
         />
 
         {/* Projects Grid */}

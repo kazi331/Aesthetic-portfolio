@@ -3,8 +3,8 @@ import { siteConfig } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Engineering Profile & Biography',
-  description: 'Profile, engineering experience, technical stack, career highlights, education, and certifications for Kazi Shariful Islam.',
+  title: 'Full Stack Developer Profile | React, Next.js & Node.js Remote Engineer',
+  description: 'Hire a Senior Full Stack & React Developer. 3+ years experience with Next.js, TypeScript, Node.js, Express, Nest.js & FastAPI. Review background and resume.',
   alternates: {
     canonical: `${siteConfig.url}/profile`,
   },
@@ -12,22 +12,22 @@ export const metadata: Metadata = {
     type: 'profile',
     locale: 'en_US',
     url: `${siteConfig.url}/profile`,
-    title: 'Engineering Profile & Biography | Kazi Shariful Islam',
-    description: 'Profile, engineering experience, technical stack, career highlights, education, and certifications for Kazi Shariful Islam.',
+    title: 'Full Stack Developer Profile | React, Next.js & Node.js Remote Engineer',
+    description: 'Hire a Senior Full Stack & React Developer. 3+ years experience with Next.js, TypeScript, Node.js, Express, Nest.js & FastAPI. Review background and resume.',
     siteName: siteConfig.name,
     images: [
       {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: 'Kazi Shariful Islam Profile',
+        alt: 'Kazi Shariful Islam — Full Stack & React Developer Profile',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Engineering Profile & Biography | Kazi Shariful Islam',
-    description: 'Profile, engineering experience, technical stack, career highlights, education, and certifications for Kazi Shariful Islam.',
+    title: 'Full Stack Developer Profile | React, Next.js & Node.js Remote Engineer',
+    description: 'Hire a Senior Full Stack & React Developer. 3+ years experience with Next.js, TypeScript, Node.js, Express, Nest.js & FastAPI. Review background and resume.',
     creator: siteConfig.twitterHandle,
     site: siteConfig.twitterHandle,
     images: [siteConfig.ogImage],

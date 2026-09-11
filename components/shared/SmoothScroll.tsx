@@ -2,8 +2,11 @@
 
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
+import { usePathname } from 'next/navigation';
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     // Only enable Lenis smooth scrolling on devices with fine pointer (mouse/trackpad).
     // On mobile touch devices, native momentum scrolling is 120Hz/60Hz hardware accelerated
@@ -37,6 +40,19 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       (window as unknown as { __lenis?: Lenis | null }).__lenis = null;
     };
   }, []);
+
+  // When pathname changes, reset scroll position and recalculate layout dimensions
+  useEffect(() => {
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: object) => void; resize: () => void } }).__lenis;
+    if (lenis && typeof lenis.scrollTo === 'function') {
+      lenis.scrollTo(0, { immediate: true });
+      setTimeout(() => {
+        lenis.resize();
+      }, 50);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname]);
 
   return <>{children}</>;
 }

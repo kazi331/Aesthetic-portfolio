@@ -26,6 +26,18 @@ export default function Navbar() {
 
   const [active, setActive] = useState(() => (isBlogPage ? 'recent-blog' : 'hero'));
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Monitor scroll position to switch between full-width top state and floating pill dock
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Simple scroll spy to update active item on home page
   useEffect(() => {
@@ -137,10 +149,20 @@ export default function Navbar() {
   return (
     <nav
       id="navbar"
-      className={`fixed top-6 left-1/2 -translate-x-1/2 glass-nav z-50 w-[92%] max-w-3xl shadow-xl border border-white/10 transition-[border-radius] duration-300 overflow-hidden rounded-[28px]`}
+      className={`fixed z-50 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
+        isScrolled
+          ? 'top-5 sm:top-6 w-[92%] max-w-3xl rounded-[28px] border border-white/10 glass-nav shadow-2xl'
+          : 'top-0 w-full max-w-full rounded-none border-b border-white/10 border-t-0 border-x-0 bg-[#090909]/80 backdrop-blur-md shadow-none'
+      }`}
     >
       {/* Top Header Bar */}
-      <div className="px-5 py-3 flex items-center gap-4 sm:gap-8 justify-between sm:justify-between">
+      <div
+        className={`w-full flex items-center justify-between transition-all duration-500 ${
+          isScrolled
+            ? 'px-5 py-3 gap-4 sm:gap-8'
+            : 'max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-3.5 sm:py-4 gap-4'
+        }`}
+      >
         {/* Left Brand Logo */}
         <div
           id="navbar-logo"
@@ -158,18 +180,24 @@ export default function Navbar() {
           <span className="font-bold tracking-tighter text-xs sm:text-sm text-[#F5F5F5]">KS.01</span>
         </div>
 
-        <div className="h-4 w-[1px] bg-white/10 hidden lg:block" />
+        <div className={`h-4 w-[1px] bg-white/10 ${isScrolled ? 'hidden lg:block' : 'hidden'}`} />
 
         {/* Desktop Menu */}
-        <ul id="navbar-menu" className="hidden sm:flex gap-5 text-[10px] font-mono font-semibold tracking-widest uppercase opacity-85">
+        <ul
+          id="navbar-menu"
+          className={`hidden sm:flex items-center font-mono font-semibold tracking-widest uppercase opacity-85 transition-all duration-300 ${
+            isScrolled ? 'gap-5 text-[10px]' : 'gap-6 lg:gap-8 text-[10px] sm:text-[11px]'
+          }`}
+        >
           {navItems.map((item) => {
             const isSelected = active === item.id;
             return (
               <li
                 key={item.id}
                 onClick={() => handleScrollTo(item)}
-                className={`cursor-pointer transition-colors duration-300 ${isSelected ? 'text-[#4E85BF]' : 'text-[#F5F5F5]/70 hover:text-[#F5F5F5]'
-                  }`}
+                className={`cursor-pointer transition-colors duration-300 ${
+                  isSelected ? 'text-[#4E85BF]' : 'text-[#F5F5F5]/70 hover:text-[#F5F5F5]'
+                }`}
               >
                 {item.label}
               </li>
@@ -177,14 +205,14 @@ export default function Navbar() {
           })}
         </ul>
 
-        <div className="h-4 w-[1px] bg-white/10 hidden lg:block" />
+        <div className={`h-4 w-[1px] bg-white/10 ${isScrolled ? 'hidden lg:block' : 'hidden'}`} />
 
         {/* Right Buttons Container */}
-        <div className="flex items-center gap-2">
-          <Link href="/contact"
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <Link
+            href="/contact"
             id="navbar-resume-btn"
-            // onClick={() => window.open(`mailto:${personalInfo.email}?subject=Hi Kazi, let's connect!`, '_self')}
-            className="text-[9px] sm:text-[10px] font-mono font-bold bg-[#F5F5F5] text-black px-3.5 py-1.5 rounded-full uppercase tracking-widest hover:bg-[#F5F5F5]/90 transition-all cursor-pointer"
+            className="text-[9px] sm:text-[10px] font-mono font-bold bg-[#F5F5F5] text-black px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full uppercase tracking-widest hover:bg-[#F5F5F5]/90 transition-all cursor-pointer shadow-sm"
           >
             Contact
           </Link>
@@ -210,14 +238,16 @@ export default function Navbar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="sm:hidden overflow-hidden border-t border-white/10 bg-[#121212d9]"
+            className="sm:hidden overflow-hidden border-t border-white/10 bg-[#121212f0] backdrop-blur-xl"
           >
             <motion.div
               initial={{ y: -8 }}
               animate={{ y: 0 }}
               exit={{ y: -8 }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
-              className="px-5 pb-5 pt-3.5 flex flex-col gap-1.5"
+              className={`pb-5 pt-3.5 flex flex-col gap-1.5 ${
+                isScrolled ? 'px-5' : 'max-w-7xl mx-auto px-6 sm:px-8'
+              }`}
             >
               <div className="font-mono text-[9px] uppercase tracking-widest text-muted-text border-b border-white/5 pb-2 mb-1">
                 Navigation Menu
@@ -230,10 +260,11 @@ export default function Navbar() {
                     id={`mobile-nav-${item.id}`}
                     type="button"
                     onClick={() => handleScrollTo(item)}
-                    className={`w-full text-left font-mono font-bold uppercase tracking-wider text-sm py-2.5 px-3.5 rounded-xl transition-all ${isSelected
-                      ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'
-                      : 'text-muted-text hover:text-[#F5F5F5] hover:bg-white/3'
-                      }`}
+                    className={`w-full text-left font-mono font-bold uppercase tracking-wider text-sm py-2.5 px-3.5 rounded-xl transition-all ${
+                      isSelected
+                        ? 'text-[#4E85BF] bg-white/5 border-l-2 border-[#4E85BF]'
+                        : 'text-muted-text hover:text-[#F5F5F5] hover:bg-white/3'
+                    }`}
                   >
                     {item.label}
                   </button>

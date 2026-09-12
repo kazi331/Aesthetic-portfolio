@@ -12,9 +12,9 @@ export default function Services() {
     <Section id="services" className="bg-[#121212]/20">
       <Container>
         <SectionHeading
-          title="Engineering Services"
-          subtitle="How I Help"
-          description="Combining advanced design engineering with low-latency backend architectures to solve complex business bottlenecks."
+          title="Full Stack Solutions"
+          subtitle="Engineering Services"
+          description="Combining advanced React & Next.js frontend engineering with low-latency Node.js, Nest.js, and FastAPI backend architectures to solve complex business bottlenecks."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">

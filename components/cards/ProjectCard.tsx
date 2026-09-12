@@ -104,21 +104,16 @@ export default function ProjectCard({ project, index, onSelect }: ProjectCardPro
 
       {/* Bottom Content: Tags, Monumental Title & Quick Impact */}
       <div className="relative z-10 flex flex-col justify-end mt-auto pt-8">
-        {/* Tags Row */}
-        <div className="flex flex-wrap gap-2 mb-3">
-          {project.tags.slice(0, 3).map((tag) => (
+        {/* Tech Stack Tags Row */}
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3">
+          {project.tags.map((tag) => (
             <span
               key={tag}
-              className="px-3.5 py-1.5 bg-black/50 backdrop-blur-md border border-white/15 rounded-full text-[10px] font-mono text-white/90 uppercase tracking-widest font-semibold"
+              className="px-2.5 sm:px-3 py-1 bg-black/60 backdrop-blur-md border border-white/20 hover:border-accent/40 rounded-full text-[10px] font-mono text-white/95 uppercase tracking-wider font-semibold transition-colors"
             >
               {tag}
             </span>
           ))}
-          {project.tags.length > 3 && (
-            <span className="px-2.5 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-mono text-white/60">
-              +{project.tags.length - 3}
-            </span>
-          )}
         </div>
 
         {/* Title */}

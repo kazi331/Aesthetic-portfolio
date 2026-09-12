@@ -1,7 +1,7 @@
 'use client';
 
 import { Service } from '@/types/portfolio';
-import { CheckCircle2, Cpu, Layout } from 'lucide-react';
+import { CheckCircle2, Cpu, Database, Layout, Sparkles, Terminal } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface ServiceCardProps {
@@ -15,8 +15,13 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
     switch (name.toLowerCase()) {
       case 'layout':
         return <Layout className="w-5 h-5 text-accent" />;
+      case 'terminal':
+        return <Terminal className="w-5 h-5 text-accent" />;
+      case 'database':
+        return <Database className="w-5 h-5 text-accent" />;
+      case 'sparkles':
+        return <Sparkles className="w-5 h-5 text-accent" />;
       case 'cpu':
-        return <Cpu className="w-5 h-5 text-accent" />;
       default:
         return <Cpu className="w-5 h-5 text-accent" />;
     }

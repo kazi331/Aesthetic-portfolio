@@ -9,12 +9,12 @@ import { useEffect, useState } from 'react';
 
 const navItems = [
   { label: 'Home', id: 'hero', path: '/' },
-  { label: 'Profile', id: 'profile', path: '/profile' },
   { label: 'Projects', id: 'featured-projects', path: '/#featured-projects' },
   { label: 'Stack', id: 'tech-stack', path: '/#tech-stack' },
   { label: 'Journey', id: 'experience', path: '/#experience' },
-  { label: 'Blog', id: 'recent-blog', path: '/blog' },
   { label: 'Services', id: 'services', path: '/#services' },
+  { label: 'Blog', id: 'recent-blog', path: '/blog' },
+  { label: 'Profile', id: 'profile', path: '/profile' },
   // { label: 'Contact', id: 'contact', path: '/contact' },
 ];
 
@@ -186,7 +186,7 @@ export default function Navbar() {
             // onClick={() => window.open(`mailto:${personalInfo.email}?subject=Hi Kazi, let's connect!`, '_self')}
             className="text-[9px] sm:text-[10px] font-mono font-bold bg-[#F5F5F5] text-black px-3.5 py-1.5 rounded-full uppercase tracking-widest hover:bg-[#F5F5F5]/90 transition-all cursor-pointer"
           >
-            Hire Me
+            Contact
           </Link>
 
           {/* Hamburger Icon on mobile view */}

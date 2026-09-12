@@ -1,23 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { 
-  ChevronDown, 
-  ArrowRight, 
-  Sparkles, 
-  Layers, 
-  Server, 
-  Database, 
-  ShieldCheck, 
-  Cpu, 
-  Zap, 
-  Code,
-  Network
-} from 'lucide-react';
 import Container from '@/components/shared/Container';
 import Section from '@/components/shared/Section';
-import { personalInfo } from '@/lib/data';
+import {
+  ArrowRight,
+  Cpu,
+  Database,
+  Layers,
+  Network,
+  Server,
+  ShieldCheck,
+  Sparkles
+} from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useState } from 'react';
 
 interface SystemNode {
   id: string;
@@ -137,7 +133,7 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
 
   return (
     <Section id="hero" className="min-h-screen flex flex-col justify-center pt-32 pb-20 bg-[#070707] relative overflow-hidden border-b border-white/5">
-      
+
       {/* Editorial space mesh background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.015),transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_80%,transparent_100%)] pointer-events-none z-0" />
@@ -155,7 +151,7 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
         >
           {/* Left Column: Monumental Headline Typography */}
           <div className="lg:col-span-6 flex flex-col items-start text-left">
-            
+
             {/* Status Live Tag */}
             <motion.div
               variants={childVariants}
@@ -205,7 +201,7 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
               className="flex flex-wrap gap-2.5 mb-10 max-w-md"
             >
               {['Next.js', 'NestJS', 'PostgreSQL', 'TypeScript', 'Prisma ORM', 'FastAPI', 'Redis'].map((tag) => (
-                <span 
+                <span
                   key={tag}
                   className="px-3 py-1.5 bg-white/3 border border-white/5 hover:border-white/10 rounded-lg font-mono text-[10px] font-bold text-muted-text/90 hover:text-white transition-colors"
                 >
@@ -228,7 +224,7 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
               </button>
 
               <a
-                href="#contact"
+                href="/contact"
                 className="px-6 py-3.5 bg-white/3 border border-white/5 hover:border-white/10 text-[#F5F5F5] rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-sm flex items-center gap-2 w-full sm:w-auto justify-center"
               >
                 <span>Connect</span>
@@ -240,7 +236,7 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
 
           {/* Right Column: High Fidelity Interactive System Blueprint */}
           <div className="lg:col-span-6 relative w-full flex flex-col justify-center">
-            
+
             <motion.div
               variants={childVariants}
               className="w-full bg-[#0c0c0c]/95 md:bg-[#0c0c0c]/90 border border-white/10 rounded-[32px] p-6 md:p-8 shadow-2xl relative overflow-hidden backdrop-blur-sm md:backdrop-blur-md"
@@ -255,11 +251,10 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
                 </div>
                 <button
                   onClick={() => setSystemTraceActive(!systemTraceActive)}
-                  className={`px-3 py-1 rounded-full font-mono text-[8px] font-extrabold uppercase tracking-wider transition-all border cursor-pointer ${
-                    systemTraceActive 
-                      ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' 
+                  className={`px-3 py-1 rounded-full font-mono text-[8px] font-extrabold uppercase tracking-wider transition-all border cursor-pointer ${systemTraceActive
+                      ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
                       : 'bg-white/3 border-white/5 text-muted-text'
-                  }`}
+                    }`}
                 >
                   {systemTraceActive ? 'Live Trace On' : 'Paused'}
                 </button>
@@ -267,7 +262,7 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
 
               {/* Graphical Blueprint Grid */}
               <div className="relative w-full h-48 bg-black/40 border border-white/5 rounded-2xl p-4 flex items-center justify-between overflow-hidden">
-                
+
                 {/* SVG Connections */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40" xmlns="http://www.w3.org/2000/svg">
                   {/* Dynamic path trace */}
@@ -278,7 +273,7 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
                     strokeWidth="1"
                     strokeOpacity="0.1"
                   />
-                  
+
                   {systemTraceActive && (
                     <motion.path
                       d="M 40 96 C 100 40, 140 40, 180 96 C 220 150, 260 150, 320 96"
@@ -308,21 +303,20 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
                     <div
                       key={node.id}
                       onClick={() => setActiveSystemNode(node.id)}
-                      className={`relative flex flex-col items-center justify-center cursor-pointer transition-all duration-300 z-10 ${
-                        isActive ? 'scale-110' : 'opacity-70 hover:opacity-100 hover:scale-105'
-                      }`}
+                      className={`relative flex flex-col items-center justify-center cursor-pointer transition-all duration-300 z-10 ${isActive ? 'scale-110' : 'opacity-70 hover:opacity-100 hover:scale-105'
+                        }`}
                     >
                       {/* Glow backing */}
                       {isActive && (
-                        <div 
+                        <div
                           style={{ backgroundColor: node.color }}
-                          className="absolute w-12 h-12 rounded-full filter blur-[15px] opacity-25 pointer-events-none" 
+                          className="absolute w-12 h-12 rounded-full filter blur-[15px] opacity-25 pointer-events-none"
                         />
                       )}
 
                       {/* Icon Container */}
-                      <div 
-                        style={{ 
+                      <div
+                        style={{
                           borderColor: isActive ? node.color : 'rgba(255,255,255,0.1)',
                           backgroundColor: isActive ? 'rgba(255,255,255,0.03)' : 'transparent'
                         }}
@@ -353,9 +347,9 @@ export default function HeroV3({ isLoaded = true }: HeroV3Props) {
                     {/* Node Header */}
                     <div className="flex items-center justify-between mb-3 border-b border-white/5 pb-2.5">
                       <div className="flex items-center gap-2">
-                        <span 
+                        <span
                           style={{ backgroundColor: currentActiveNode.color }}
-                          className="w-2 h-2 rounded-full" 
+                          className="w-2 h-2 rounded-full"
                         />
                         <h4 className="font-sans font-black text-sm text-white">
                           {currentActiveNode.label}
